@@ -56,7 +56,7 @@
         /* メインレイアウト */
         .main-layout { flex: 1; display: flex; width: 100%; align-items: center; justify-content: space-between; box-sizing: border-box; }
         
-        /* ★左側（テキスト）：全体の40%の幅に設定（flex: 4） */
+        /* 左側（テキスト）：全体の40%の幅に設定（flex: 4） */
         .profile-text-side { flex: 4; padding: 0 5% 60px 8%; text-align: left; box-sizing: border-box; }
         .profile-text-side h1 { font-size: 3.5rem; letter-spacing: 0.05em; margin: 0 0 15px 0; font-weight: 700; }
         .profile-text-side .description { color: #475569; font-size: 1.05rem; margin: 0 0 40px 0; letter-spacing: 0.05em; font-weight: 500; line-height: 1.8; }
@@ -65,10 +65,9 @@
         .sns-link { color: #0f172a; text-decoration: none; font-size: 1.8rem; font-weight: 400; transition: opacity 0.2s; line-height: 1; }
         .sns-link:hover { opacity: 0.6; }
 
-        /* ★右側（画像枠）：全体の60%の幅に大きく拡張（flex: 6） */
+        /* 右側（画像枠）：全体の60%の幅に大きく拡張（flex: 6） */
         .profile-image-side { flex: 6; height: 80vh; display: flex; justify-content: flex-end; }
         
-        /* 画像はアップにせず、広がった枠に合わせてジャストサイズで表示 */
         .profile-img { 
             width: 100%; height: 100%; 
             border-radius: 0; border: none; 
@@ -105,7 +104,9 @@
 <body>
 
     <header>
+        <!-- 左上のロゴはブランド名の「39rage」を維持 -->
         <a href="index.html" class="header-logo">39rage</a>
+        
         <button class="menu-toggle" id="menuToggle">
             <span></span><span></span><span></span>
         </button>
@@ -118,7 +119,8 @@
 
     <main class="main-layout">
         <div class="profile-text-side">
-            <h1>39rage</h1>
+            <!-- ★メイン見出しを「さくらげ」に変更しました -->
+            <h1>さくらげ</h1>
             <p class="description">MIX / 動画編集 / デザイン / HP制作とか勉強中</p>
             <div class="sns-links">
                 <a href="https://x.com/39rage" class="sns-link" target="_blank" rel="noopener noreferrer">ⓧ</a>
@@ -126,7 +128,7 @@
             </div>
         </div>
         <div class="profile-image-side">
-            <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="profile-img">
+            <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="さくらげ" class="profile-img">
         </div>
     </main>
 
