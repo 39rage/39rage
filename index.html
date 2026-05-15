@@ -55,7 +55,9 @@
 
         /* メインレイアウト */
         .main-layout { flex: 1; display: flex; width: 100%; align-items: center; justify-content: space-between; box-sizing: border-box; }
-        .profile-text-side { flex: 1; padding: 0 8% 60px 8%; text-align: left; }
+        
+        /* ★左側（テキスト）：全体の40%の幅に設定（flex: 4） */
+        .profile-text-side { flex: 4; padding: 0 5% 60px 8%; text-align: left; box-sizing: border-box; }
         .profile-text-side h1 { font-size: 3.5rem; letter-spacing: 0.05em; margin: 0 0 15px 0; font-weight: 700; }
         .profile-text-side .description { color: #475569; font-size: 1.05rem; margin: 0 0 40px 0; letter-spacing: 0.05em; font-weight: 500; line-height: 1.8; }
         
@@ -63,17 +65,15 @@
         .sns-link { color: #0f172a; text-decoration: none; font-size: 1.8rem; font-weight: 400; transition: opacity 0.2s; line-height: 1; }
         .sns-link:hover { opacity: 0.6; }
 
-        /* 右側大画面画像（枠からはみ出た部分を隠す設定を追加） */
-        .profile-image-side { flex: 1; height: 80vh; display: flex; justify-content: flex-end; overflow: hidden; }
+        /* ★右側（画像枠）：全体の60%の幅に大きく拡張（flex: 6） */
+        .profile-image-side { flex: 6; height: 80vh; display: flex; justify-content: flex-end; }
         
-        /* 画像を1.3倍に拡大表示 */
+        /* 画像はアップにせず、広がった枠に合わせてジャストサイズで表示 */
         .profile-img { 
             width: 100%; height: 100%; 
             border-radius: 0; border: none; 
             object-fit: cover; 
             box-shadow: -10px 0 30px rgba(15, 23, 42, 0.05); 
-            transform: scale(1.3);
-            transform-origin: center;
         }
 
         /* 中央揃えフッター */
