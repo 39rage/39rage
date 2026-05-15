@@ -19,15 +19,16 @@
             flex-direction: column;
         }
 
-        /* 画面上部のヘッダー（メニューを右上に配置） */
+        /* 画面上部のヘッター（メニューを右上に配置） */
         header {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 30px 40px;
             box-sizing: border-box;
             display: flex;
-            justify-content: flex-end; /* 右寄せ */
+            justify-content: flex-end;
+            z-index: 10; /* 画像より手前に表示 */
         }
 
         /* メニューのリンク */
@@ -46,7 +47,7 @@
             padding-bottom: 4px;
         }
 
-        /* メニューに線を引くお洒落なホバー効果 */
+        /* メニューのホバー線効果 */
         .nav-btn::after {
             content: '';
             position: absolute;
@@ -64,29 +65,26 @@
             transform-origin: bottom left;
         }
 
-        /* メインコンテンツエリア（左右分割のコンテナ） */
+        /* メインコンテンツエリア（左右に100%割り振り） */
         .main-layout {
             flex: 1;
             display: flex;
-            max-width: 1200px;
             width: 100%;
-            margin: 0 auto;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px 60px 40px;
             box-sizing: border-box;
-            gap: 60px;
         }
 
-        /* 左側：テキストエリア */
+        /* 左側：テキストエリア（幅を均等に50%確保） */
         .profile-text-side {
             flex: 1;
-            text-align: left; /* 左寄せ */
+            padding: 0 8% 60px 8%; /* 左右に程よい余白 */
+            text-align: left;
         }
 
         .profile-text-side h1 {
-            font-size: 3rem;
-            letter-spacing: 0.1em;
+            font-size: 3.5rem;
+            letter-spacing: 0.05em;
             margin: 0 0 15px 0;
             font-weight: 700;
         }
@@ -103,72 +101,76 @@
         /* SNSリンクの並び */
         .sns-links {
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         .sns-link {
-            color: #475569;
+            color: #0f172a;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 700;
-            transition: color 0.2s;
+            font-size: 1.8rem; /* 記号が見えやすいように少し大きめに */
+            font-weight: 400;
+            transition: opacity 0.2s;
+            line-height: 1;
         }
 
         .sns-link:hover {
-            color: #0f172a;
+            opacity: 0.6;
         }
 
-        /* 右側：画像エリア */
+        /* 右側：画像エリア（右半分を完全に支配） */
         .profile-image-side {
             flex: 1;
+            height: 80vh; /* 画面の高さ80%分を贅沢に使う */
             display: flex;
-            justify-content: center; /* 中央寄せ */
+            justify-content: flex-end;
         }
 
-        /* ★アイコンを正方形＆範囲内フィットに変更 */
+        /* ★角丸なし・縁なし・右側いっぱいに大きく表示 */
         .profile-img {
-            width: 320px;
-            height: 320px;
-            border-radius: 16px; /* 角をほんのり丸くしてお洒落に */
-            object-fit: cover; /* 縦横比を崩さずに範囲いっぱいに広げるおまじない */
-            border: 4px solid #0f172a;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            width: 100%;
+            height: 100%;
+            border-radius: 0; /* 角丸なし */
+            border: none; /* 縁なし */
+            object-fit: cover; /* 縦横比を保ったままエリアを完全に埋める */
+            box-shadow: -10px 0 30px rgba(15, 23, 42, 0.05); /* 左側にうっすら影を落としてテキストと境界を作る */
         }
 
         /* フッター */
         footer {
-            padding: 40px;
-            text-align: center;
+            padding: 30px 40px;
+            text-align: left;
+            padding-left: 8%;
             font-size: 0.75rem;
             color: #64748b;
             letter-spacing: 0.1em;
         }
 
-        /* 📱 スマホ・タブレット（画面が狭い時）の調整 */
+        /* 📱 スマホ・縦向きタブレット（画面が狭い時）の調整 */
         @media (max-width: 768px) {
             header {
-                justify-content: center; /* メニューを中央に */
+                justify-content: center;
                 padding: 25px 20px;
             }
             .main-layout {
-                flex-direction: column-reverse; /* 画像が上、テキストが下に入れ替わります */
-                text-align: center;
-                padding: 0 20px 40px 20px;
-                gap: 40px;
+                flex-direction: column-reverse; /* 画像上、テキスト下 */
             }
             .profile-text-side {
                 text-align: center;
+                padding: 40px 20px 40px 20px;
             }
             .profile-text-side h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             .sns-links {
                 justify-content: center;
             }
-            /* スマホの時の画像サイズ */
-            .profile-img {
-                width: 240px;
-                height: 240px;
+            .profile-image-side {
+                width: 100%;
+                height: 45vh; /* スマホの時は上部45%を画像にする */
+            }
+            footer {
+                text-align: center;
+                padding-left: 40px;
             }
         }
     </style>
@@ -193,13 +195,13 @@
             <p class="description">MIX / 動画編集 / デザイン / HP制作とか勉強中</p>
             
             <div class="sns-links">
-                <a href="#" class="sns-link" target="_blank">X (Twitter)</a>
-                <a href="#" class="sns-link" target="_blank">Instagram</a>
-                <a href="#" class="sns-link" target="_blank">YouTube</a>
+                <!-- 新規タブで開く設定（target="_blank"）と実際のURLを反映 -->
+                <a href="https://x.com/39rage" class="sns-link" target="_blank" rel="noopener noreferrer">ⓧ</a>
+                <a href="https://www.instagram.com/39rage" class="sns-link" target="_blank" rel="noopener noreferrer">ⓘ</a>
             </div>
         </div>
 
-        <!-- 右側：正方形のアイコン画像 -->
+        <!-- 右側：大画面の画像エリア -->
         <div class="profile-image-side">
             <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="profile-img">
         </div>
