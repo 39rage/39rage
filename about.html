@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABOUT - 39rage</title>
+    <!-- フォントの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* 全体のデザイン設定 */
         body {
             margin: 0; padding: 0;
             background-color: #e0f2fe; color: #0f172a;
@@ -13,17 +15,108 @@
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
         .container { width: 90%; max-width: 600px; padding: 60px 0; text-align: center; }
-        h1 { font-size: 2rem; margin-bottom: 30px; letter-spacing: 0.1em; }
-        .content { background: #ffffff; padding: 30px; border-radius: 12px; text-align: left; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); }
-        .back-btn { display: inline-block; margin-top: 40px; color: #0f172a; font-weight: bold; text-decoration: none; }
+        h1 { font-size: 2rem; margin-bottom: 30px; letter-spacing: 0.1em; font-weight: 700; }
+        
+        /* 白いカードのデザイン */
+        .content { 
+            background: #ffffff; 
+            padding: 35px 25px; 
+            border-radius: 16px; 
+            text-align: left; 
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); 
+        }
+
+        /* 活動履歴の文章 */
+        .history {
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+            color: #1e293b;
+        }
+
+        /* セクションの見出し */
+        h2 { 
+            font-size: 1.2rem; 
+            border-left: 4px solid #0f172a; 
+            padding-left: 10px; 
+            margin-top: 30px; 
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        /* プロフィール・資格のリスト */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .info-list li {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .info-label {
+            font-weight: bold;
+            min-width: 80px; /* 項目名を綺麗に揃える */
+            color: #475569;
+        }
+        .info-value {
+            color: #0f172a;
+        }
+
+        /* 資格の年号を綺麗に揃える設定 */
+        .license-item {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            display: flex;
+        }
+        .license-date {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: #64748b;
+            min-width: 65px; /* 年月を綺麗に整列 */
+        }
+        .license-name {
+            color: #0f172a;
+        }
+
+        .back-btn { display: inline-block; margin-top: 40px; color: #0f172a; font-weight: bold; text-decoration: none; transition: opacity 0.2s; }
+        .back-btn:hover { opacity: 0.7; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>ABOUT</h1>
+        
         <div class="content">
-            <p>ここにプロフィールや自己紹介の文章を書いていきます。</p>
+            <!-- 活動履歴 -->
+            <div class="history">
+                2020年4月に「Sacra」名義で歌ってみたの活動を、同年11月には「Qurage」名義でBGM制作を開始。<br>
+                2024年4月より「さくらげ」としてこれまでの活動で培った経験を活かして様々なことに挑戦中！
+            </div>
+
+            <!-- 基本プロフィール -->
+            <h2>🪼 Profile 🪼</h2>
+            <ul class="info-list">
+                <li><span class="info-label">誕生日</span><span class="info-value">9月16日</span></li>
+                <li><span class="info-label">出身地</span><span class="info-value">関西</span></li>
+                <li><span class="info-label">趣味</span><span class="info-value">ヲタ活 (Vtuber・アニメ・アイドルetc...)</span></li>
+                <li><span class="info-label">特技</span><span class="info-value">書道 (師範になりました)</span></li>
+            </ul>
+
+            <!-- 資格 -->
+            <h2>🪼 Qualifications 🪼</h2>
+            <div class="license-list">
+                <div class="license-item"><span class="license-date">18 / 03</span><span class="license-name">3級音響技術者資格</span></div>
+                <div class="license-item"><span class="license-date">20 / 09</span><span class="license-name">普通自動車免許（マニュアル）</span></div>
+                <div class="license-item"><span class="license-date">21 / 01</span><span class="license-name">Microsoft Office Specialist Excel 365&2019</span></div>
+                <div class="license-item"><span class="license-date">21 / 01</span><span class="license-name">Microsoft Office Specialist PowerPoint 365&2019</span></div>
+                <div class="license-item"><span class="license-date">21 / 01</span><span class="license-name">Microsoft Office Specialist Word 365&2019</span></div>
+                <div class="license-item"><span class="license-date">21 / 07</span><span class="license-name">映像音響処理技術者資格</span></div>
+            </div>
         </div>
+        
         <a href="index.html" class="back-btn">← TOPに戻る</a>
     </div>
 </body>
