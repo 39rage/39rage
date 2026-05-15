@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>39Rage - Portfolio</title>
+    <title>39rage - Portfolio</title>
     <!-- フォントの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -11,8 +11,8 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #e0f2fe; /* 爽やかな水色（ライトブルー） */
-            color: #0f172a; /* 深みのある紺色（ネイビー） */
+            background-color: #e0f2fe; /* 爽やかな水色 */
+            color: #0f172a; /* 深みのある紺色 */
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
             line-height: 1.6;
             display: flex;
@@ -32,11 +32,11 @@
         .profile-img {
             width: 130px;
             height: 130px;
-            border-radius: 50%; /* 丸く切り抜き */
+            border-radius: 50%;
             object-fit: cover;
             margin-bottom: 25px;
-            border: 3px solid #0f172a; /* 枠線を紺色に */
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15); /* 軽い影で立体感をプラス */
+            border: 3px solid #0f172a;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
         }
 
         h1 {
@@ -47,7 +47,7 @@
         }
 
         p.description {
-            color: #475569; /* 少しマイルドな紺灰色で読みやすく */
+            color: #475569;
             font-size: 0.95rem;
             margin-bottom: 45px;
             letter-spacing: 0.05em;
@@ -63,8 +63,8 @@
         .link-btn {
             display: block;
             padding: 16px;
-            background-color: #0f172a; /* ボタンの背景を紺色に */
-            color: #ffffff; /* ボタンの文字を白に */
+            background-color: #0f172a;
+            color: #ffffff;
             text-decoration: none;
             border-radius: 12px;
             border: 1px solid #0f172a;
@@ -74,23 +74,16 @@
 
         /* ホバー（タップ）時の動き */
         .link-btn:hover {
-            background-color: #ffffff; /* 背景が白に反転 */
-            color: #0f172a; /* 文字が紺色に反転 */
+            background-color: #ffffff;
+            color: #0f172a;
             transform: translateY(-2px);
         }
 
-        /* 将来のメディア（動画・音声）セクション */
+        /* メディアイメージ（線のみ残してスッキリさせました） */
         .media-section {
             margin-top: 60px;
             padding-top: 40px;
-            border-top: 1px solid rgba(15, 23, 42, 0.1); /* 薄い紺色の区切り線 */
-        }
-
-        .media-section h3 {
-            font-size: 1.1rem;
-            color: #475569;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            border-top: 1px solid rgba(15, 23, 42, 0.1);
         }
 
         .footer {
@@ -106,26 +99,26 @@
 
     <div class="container">
         <!-- プロフィール画像 -->
-        <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39Rage" class="profile-img">
+        <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="profile-img">
         
-        <h1>39Rage</h1>
+        <!-- 名前を半角小文字に -->
+        <h1>39rage</h1>
         <p class="description">Creating something special.</p>
 
+        <!-- ボタンの名前と、移動先のファイル名を指定 -->
         <div class="links">
-            <a href="#" class="link-btn">X (Twitter)</a>
-            <a href="#" class="link-btn">Instagram</a>
-            <a href="#" class="link-btn">YouTube</a>
+            <a href="about.html" class="link-btn">ABOUT</a>
+            <a href="works.html" class="link-btn">WORKS</a>
+            <a href="request.html" class="link-btn">REQUEST</a>
         </div>
 
-        <!-- 将来的に動画や音声を載せる場所 -->
         <div class="media-section">
-            <h3>Media Archive</h3>
-            <p style="font-size: 0.8rem; color: #64748b;">Ready for Video & Audio contents</p>
+            <!-- 将来何か足したい時のための区切りスペース -->
         </div>
     </div>
 
     <div class="footer">
-        © 39Rage. Powered by GitHub Pages.
+        © 39rage. Powered by GitHub Pages.
     </div>
 
 </body>
