@@ -14,114 +14,201 @@
             background-color: #e0f2fe; /* 爽やかな水色 */
             color: #0f172a; /* 深みのある紺色 */
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            line-height: 1.6;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        /* 画面上部のヘッダー（メニューを右上に配置） */
+        header {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-end; /* 右寄せ */
+        }
+
+        /* メニューのリンク */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-btn {
+            color: #0f172a;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        /* メニューに線を引くお洒落なホバー効果 */
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #0f172a;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .nav-btn:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* メインコンテンツエリア（左右分割のコンテナ） */
+        .main-layout {
+            flex: 1;
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
             align-items: center;
-            min-height: 100vh;
+            justify-content: space-between;
+            padding: 0 40px 60px 40px;
+            box-sizing: border-box;
+            gap: 60px;
         }
 
-        .container {
-            width: 90%;
-            max-width: 600px;
-            padding: 60px 0;
-            text-align: center;
+        /* 左側：テキストエリア */
+        .profile-text-side {
+            flex: 1;
+            text-align: left; /* 左寄せ */
         }
 
-        /* アイコン画像 */
-        .profile-img {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 25px;
-            border: 3px solid #0f172a;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            letter-spacing: 0.15em;
-            margin-bottom: 8px;
+        .profile-text-side h1 {
+            font-size: 3rem;
+            letter-spacing: 0.1em;
+            margin: 0 0 15px 0;
             font-weight: 700;
         }
 
-        p.description {
+        .profile-text-side .description {
             color: #475569;
-            font-size: 0.95rem;
-            margin-bottom: 45px;
+            font-size: 1.05rem;
+            margin: 0 0 40px 0;
             letter-spacing: 0.05em;
             font-weight: 500;
+            line-height: 1.8;
         }
 
-        /* リンクボタンのエリア */
-        .links {
+        /* SNSリンクの並び */
+        .sns-links {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
-        .link-btn {
-            display: block;
-            padding: 16px;
-            background-color: #0f172a;
-            color: #ffffff;
+        .sns-link {
+            color: #475569;
             text-decoration: none;
-            border-radius: 12px;
-            border: 1px solid #0f172a;
+            font-size: 0.9rem;
             font-weight: 700;
-            transition: all 0.3s ease;
+            transition: color 0.2s;
         }
 
-        /* ホバー（タップ）時の動き */
-        .link-btn:hover {
-            background-color: #ffffff;
+        .sns-link:hover {
             color: #0f172a;
-            transform: translateY(-2px);
         }
 
-        .media-section {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(15, 23, 42, 0.1);
+        /* 右側：画像エリア */
+        .profile-image-side {
+            flex: 1;
+            display: flex;
+            justify-content: center; /* 中央寄せ */
         }
 
-        .footer {
-            margin-top: auto;
-            padding: 50px 0;
+        .profile-img {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #0f172a;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+        }
+
+        /* フッター */
+        footer {
+            padding: 40px;
+            text-align: center;
             font-size: 0.75rem;
             color: #64748b;
             letter-spacing: 0.1em;
+        }
+
+        /* 📱 スマホ・タブレット（画面が狭い時）の調整 */
+        @media (max-width: 768px) {
+            header {
+                justify-content: center; /* メニューを中央に */
+                padding: 25px 20px;
+            }
+            .main-layout {
+                flex-direction: column-reverse; /* 画像が上、テキストが下に入れ替わります */
+                text-align: center;
+                padding: 0 20px 40px 20px;
+                gap: 40px;
+            }
+            .profile-text-side {
+                text-align: center;
+            }
+            .profile-text-side h1 {
+                font-size: 2.2rem;
+            }
+            .sns-links {
+                justify-content: center;
+            }
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- プロフィール画像 -->
-        <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="profile-img">
-        
-        <!-- 名前（半角小文字） -->
-        <h1>39rage</h1>
-        
-        <!-- 新しい紹介文にアップデート！ -->
-        <p class="description">MIX / 動画編集 / デザイン / HP制作とか勉強中</p>
+    <!-- 右上のメニューバー -->
+    <header>
+        <nav class="nav-links">
+            <a href="about.html" class="nav-btn">ABOUT</a>
+            <a href="works.html" class="nav-btn">WORKS</a>
+            <a href="request.html" class="nav-btn">REQUEST</a>
+        </nav>
+    </header>
 
-        <!-- 別ページへのボタン -->
-        <div class="links">
-            <a href="about.html" class="link-btn">ABOUT</a>
-            <a href="works.html" class="link-btn">WORKS</a>
-            <a href="request.html" class="link-btn">REQUEST</a>
+    <!-- メインの左右レイアウト -->
+    <main class="main-layout">
+        
+        <!-- 左側：お名前と説明文、SNS -->
+        <div class="profile-text-side">
+            <h1>39rage</h1>
+            <p class="description">MIX / 動画編集 / デザイン / HP制作とか勉強中</p>
+            
+            <div class="sns-links">
+                <!-- href="#" の部分を将来URLに変えられます -->
+                <a href="#" class="sns-link" target="_blank">X (Twitter)</a>
+                <a href="#" class="sns-link" target="_blank">Instagram</a>
+                <a href="#" class="sns-link" target="_blank">YouTube</a>
+            </div>
         </div>
 
-        <div class="media-section">
-            <!-- 将来の拡張スペース -->
+        <!-- 右側：大きなアイコン画像 -->
+        <div class="profile-image-side">
+            <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="profile-img">
         </div>
-    </div>
 
-    <div class="footer">
+    </main>
+
+    <!-- フッター -->
+    <footer>
         © 39rage. Powered by GitHub Pages.
-    </div>
+    </footer>
 
 </body>
 </html>
