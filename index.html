@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>39rage - Portfolio</title>
+    <!-- ファビコン設定（クラゲの画像を指定） -->
+    <link rel="icon" href="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -22,7 +24,6 @@
             z-index: 100; position: relative;
         }
 
-        /* 左上の強調ロゴ */
         .header-logo {
             color: #0f172a; text-decoration: none;
             font-size: 1.6rem; font-weight: 700;
@@ -30,7 +31,6 @@
         }
         .header-logo:hover { opacity: 0.7; }
 
-        /* 右上のメニュー */
         .nav-links { display: flex; gap: 30px; }
         .nav-btn {
             color: #0f172a; text-decoration: none; font-weight: 700;
@@ -44,7 +44,6 @@
         }
         .nav-btn:hover::after { transform: scaleX(1); transform-origin: bottom left; }
 
-        /* 三本線ボタン */
         .menu-toggle {
             display: none; flex-direction: column; gap: 6px;
             background: none; border: none; cursor: pointer; padding: 0;
@@ -60,12 +59,10 @@
         .profile-text-side h1 { font-size: 3.5rem; letter-spacing: 0.05em; margin: 0 0 15px 0; font-weight: 700; }
         .profile-text-side .description { color: #475569; font-size: 1.05rem; margin: 0 0 40px 0; letter-spacing: 0.05em; font-weight: 500; line-height: 1.8; }
         
-        /* SNSリンク */
         .sns-links { display: flex; gap: 25px; }
         .sns-link { color: #0f172a; text-decoration: none; font-size: 1.8rem; font-weight: 400; transition: opacity 0.2s; line-height: 1; }
         .sns-link:hover { opacity: 0.6; }
 
-        /* 右側大画面画像 */
         .profile-image-side { flex: 1; height: 80vh; display: flex; justify-content: flex-end; }
         .profile-img { width: 100%; height: 100%; border-radius: 0; border: none; object-fit: cover; box-shadow: -10px 0 30px rgba(15, 23, 42, 0.05); }
 
@@ -75,7 +72,6 @@
             font-size: 0.75rem; color: #64748b; letter-spacing: 0.1em; 
         }
 
-        /* スマホ対応表示 */
         @media (max-width: 768px) {
             header { padding: 25px 20px; }
             .menu-toggle { display: flex; }
@@ -99,15 +95,10 @@
 <body>
 
     <header>
-        <!-- 左上のロゴ（見出し） -->
         <a href="index.html" class="header-logo">39rage</a>
-        
-        <!-- スマホ用三本線ボタン -->
         <button class="menu-toggle" id="menuToggle">
             <span></span><span></span><span></span>
         </button>
-
-        <!-- 右上のメニューバー -->
         <nav class="nav-links" id="navLinks">
             <a href="about.html" class="nav-btn">ABOUT</a>
             <a href="works.html" class="nav-btn">WORKS</a>
