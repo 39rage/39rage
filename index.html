@@ -13,102 +13,130 @@
             background-color: #e0f2fe; color: #0f172a;
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
             min-height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
         }
 
-        .container {
-            width: 90%; max-width: 900px; margin: 0 auto;
-            padding: 40px 0; text-align: center;
+        /* 画面中央に配置するためのコンテナ */
+        .portal-wrapper {
+            flex: 1; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            width: 90%; max-width: 1000px; margin: 0 auto;
+            padding: 60px 0; box-sizing: border-box;
         }
 
         h1 {
-            font-size: 2.2rem; margin-bottom: 50px; letter-spacing: 0.1em; font-weight: 700;
+            font-size: 2.5rem; font-weight: 700; letter-spacing: 0.15em;
+            margin: 0 0 60px 0; text-align: center;
         }
 
-        /* 3択の選択肢を横並びにするコンテナ */
+        /* かっこいいグリッドレイアウト */
         .portal-grid {
-            display: flex; justify-content: center; align-items: flex-start;
-            gap: 40px; flex-wrap: wrap; margin-bottom: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px; width: 100%;
         }
 
-        /* 選択肢それぞれのカードスタイル */
+        /* シャープで洗練されたカードデザイン */
         .portal-card {
-            display: flex; flex-direction: column; align-items: center;
-            text-decoration: none; color: #0f172a; width: 220px;
-            transition: transform 0.25s ease, opacity 0.2s;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            text-decoration: none;
+            color: #0f172a;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+            display: flex; flex-direction: column;
         }
 
-        /* アイコン画像のスタイル（正円・影・枠線） */
+        /* 画像は四角ベース（上部だけ角丸）でスタイリッシュに */
+        .portal-image-wrapper {
+            width: 100%; padding-top: 100%; /* 1:1の正方形 */
+            position: relative; overflow: hidden;
+            background-color: #f8fafc;
+        }
         .portal-avatar {
-            width: 150px; height: 150px; border-radius: 50%;
-            object-fit: cover; background-color: #ffffff;
-            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1);
-            border: 4px solid #ffffff; transition: box-shadow 0.25s ease;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        /* 名義のテキストスタイル */
+        /* テキストエリア */
+        .portal-info {
+            padding: 25px 20px; text-align: center;
+            border-top: 1px solid #f1f5f9;
+        }
+
         .portal-name {
-            margin-top: 18px; font-size: 1.2rem; font-weight: 700;
-            letter-spacing: 0.05em;
+            font-size: 1.25rem; font-weight: 700; letter-spacing: 0.08em;
+            margin: 0;
         }
 
-        /* 各名義の簡単な説明（世界観の補足） */
         .portal-desc {
-            margin-top: 6px; font-size: 0.8rem; color: #64748b;
-            line-height: 1.4;
+            font-size: 0.8rem; color: #64748b; letter-spacing: 0.05em;
+            margin: 8px 0 0 0; font-weight: bold;
         }
 
-        /* ホバー時の演出（少し浮き上がって影を強く） */
+        /* ホバー時の洗練されたエフェクト（上に浮き上がり、画像が少し拡大） */
         .portal-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(15, 23, 42, 0.1);
         }
         .portal-card:hover .portal-avatar {
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15);
+            transform: scale(1.05);
         }
 
         /* 中央揃えフッター */
         footer {
-            margin-top: auto; padding: 30px 40px; text-align: center;
+            padding: 30px 40px; text-align: center;
             font-size: 0.75rem; color: #64748b; letter-spacing: 0.1em;
         }
 
-        /* スマホ表示対応 */
+        /* スマホ表示対応（縦一列に美しく並べる） */
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; margin-bottom: 40px; }
-            .portal-grid { gap: 30px; }
-            .portal-card { width: 180px; }
-            .portal-avatar { width: 120px; height: 120px; }
-            .portal-name { font-size: 1.1rem; }
+            .portal-wrapper { padding: 40px 0; }
+            h1 { font-size: 2rem; margin-bottom: 40px; }
+            .portal-grid { grid-template-columns: 1fr; max-width: 320px; gap: 25px; }
+            .portal-info { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="portal-wrapper">
         <h1>39rage</h1>
         
         <div class="portal-grid">
             
-            <!-- ① Qurage （BGM）-->
+            <!-- ① Qurage -->
             <a href="https://casbgcasbg.booth.pm/" class="portal-card" target="_blank" rel="noopener noreferrer">
-                <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage" class="portal-avatar">
-                <div class="portal-name">Qurage</div>
-                <div class="portal-desc">BGM制作 / Sound</div>
+                <div class="portal-image-wrapper">
+                    <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage" class="portal-avatar">
+                </div>
+                <div class="portal-info">
+                    <div class="portal-name">Qurage</div>
+                    <div class="portal-desc">SOUND / BGM</div>
+                </div>
             </a>
 
-            <!-- ② 39rage （メインポートフォリオへの入り口）-->
+            <!-- ② 39rage -->
             <a href="about.html" class="portal-card">
-                <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="portal-avatar">
-                <div class="portal-name">39rage</div>
-                <div class="portal-desc">Portfolio Site</div>
+                <div class="portal-image-wrapper">
+                    <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="39rage" class="portal-avatar">
+                </div>
+                <div class="portal-info">
+                    <div class="portal-name">39rage</div>
+                    <div class="portal-desc">PORTFOLIO</div>
+                </div>
             </a>
 
-            <!-- ③ Sacra （歌ってみた）-->
-            <!-- ※現在はworks.htmlに飛びますが、必要に応じて変更可能です -->
+            <!-- ③ Sacra -->
             <a href="works.html" class="portal-card">
-                <img src="https://fromtheasia.com/wp-content/uploads/NCG144.jpg" alt="Sacra" class="portal-avatar">
-                <div class="portal-name">Sacra</div>
-                <div class="portal-desc">歌ってみた / Vocal</div>
+                <div class="portal-image-wrapper">
+                    <img src="https://fromtheasia.com/wp-content/uploads/NCG144.jpg" alt="Sacra" class="portal-avatar">
+                </div>
+                <div class="portal-info">
+                    <div class="portal-name">Sacra</div>
+                    <div class="portal-desc">VOCAL / MIX</div>
+                </div>
             </a>
 
         </div>
