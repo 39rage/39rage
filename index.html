@@ -60,26 +60,26 @@
             transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             overflow: hidden;
             padding: 20px;
-            background-size: cover !important; /* 画像を画面いっぱいにカバー */
-            background-position: center !important; /* 画像を中央寄せ */
+            background-size: cover !important;
+            background-position: center !important;
         }
 
-        /* ホバーしたパネルを広げる（主人公選択感） */
+        /* ホバーしたパネルを広げる */
         .panel:hover {
-            flex: 1.6; /* 広がりを少しだけ強調してよりダイナミックに */
+            flex: 1.6;
         }
 
-        /* 背景のオーバーレイ（初期状態は暗めにして文字を読みやすく、ホバーで画像を引き立たせる） */
+        /* 背景のオーバーレイ */
         .panel::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(5, 11, 20, 0.65); /* 暗めのマスク */
+            background: rgba(5, 11, 20, 0.65);
             transition: background 0.4s ease;
             z-index: 1;
         }
         .panel:hover::before {
-            background: rgba(5, 11, 20, 0.25); /* ホバーすると画像がパッと明るくなる */
+            background: rgba(5, 11, 20, 0.25);
         }
 
         .panel-content {
@@ -89,11 +89,12 @@
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .panel:hover .panel-content {
-            transform: scale(1.1); /* 文字も少しだけ大きく */
+            transform: scale(1.1);
         }
 
+        /* 文字色はすべて白に統一 */
         .name {
-            font-size: 2.4rem; /* 視認性を上げるために少しサイズアップ */
+            font-size: 2.4rem;
             font-weight: 700;
             letter-spacing: 0.08em;
             margin-bottom: 12px;
@@ -110,31 +111,28 @@
 
         /* ーーー 各パネルの個別背景＆境界線設定 ーーー */
 
-        /* 1. Qurage （左：深海） */
+        /* 1. Qurage （左） */
         .panel.qurage {
             background: url('https://fromtheasia.com/wp-content/uploads/NCG292.jpg') no-repeat;
         }
-        .panel.qurage .name { color: #38bdf8; } /* サイバーな水色テキスト */
 
-        /* 2. 39rage （中央：メイン） */
+        /* 2. 39rage （中央） */
         .panel.sakurage {
             background: url('https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png') no-repeat;
             border-left: 1px solid rgba(255,255,255,0.15);
             border-right: 1px solid rgba(255,255,255,0.15);
         }
-        .panel.sakurage .name { color: #ffffff; }
 
-        /* 3. Sacra （右：過去名義） */
+        /* 3. Sacra （右） */
         .panel.sakura {
             background: url('https://fromtheasia.com/wp-content/uploads/NCG144.jpg') no-repeat;
         }
-        .panel.dark-pink .name { color: #f472b6; } /* 華やかなピンクテキスト */
 
-        /* スマホ対応（縦並びにする） */
+        /* スマホ対応 */
         @media (max-width: 768px) {
             body { overflow: auto; height: auto; }
             .title-area { position: relative; padding: 40px 20px 20px 20px; }
-            .select-container { flex-direction: column; height: 750px; } /* スマホでも画像が見やすいよう少し高さを確保 */
+            .select-container { flex-direction: column; height: 750px; }
             .panel { border: none !important; }
             .panel:hover { flex: 1; }
             .name { font-size: 1.8rem; }
@@ -144,8 +142,8 @@
 <body>
 
     <div class="title-area">
-        <h1>CHOOSE YOUR CHARACTER</h1>
-        <p>名義を選択して各コンテンツへ移動します</p>
+        <h1>Please choose a page</h1>
+        <p>選択して各コンテンツへ移動してください</p>
     </div>
 
     <div class="select-container">
@@ -154,25 +152,23 @@
         <a href="https://casbgcasbg.booth.pm/" class="panel qurage" target="_blank" rel="noopener noreferrer">
             <div class="panel-content">
                 <div class="name">Qurage</div>
-                <div class="desc">Free BGM & Track Maker ↗</div>
+                <div class="desc">Free BGM ↗</div>
             </div>
         </a>
 
         <!-- ② 39rage（中央） -->
-        <!-- 元のコードの「39rage/index.html」のままでも、「about.html」へ直接飛ばす形でもどちらでも対応可能です -->
-        <a href="about.html" class="panel sakurage">
+        <a href="39rage/index.html" class="panel sakurage">
             <div class="panel-content">
                 <div class="name">39rage</div>
-                <div class="desc">Vocaloid & Movie お手伝い</div>
+                <div class="desc">MIX＆Video Edit</div>
             </div>
         </a>
 
         <!-- ③ Sacra（右） -->
-        <!-- 元のコードの「外部リンク」から「works.html」へ行くようにしています。元に戻すこともすぐ可能です！ -->
-        <a href="works.html" class="panel sakura">
+        <a href="https://3939-sacra.carrd.co/" class="panel sakura" target="_blank" rel="noopener noreferrer">
             <div class="panel-content">
                 <div class="name">Sacra</div>
-                <div class="desc">Past Works & Vocal</div>
+                <div class="desc">Vocalist ↗</div>
             </div>
         </a>
 
