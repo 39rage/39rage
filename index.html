@@ -3,141 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ★ブラウザのタブ名を「39rage」のみに変更しました -->
-    <title>39rage</title>
-    <!-- ファビコン設定（クラゲの画像を指定） -->
-    <link rel="icon" href="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" type="image/png">
+    <title>39rage - Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0; padding: 0;
-            background-color: #e0f2fe; color: #0f172a;
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            min-height: 100vh; display: flex; flex-direction: column;
-        }
-
-        /* 共通ヘッダー */
-        header {
-            width: 100%; max-width: 1400px;
-            margin: 0 auto; padding: 30px 40px;
-            box-sizing: border-box;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 100; position: relative;
-        }
-
-        .header-logo {
-            color: #0f172a; text-decoration: none;
-            font-size: 1.6rem; font-weight: 700;
-            letter-spacing: 0.05em; transition: opacity 0.2s;
-        }
-        .header-logo:hover { opacity: 0.7; }
-
-        .nav-links { display: flex; gap: 30px; }
-        .nav-btn {
-            color: #0f172a; text-decoration: none; font-weight: 700;
-            font-size: 0.95rem; letter-spacing: 0.1em;
-            position: relative; padding-bottom: 4px;
-        }
-        .nav-btn::after {
-            content: ''; position: absolute; width: 100%; transform: scaleX(0);
-            height: 2px; bottom: 0; left: 0; background-color: #0f172a;
-            transform-origin: bottom right; transition: transform 0.25s ease-out;
-        }
-        .nav-btn:hover::after { transform: scaleX(1); transform-origin: bottom left; }
-
-        .menu-toggle {
-            display: none; flex-direction: column; gap: 6px;
-            background: none; border: none; cursor: pointer; padding: 0;
-        }
-        .menu-toggle span {
-            display: block; width: 25px; height: 3px; background-color: #0f172a;
-            transition: all 0.3s ease;
-        }
-
-        /* メインレイアウト */
-        .main-layout { flex: 1; display: flex; width: 100%; align-items: center; justify-content: space-between; box-sizing: border-box; }
-        
-        /* 左側（テキスト）：全体の40%の幅に設定 */
-        .profile-text-side { flex: 4; padding: 0 5% 60px 8%; text-align: left; box-sizing: border-box; }
-        .profile-text-side h1 { font-size: 3.5rem; letter-spacing: 0.05em; margin: 0 0 15px 0; font-weight: 700; }
-        .profile-text-side .description { color: #475569; font-size: 1.05rem; margin: 0 0 40px 0; letter-spacing: 0.05em; font-weight: 500; line-height: 1.8; }
-        
-        .sns-links { display: flex; gap: 25px; }
-        .sns-link { color: #0f172a; text-decoration: none; font-size: 1.8rem; font-weight: 400; transition: opacity 0.2s; line-height: 1; }
-        .sns-link:hover { opacity: 0.6; }
-
-        /* 右側（画像枠）：全体の60%の幅に拡張 */
-        .profile-image-side { flex: 6; height: 80vh; display: flex; justify-content: flex-end; }
-        
-        .profile-img { 
-            width: 100%; height: 100%; 
-            border-radius: 0; border: none; 
-            object-fit: cover; 
-            box-shadow: -10px 0 30px rgba(15, 23, 42, 0.05); 
-        }
-
-        /* 中央揃えフッター */
-        footer { 
-            padding: 30px 40px; text-align: center; 
-            font-size: 0.75rem; color: #64748b; letter-spacing: 0.1em; 
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; background-color: #f8fafc; color: #0f172a; line-height: 1.6; }
+        header { background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 20px; position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #0284c7; text-decoration: none; letter-spacing: 0.05em; }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav a { text-decoration: none; color: #334155; font-weight: 700; font-size: 0.95rem; transition: color 0.2s; }
+        nav a:hover { color: #0284c7; }
+        .hero { max-width: 1200px; margin: 80px auto; padding: 0 20px; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; color: #0f172a; letter-spacing: -0.02em; }
+        .hero p { font-size: 1.2rem; color: #475569; max-width: 600px; margin: 0 auto 40px; }
+        /* 総合トップ（主人公選択画面）に戻る用のボタン */
+        .portal-back { display: inline-block; margin-top: 40px; color: #64748b; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        .portal-back:hover { color: #0f172a; }
         @media (max-width: 768px) {
-            header { padding: 25px 20px; }
-            .menu-toggle { display: flex; }
-            
-            .nav-links {
-                display: none;
-                flex-direction: column; gap: 20px; position: absolute;
-                top: 80px; left: 0; width: 100%; background-color: #e0f2fe;
-                padding: 20px 0; text-align: center; box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-            }
-            .nav-links.active { display: flex; }
-
-            .main-layout { flex-direction: column-reverse; }
-            .profile-text-side { text-align: center; padding: 40px 20px; }
-            .profile-text-side h1 { font-size: 2.5rem; }
-            .sns-links { justify-content: center; }
-            .profile-image-side { width: 100%; height: 45vh; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .hero h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
-
     <header>
-        <a href="index.html" class="header-logo">39rage</a>
-        <button class="menu-toggle" id="menuToggle">
-            <span></span><span></span><span></span>
-        </button>
-        <nav class="nav-links" id="navLinks">
-            <a href="about.html" class="nav-btn">ABOUT</a>
-            <a href="works.html" class="nav-btn">WORKS</a>
-            <a href="request.html" class="nav-btn">REQUEST</a>
-        </nav>
-    </header>
-
-    <main class="main-layout">
-        <div class="profile-text-side">
-            <h1>さくらげ</h1>
-            <p class="description">MIX / 動画編集 / デザイン / HP制作とか勉強中</p>
-            <div class="sns-links">
-                <a href="https://x.com/39rage" class="sns-link" target="_blank" rel="noopener noreferrer">ⓧ</a>
-                <a href="https://www.instagram.com/39rage" class="sns-link" target="_blank" rel="noopener noreferrer">ⓘ</a>
-            </div>
+        <div class="nav-container">
+            <a href="index.html" class="logo">39rage</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="works.html">WORKS</a></li>
+                    <li><a href="request.html">REQUEST</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="profile-image-side">
-            <img src="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" alt="さくらげ" class="profile-img">
+    </header>
+    <main class="hero">
+        <h1>さくらげ (39rage)</h1>
+        <p>Vocaloid & Movie を中心に活動している、さくらげのポートフォリオサイトです。</p>
+        <div>
+            <a href="../index.html" class="portal-back">← 名義選択（総合トップ）へ戻る</a>
         </div>
     </main>
-
-    <footer>
-        © 39rage. Powered by GitHub Pages.
-    </footer>
-
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        menuToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
-    </script>
 </body>
 </html>
