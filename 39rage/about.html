@@ -3,44 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>39rage - About</title>
+    <title>ABOUT - 39rage</title>
+    <!-- ファビコン設定 -->
+    <link rel="icon" href="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* index.html と同じスタイル（共通） */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; background-color: #f8fafc; color: #0f172a; line-height: 1.6; }
-        header { background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 20px; position: sticky; top: 0; z-index: 100; }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: #0284c7; text-decoration: none; letter-spacing: 0.05em; }
-        nav ul { display: flex; list-style: none; gap: 30px; }
-        nav a { text-decoration: none; color: #334155; font-weight: 700; font-size: 0.95rem; transition: color 0.2s; }
-        nav a:hover { color: #0284c7; }
-        .content-section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
-        .content-section h1 { font-size: 2.2rem; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        .profile-card { background: white; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0; }
-        .profile-card h2 { margin-bottom: 15px; color: #0284c7; }
+        body {
+            margin: 0; padding: 0;
+            background-color: #e0f2fe; color: #0f172a;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* 共通ヘッダー */
+        header {
+            width: 100%; max-width: 1400px;
+            margin: 0 auto; padding: 30px 40px;
+            box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; position: relative;
+        }
+        .header-logo {
+            color: #0f172a; text-decoration: none;
+            font-size: 1.6rem; font-weight: 700;
+            letter-spacing: 0.05em; transition: opacity 0.2s;
+        }
+        .header-logo:hover { opacity: 0.7; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-btn {
+            color: #0f172a; text-decoration: none; font-weight: 700;
+            font-size: 0.95rem; letter-spacing: 0.1em; position: relative; padding-bottom: 4px;
+        }
+        .nav-btn::after {
+            content: ''; position: absolute; width: 100%; transform: scaleX(0);
+            height: 2px; bottom: 0; left: 0; background-color: #0f172a;
+            transform-origin: bottom right; transition: transform 0.25s ease-out;
+        }
+        .nav-btn:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+
+        .menu-toggle {
+            display: none; flex-direction: column; gap: 6px;
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+        .menu-toggle span { display: block; width: 25px; height: 3px; background-color: #0f172a; transition: all 0.3s ease; }
+
+        /* コンテンツエリア（800px幅） */
+        .container { flex: 1; width: 90%; max-width: 800px; margin: 0 auto; padding: 40px 0 60px 0; text-align: center; }
+        h1 { font-size: 2rem; margin-bottom: 30px; letter-spacing: 0.1em; font-weight: 700; }
+        
+        .content { 
+            background: #ffffff; padding: 40px; border-radius: 16px; 
+            text-align: left; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); 
+        }
+
+        /* 導入テキストのスタイル */
+        .intro-text { line-height: 1.8; font-size: 0.95rem; margin-bottom: 30px; color: #1e293b; }
+
+        /* 🪼 見出しスタイル（REQUESTページと統一化） */
+        .section-title { 
+            font-size: 1.3rem; color: #0f172a; font-weight: 700;
+            margin-top: 45px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        /* 最初の見出しの上の余白を少し詰める */
+        .content > .section-title:first-of-type { margin-top: 10px; }
+
+        /* テーブル共通スタイル（プロフィール・資格共通） */
+        .profile-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .profile-table th, .profile-table td { padding: 14px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; }
+        .profile-table th { width: 30%; text-align: left; color: #64748b; font-weight: 500; }
+        .profile-table td { color: #0f172a; line-height: 1.6; }
+
+        .back-btn { display: inline-block; margin-top: 40px; color: #0f172a; font-weight: bold; text-decoration: none; transition: opacity 0.2s; }
+        .back-btn:hover { opacity: 0.7; }
+
+        /* 中央揃えフッター */
+        footer { padding: 30px 40px; text-align: center; font-size: 0.75rem; color: #64748b; letter-spacing: 0.1em; }
+
+        /* スマホ表示対応 */
+        @media (max-width: 768px) {
+            header { padding: 25px 20px; }
+            .menu-toggle { display: flex; }
+            .nav-links {
+                display: none; flex-direction: column; gap: 20px; position: absolute;
+                top: 80px; left: 0; width: 100%; background-color: #e0f2fe;
+                padding: 20px 0; text-align: center; box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+            }
+            .nav-links.active { display: flex; }
+            .content { padding: 25px 20px; }
+            .profile-table th, .profile-table td { display: block; width: 100%; padding: 6px 0; }
+            .profile-table th { border-bottom: none; color: #94a3b8; font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo">39rage</a>
-            <nav>
-                <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="about.html">ABOUT</a></li>
-                    <li><a href="works.html">WORKS</a></li>
-                    <li><a href="request.html">REQUEST</a></li>
-                </ul>
-            </nav>
-        </div>
+        <a href="index.html" class="header-logo">39rage</a>
+        <button class="menu-toggle" id="menuToggle">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links" id="navLinks">
+            <a href="about.html" class="nav-btn">ABOUT</a>
+            <a href="works.html" class="nav-btn">WORKS</a>
+            <a href="request.html" class="nav-btn">REQUEST</a>
+        </nav>
     </header>
-    <main class="content-section">
+
+    <div class="container">
         <h1>ABOUT</h1>
-        <div class="profile-card">
-            <h2>さくらげ</h2>
-            <p>ここにプロフィールテキストが入ります。</p>
+        
+        <div class="content">
+            
+            <!-- 経歴紹介テキスト -->
+            <p class="intro-text">
+                2020年4月に「Sacra」名義で歌ってみたの活動を、同年11月には「Qurage」名義でBGM制作を開始。<br>
+                2024年4月より「さくらげ」としてこれまでの活動で培った経験を活かして様々なことに挑戦中！
+            </p>
+            
+            <!-- プロフィールセクション -->
+            <h2 class="section-title">🪼 プロフィール</h2>
+            <table class="profile-table">
+                <tr>
+                    <th>誕生日</th>
+                    <td>9月16日</td>
+                </tr>
+                <tr>
+                    <th>出身地</th>
+                    <td>関西</td>
+                </tr>
+                <tr>
+                    <th>趣味</th>
+                    <td>ヲタ活(Vtuber・アニメ・アイドルetc...)</td>
+                </tr>
+                <tr>
+                    <th>特技</th>
+                    <td>書道(師範になりました)</td>
+                </tr>
+            </table>
+
+            <!-- 取得資格セクション（プロフィールと同じテーブル形式に変更） -->
+            <h2 class="section-title">🪼 取得資格</h2>
+            <table class="profile-table">
+                <tr>
+                    <th>2018年03月</th>
+                    <td>3級音響技術者資格</td>
+                </tr>
+                <tr>
+                    <th>2020年09月</th>
+                    <td>普通自動車免許（マニュアル）</td>
+                </tr>
+                <tr>
+                    <th>2021年01月</th>
+                    <td>Microsoft Office Specialist Excel 365&2019</td>
+                </tr>
+                <tr>
+                    <th>2021年01月</th>
+                    <td>Microsoft Office Specialist PowerPoint 365&2019</td>
+                </tr>
+                <tr>
+                    <th>2021年01月</th>
+                    <td>Microsoft Office Specialist Word 365&2019</td>
+                </tr>
+                <tr>
+                    <th>2021年07月</th>
+                    <td>映像音響処理技術者資格</td>
+                </tr>
+                <tr>
+                    <th>2025年02月</th>
+                    <td>コミュニケーション検定 上級</td>
+                </tr>
+            </table>
+
         </div>
-    </main>
+        
+        <a href="index.html" class="back-btn">← TOPに戻る</a>
+    </div>
+
+    <footer>
+        © 39rage. Powered by GitHub Pages.
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+    </script>
 </body>
 </html>
