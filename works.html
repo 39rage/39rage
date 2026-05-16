@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORKS - 39rage</title>
+    <!-- ファビコン設定 -->
+    <link rel="icon" href="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background-color: #e0f2fe; color: #0f172a;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* 共通ヘッダー */
+        header {
+            width: 100%; max-width: 1400px;
+            margin: 0 auto; padding: 30px 40px;
+            box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; position: relative;
+        }
+        .header-logo {
+            color: #0f172a; text-decoration: none;
+            font-size: 1.6rem; font-weight: 700;
+            letter-spacing: 0.05em; transition: opacity 0.2s;
+        }
+        .header-logo:hover { opacity: 0.7; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-btn {
+            color: #0f172a; text-decoration: none; font-weight: 700;
+            font-size: 0.95rem; letter-spacing: 0.1em; position: relative; padding-bottom: 4px;
+        }
+        .nav-btn::after {
+            content: ''; position: absolute; width: 100%; transform: scaleX(0);
+            height: 2px; bottom: 0; left: 0; background-color: #0f172a;
+            transform-origin: bottom right; transition: transform 0.25s ease-out;
+        }
+        .nav-btn:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+
+        .menu-toggle {
+            display: none; flex-direction: column; gap: 6px;
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+        .menu-toggle span { display: block; width: 25px; height: 3px; background-color: #0f172a; transition: all 0.3s ease; }
+
+        /* コンテンツエリア（800px幅） */
+        .container { flex: 1; width: 90%; max-width: 800px; margin: 0 auto; padding: 40px 0 60px 0; text-align: center; }
+        h1 { font-size: 2rem; margin-bottom: 30px; letter-spacing: 0.1em; font-weight: 700; }
+        
+        .content { 
+            background: #ffffff; padding: 40px; border-radius: 16px; 
+            text-align: left; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); 
+        }
+
+        /* 🪼 見出しスタイル（他ページと統一） */
+        .section-title { 
+            font-size: 1.3rem; color: #0f172a; font-weight: 700;
+            margin-top: 10px; margin-bottom: 5px; /* 注記がすぐ下にくるので下の余白を狭めに */
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* 補足・注記テキストスタイル（REQUESTページの（参考）と統一） */
+        .section-note {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding-left: 4px;
+        }
+
+        /* YouTubeレスポンシブ埋め込みコンテナ */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 の比率を維持 */
+            margin-bottom: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .back-btn { display: inline-block; margin-top: 40px; color: #0f172a; font-weight: bold; text-decoration: none; transition: opacity 0.2s; }
+        .back-btn:hover { opacity: 0.7; }
+
+        /* 中央揃えフッター */
+        footer { padding: 30px 40px; text-align: center; font-size: 0.75rem; color: #64748b; letter-spacing: 0.1em; }
+
+        /* スマホ表示対応 */
+        @media (max-width: 768px) {
+            header { padding: 25px 20px; }
+            .menu-toggle { display: flex; }
+            .nav-links {
+                display: none; flex-direction: column; gap: 20px; position: absolute;
+                top: 80px; left: 0; width: 100%; background-color: #e0f2fe;
+                padding: 20px 0; text-align: center; box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+            }
+            .nav-links.active { display: flex; }
+            .content { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="header-logo">39rage</a>
+        <button class="menu-toggle" id="menuToggle">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links" id="navLinks">
+            <a href="about.html" class="nav-btn">ABOUT</a>
+            <a href="works.html" class="nav-btn">WORKS</a>
+            <a href="request.html" class="nav-btn">REQUEST</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>WORKS</h1>
+        
+        <div class="content">
+            
+            <!-- 🪼 見出し -->
+            <h2 class="section-title">🪼 歌ってみた関連作品</h2>
+            <!-- 小さい注記テキスト -->
+            <p class="section-note">Sacra名義で関わった曲</p>
+            
+            <!-- YouTubeプレイリスト埋め込み（16:9比率キープ） -->
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/videoseries?list=PLt5fo9FdFFEAzpKGaW4Fha1Vg0tLVTMfj" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+        </div>
+        
+        <a href="index.html" class="back-btn">← TOPに戻る</a>
+    </div>
+
+    <footer>
+        © 39rage. Powered by GitHub Pages.
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+    </script>
+</body>
+</html>
