@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REQUEST - 39rage</title>
-    <!-- ファビコン設定（クラゲの画像を指定） -->
     <link rel="icon" href="https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -47,7 +46,7 @@
         }
         .menu-toggle span { display: block; width: 25px; height: 3px; background-color: #0f172a; transition: all 0.3s ease; }
 
-        /* コンテンツエリア（ABOUTと同じ800px幅） */
+        /* コンテンツエリア */
         .container { flex: 1; width: 90%; max-width: 800px; margin: 0 auto; padding: 40px 0 60px 0; text-align: center; }
         h1 { font-size: 2rem; margin-bottom: 30px; letter-spacing: 0.1em; font-weight: 700; }
         
@@ -56,10 +55,8 @@
             text-align: left; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); 
         }
         
-        /* 導入テキスト */
         .intro-text { line-height: 1.8; font-size: 0.95rem; margin-bottom: 30px; color: #1e293b; }
 
-        /* 目次スタイル（🪼は目次に） */
         .toc-box {
             background-color: #f8fafc; border: 1px solid #e2e8f0;
             padding: 20px 25px; border-radius: 12px; margin-bottom: 40px;
@@ -72,27 +69,27 @@
         }
         .toc-item a:hover { color: #3b82f6; }
 
-        /* 🟦 青いボタンのスタイル */
+        /* 🟦 青いボタンのスタイル修正（高さを揃える設定を追加） */
         .btn-blue {
             display: inline-flex; align-items: center; justify-content: center;
             background-color: #2563eb; color: #ffffff !important;
             text-decoration: none; font-weight: 700; font-size: 0.9rem;
-            padding: 12px 24px; border-radius: 8px; margin: 10px 0;
+            padding: 0 24px; border-radius: 8px; margin: 10px 0;
+            height: 48px; /* ★高さを48pxで固定 */
+            min-width: 160px; /* ★極端に短いボタンにならないよう最小幅を設定 */
+            box-sizing: border-box;
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: all 0.2s ease;
         }
         .btn-blue:hover { background-color: #1d4ed8; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); }
 
-        /* ボタンを綺麗に左並びにするための枠 */
-        .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; align-items: flex-start; }
+        .btn-group { display: flex; flex-wrap: wrap; gap: 12px; margin: 15px 0; align-items: flex-start; }
 
-        /* —— 区切り線（上下段の間） */
         .section-divider { border: none; height: 1px; background: #e2e8f0; margin: 40px 0; position: relative; }
         .section-divider::after {
             content: '🪼'; position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%); background: #ffffff; padding: 0 15px; color: #cbd5e1; font-size: 1.1rem;
         }
 
-        /* 個別見出し（🪼は見出しに） */
         .section-title { 
             font-size: 1.3rem; color: #0f172a; font-weight: 700;
             margin-top: 40px; margin-bottom: 20px;
@@ -102,12 +99,10 @@
         .section-desc { line-height: 1.8; font-size: 0.95rem; color: #334155; margin-bottom: 20px; }
         .sub-info { font-size: 0.85rem; color: #64748b; margin-top: 5px; margin-bottom: 15px; font-weight: bold; }
 
-        /* ホームページ制作実績リスト */
         .hp-list { list-style-type: none; padding-left: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
         .hp-list li { position: relative; padding-left: 20px; font-size: 0.95rem; color: #334155; }
         .hp-list li::before { content: "・"; position: absolute; left: 0; color: #2563eb; font-weight: bold; }
 
-        /* 🎥 YouTube埋め込みレスポンシブ設定 */
         .video-container {
             position: relative; width: 100%; padding-top: 56.25%;
             margin-top: 15px; margin-bottom: 15px; border-radius: 12px; overflow: hidden;
@@ -118,10 +113,8 @@
         .back-btn { display: inline-block; margin-top: 40px; color: #0f172a; font-weight: bold; text-decoration: none; transition: opacity 0.2s; }
         .back-btn:hover { opacity: 0.7; }
 
-        /* 中央揃えフッター */
         footer { padding: 30px 40px; text-align: center; font-size: 0.75rem; color: #64748b; letter-spacing: 0.1em; }
 
-        /* スマホ表示対応 */
         @media (max-width: 768px) {
             header { padding: 25px 20px; }
             .menu-toggle { display: flex; }
@@ -159,7 +152,6 @@
                 できるのは以下のことです。
             </p>
 
-            <!-- 🪼 上の段のクラゲは「目次」に -->
             <div class="toc-box">
                 <div class="toc-title">INDEX / できること</div>
                 <ul class="toc-list">
@@ -172,52 +164,41 @@
             </div>
 
             <p class="intro-text">ご相談・ご依頼はぜひX（旧Twitter）まで</p>
-            <!-- 🟦 Xリンク修正：「はこちら」を削除 -->
             <div class="btn-group">
                 <a href="https://x.com/39rage" class="btn-blue" target="_blank" rel="noopener noreferrer">X（旧Twitter）</a>
             </div>
 
-            <!-- —— 上下段の間にある線は「区切り線」に -->
             <div class="section-divider"></div>
 
-            <!-- 🪼 下の段のクラゲは「各見出し」に -->
-            
-            <!-- MIX・動画編集 -->
             <h2 class="section-title" id="mix-video">🪼 MIX・動画編集</h2>
             <p class="section-desc">
                 過去に歌ってみたの活動をしていたときの動画を参考にしてもらえたら。<br>
                 あれくらいしかできません…
             </p>
             <p class="sub-info">（参考）【歌ってみた】ハレンチ【Sacra】<br>→歌唱・MIX・動画編集を全部自分でやってます。</p>
-            <!-- 🎥 YouTube埋め込み（ハレンチ） -->
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/xU6sjM8lgjk" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
-            <!-- 伴奏制作 -->
             <h2 class="section-title" id="music">🪼 伴奏制作</h2>
             <p class="section-desc">
                 完全なカラオケ音源というよりは和音だけ音源を作る練習してます。<br>
                 本当に音源なくて困った際にはぜひ。
             </p>
             <p class="sub-info">（参考）行くあてのない僕たち / 乃木坂46</p>
-            <!-- 🎥 YouTube埋め込み（行くあてのない僕たち） -->
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/mj2s4P-2QpE" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
-            <!-- BGM作成 -->
             <h2 class="section-title" id="bgm">🪼 BGM作成</h2>
             <p class="section-desc">
                 別名義でBGM作ってるので今公開してる分をご紹介することも可能ですし、時間はかかりますがお作りすることも可能です。<br>
                 もし可能であれば別名義の方に直接ご連絡いただければたいへん助かります。
             </p>
-            <!-- 🟦 Boothリンク -->
             <div class="btn-group">
                 <a href="https://casbgcasbg.booth.pm/" class="btn-blue" target="_blank" rel="noopener noreferrer">Qurage Music (BOOTH)</a>
             </div>
 
-            <!-- デザイン -->
             <h2 class="section-title" id="design">🪼 デザイン</h2>
             <p class="section-desc">
                 画像加工・トレース<br>
@@ -225,12 +206,10 @@
                 また、トレースも大好きでたまにやってるので良ければ参考までに。
             </p>
             <p class="sub-info">（参考）【一人二役で歌ってみた】eternal eternity【Sacra】</p>
-            <!-- 🎥 YouTube埋め込み（eternal eternity） -->
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/FRVNqj94sp8" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
-            <!-- ホームページ -->
             <h2 class="section-title" id="hp">🪼 ホームページ</h2>
             <p class="section-desc">
                 これまでに以下の環境でHPを作成した経験があります。<br>
@@ -239,7 +218,6 @@
                 また、HPではなくプロフィールやリンクをまとめるサイトもいくつか知ってるので相談のれます。
             </p>
             
-            <!-- 制作経験のあるシステム一覧 -->
             <ul class="hp-list">
                 <li>Ameba Ownd</li>
                 <li>Canva</li>
@@ -257,7 +235,6 @@
 
             <p class="sub-info">（参考）Qurage Musicの公式サイトと歌ってみた活動時にcarrdで作ったサイト</p>
             
-            <!-- 🟦 ホームページの2つのボタン：横長を解消し、他のボタンと同じサイズで横並び・左詰めに配置 -->
             <div class="btn-group">
                 <a href="https://casbgcasbg.amebaownd.com/" class="btn-blue" target="_blank" rel="noopener noreferrer">Qurage Music 公式サイト</a>
                 <a href="https://3939-sacra.carrd.co/" class="btn-blue" target="_blank" rel="noopener noreferrer">Sacra's Carrd</a>
