@@ -24,7 +24,7 @@
             color: var(--text-main);
         }
 
-        /* --- ヘッダー：配置の修正 --- */
+        /* --- ヘッダー --- */
         .site-header {
             position: fixed;
             top: 0; left: 0; width: 100%; height: var(--header-height);
@@ -32,14 +32,13 @@
             border-bottom: 1px solid #eee;
             display: flex; align-items: center; justify-content: center;
             z-index: 2100;
-            /* pointer-events: none; は使わず、aタグ側で制御します */
         }
         .header-logo {
-            display: inline-block; /* 文字の幅だけに絞る */
+            display: inline-block;
             font-size: 1.1rem; font-weight: 700; letter-spacing: 0.15em;
             text-decoration: none; color: var(--primary-orange);
             text-align: center;
-            padding: 10px 20px; /* クリックしやすくしつつ、範囲を限定 */
+            padding: 10px 20px;
         }
 
         .burger-btn {
@@ -68,24 +67,22 @@
         }
         
         .hero-img-wrapper {
-            width: 100%; height: 32vh; /* 縦幅を確保 */
-            display: flex; justify-content: center; align-items: flex-start;
-            overflow: hidden;
-            padding-top: 50px; /* 上の空きを大きく確保 */
+            width: 100%;
+            height: auto; /* 高さを固定せず画像に合わせる */
+            padding-top: 50px; /* PCでの上部余白 */
+            text-align: center;
         }
         .hero-img-left { 
-            width: auto; height: 100%; /* 縦幅を変えずに表示 */
-            max-width: 90%;
-            object-fit: contain;
-            transform: translateY(20px); /* 縦幅を維持したまま、さらに下に下げ */
+            width: 100%; /* 横幅いっぱいに表示 */
+            height: auto; /* 縦横比を維持（トリミングなし） */
+            display: block;
         }
 
-        .profile-text-area { padding: 40px 20px 15px; text-align: center; }
+        .profile-text-area { padding: 30px 20px 15px; text-align: center; }
         .profile-text-area h1 { font-size: 1.4rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
         .profile-text-area p { font-size: 0.7rem; opacity: 0.8; margin-bottom: 4px; font-weight: 600; }
         .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 30px; }
 
-        /* RECENT TRACKS セクション */
         .recent-tracks-section { padding: 0 10% 30px 15%; }
         .recent-tracks-section h3 { 
             font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); 
@@ -103,7 +100,7 @@
         }
         .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
 
-        /* --- 右側エリア（変更なし） --- */
+        /* --- 右側エリア --- */
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
         .columns-split { display: grid; grid-template-columns: 50% 50%; flex: 1; }
         .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -148,7 +145,14 @@
                 padding-top: var(--header-height);
             }
             .col-left.open { top: 0; opacity: 1; visibility: visible; }
-            .hero-img-wrapper { height: 28vh; padding-top: 30px; }
+            
+            .hero-img-wrapper { 
+                padding-top: 20px; /* スマホでは上部余白を少し詰める */
+            }
+            .hero-img-left {
+                width: 100%; /* スマホメニュー内でも全幅表示 */
+            }
+
             .recent-grid { height: auto; flex-direction: row; }
             .recent-link { width: calc(50% - 5px); }
             .columns-split { display: block; }
@@ -243,6 +247,7 @@
     </div>
 
     <script>
+        // JS部分は変更なし
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
