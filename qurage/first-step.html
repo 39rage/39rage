@@ -37,6 +37,7 @@
         .recent-grid { display: flex; flex-direction: column; gap: 6px; }
         .recent-link { display: block; color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; transition: 0.3s; }
         .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
+        
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
         .columns-split { display: grid; grid-template-columns: 65% 35%; flex: 1; }
         .col-mid { padding: 50px 50px 0; border-right: 1px solid #f3f4f6; display: flex; flex-direction: column; }
@@ -44,10 +45,12 @@
         .back-home { display: inline-block; text-decoration: none; color: var(--text-sub); font-size: 0.75rem; margin-bottom: 30px; transition: 0.3s; }
         .back-home:hover { color: var(--primary-orange); }
         .album-detail-box { text-align: center; }
-        .album-art-large { width: 100%; max-width: 320px; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        /* ジャケ写サイズを 240px に縮小 */
+        .album-art-large { width: 100%; max-width: 240px; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 40px; }
         .album-title-main { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
         .album-subtitle { color: var(--primary-orange); font-weight: bold; margin-bottom: 25px; font-size: 1rem; letter-spacing: 0.1em; }
         .album-description { font-size: 1rem; line-height: 2.2; color: var(--text-sub); max-width: 600px; margin: 0 auto; }
+        
         .col-right { height: calc(100vh - var(--header-height)); position: sticky; top: var(--header-height); padding: 50px 25px 25px; background: var(--bg-light); display: flex; flex-direction: column; }
         .section-title { font-size: 0.75rem; letter-spacing: 0.15em; margin-bottom: 20px; border-left: 3px solid var(--primary-orange); padding-left: 12px; font-weight: 700; }
         .track-list { list-style: none; margin-bottom: 25px; flex: 1; overflow-y: auto; padding-right: 5px; }
@@ -74,9 +77,10 @@
         .seek-bar { flex: 1; height: 4px; accent-color: var(--primary-orange); cursor: pointer; }
         .download-btn-wrapper { margin-top: 15px; }
         .booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 10px; text-align: center; border-radius: 6px; transition: 0.3s; font-size: 0.8rem; letter-spacing: 0.05em; font-family: 'Shippori Mincho', serif; }
-        footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
+        footer { text-align: center; padding: 40px 0; color: var(--text-sub); font-size: 0.8rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
         .footer-pc { display: block; width: 100%; margin-top: auto; }
         .footer-mobile { display: none; }
+        @media (max-width: 1024px) { .main-container { grid-template-columns: 30% 70%; } .columns-split { grid-template-columns: 60% 40%; } }
         @media (max-width: 900px) { .main-container { display: block; } .burger-btn { display: block; } .col-left { position: fixed; left: 0; top: -100%; width: 100%; height: 100vh; z-index: 2000; transition: 0.5s; opacity: 0; visibility: hidden; padding-top: calc(var(--header-height) + 40px); overflow-y: auto; } .col-left.open { top: 0; opacity: 1; visibility: visible; } .columns-split { display: block; } .col-mid, .col-right { padding: 30px 20px; border-right: none; height: auto; position: static; } .track-list { max-height: 400px; } .footer-pc { display: none; } .footer-mobile { display: block; } }
     </style>
 </head>
@@ -136,7 +140,9 @@
     </div>
     <script src="music-data.js"></script>
     <script>
+        // ★ アルバムのIDに書き換えてください
         const currentAlbumId = "first-step";
+
         const sidebarNav = document.getElementById('sidebarNav');
         sidebarNav.innerHTML = allAlbums.map(album => `<a href="${album.id}.html" class="recent-link">${album.title}</a>`).join('');
         const album = allAlbums.find(a => a.id === currentAlbumId);
