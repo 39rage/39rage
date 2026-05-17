@@ -38,7 +38,6 @@
             display: inline-block;
             font-size: 1.1rem; font-weight: 700; letter-spacing: 0.15em;
             text-decoration: none; color: var(--primary-orange);
-            text-align: center;
             padding: 10px 20px;
         }
 
@@ -69,16 +68,10 @@
         }
         
         .hero-img-wrapper {
-            width: 100%;
-            height: 28vh;
+            width: 100%; height: 28vh;
             display: flex; justify-content: center; align-items: center;
         }
-        .hero-img-left { 
-            width: auto; 
-            max-height: 100%; 
-            max-width: 85%;
-            object-fit: contain;
-        }
+        .hero-img-left { width: auto; max-height: 100%; max-width: 85%; object-fit: contain; }
 
         .profile-text-area { padding: 20px 20px 10px; text-align: center; }
         .profile-text-area h1 { font-size: 1.3rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
@@ -91,9 +84,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 15px;
         }
 
-        .recent-grid {
-            display: flex; flex-wrap: wrap; flex-direction: column; height: 240px; gap: 8px;
-        }
+        .recent-grid { display: flex; flex-wrap: wrap; flex-direction: column; height: 240px; gap: 8px; }
         .recent-link { 
             width: calc(50% - 4px); display: flex; align-items: center;
             color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px;
@@ -104,9 +95,9 @@
 
         /* --- メイン領域 --- */
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
-        .columns-split { display: grid; grid-template-columns: 62% 38%; flex: 1; }
+        .columns-split { display: grid; grid-template-columns: 60% 40%; flex: 1; }
 
-        /* 中カラム：ABOUT & DISCOGRAPHY */
+        /* 中カラム：DISCOGRAPHYグリッド */
         .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; }
         .mid-container { max-width: 650px; margin: 0 auto; width: 100%; }
 
@@ -117,36 +108,18 @@
         }
         .about-text { font-size: 0.95rem; line-height: 2.3; color: var(--text-sub); }
 
-        /* ジャケ写風Discographyグリッド */
-        .album-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-            gap: 30px; 
-        }
-        .album-card {
-            text-decoration: none; color: inherit; display: flex; flex-direction: column;
-        }
+        .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 30px; }
+        .album-card { text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         .album-img-box { 
-            aspect-ratio: 1 / 1; 
-            width: 100%; 
-            overflow: hidden; 
-            border-radius: 4px; 
-            border: 1px solid #eee;
-            margin-bottom: 12px;
+            aspect-ratio: 1 / 1; width: 100%; overflow: hidden; border-radius: 4px; border: 1px solid #eee; margin-bottom: 12px;
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s;
         }
         .album-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .album-card:hover .album-img-box { 
-            transform: translateY(-5px); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-color: var(--primary-orange);
-        }
-        .album-card:hover .album-img { transform: scale(1.05); }
-
+        .album-card:hover .album-img-box { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--primary-orange); }
         .album-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
         .album-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
 
-        /* 右カラム：独立スクロール設定（audio-test準拠） */
+        /* --- 右カラム：audio-test.html のスタイルを完全移植 --- */
         .col-right { 
             height: calc(100vh - var(--header-height));
             position: sticky; top: var(--header-height);
@@ -163,28 +136,31 @@
         .track-list::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
 
         .track-item { padding: 14px 12px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+        .track-item:hover { background: rgba(255,255,255,0.5); }
         .track-item.active { background: #fff; color: var(--primary-orange); font-weight: bold; }
         .track-meta { font-family: 'Inter'; font-size: 0.7rem; color: var(--text-sub); }
 
-        /* プレイヤーUI（audio-testと完全統一） */
+        /* プレイヤーUI：audio-test.html と1pxの狂いなく同期 */
         .player-footer { margin-top: auto; }
         .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; align-items: center; }
         .now-playing-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 18px; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .controls-group { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        
         .btn-svg { background: none; border: none; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .btn-svg.active .icon-svg { fill: var(--primary-orange); }
         .icon-svg { fill: #9ca3af; width: 22px; height: 22px; }
+        
         .play-main { width: 52px; height: 52px; border-radius: 50%; background: #fff; border: 1px solid var(--primary-orange); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .play-main .icon-svg { fill: var(--primary-orange); width: 24px; height: 24px; }
+
         .timeline-box { width: 100%; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
         .seek-bar { flex: 1; height: 4px; accent-color: var(--primary-orange); cursor: pointer; }
 
-        /* 音量調節 */
         .volume-box { width: 100%; display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 15px; border-top: 1px solid #f3f4f6; }
         #volumeBar { height: 4px; accent-color: #9ca3af; flex: 1; cursor: pointer; }
 
-        /* BOOTHボタン */
         .download-btn-wrapper { margin-top: 20px; }
-        .booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 14px; text-align: center; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; letter-spacing: 0.05em; font-family: 'Inter', sans-serif; }
+        .booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 14px; text-align: center; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; letter-spacing: 0.05em; font-family: 'Inter'; }
         .booth-btn:hover { background: #965925; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(180, 107, 45, 0.2); }
 
         footer { text-align: center; padding: 40px 0; color: var(--text-sub); font-size: 0.8rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
@@ -217,7 +193,6 @@
                 <p>Free BGM & Track Maker</p>
                 <div class="illust-credit">Illustration : ノーコピーライトガール</div>
             </div>
-
             <div class="recent-tracks-section">
                 <h3>DISCOGRAPHY</h3>
                 <div class="recent-grid">
@@ -259,13 +234,12 @@
                                     <div class="album-title">First step</div>
                                     <div class="album-meta">1st Mini Album / 5 Tracks</div>
                                 </a>
-                                
                                 <div class="album-card" style="opacity: 0.5;">
                                     <div class="album-img-box">
                                         <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" class="album-img">
                                     </div>
-                                    <div class="album-title">Next Project</div>
-                                    <div class="album-meta">Coming Soon...</div>
+                                    <div class="album-title">Coming Soon</div>
+                                    <div class="album-meta">Next Project</div>
                                 </div>
                             </div>
                         </section>
