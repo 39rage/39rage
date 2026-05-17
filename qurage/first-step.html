@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First step - Qurage Music</title>
+    <style>
+        :root {
+            --primary-orange: #ff6b35;
+            --soft-white: #fafafa;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+            background-color: var(--soft-white);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 左側：固定ヘッダー（サイドバー） */
+        header {
+            width: 40%;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid #eee;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .header-image {
+            width: 100%;
+            max-width: 350px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 20px 20px 0px var(--primary-orange);
+            margin-bottom: 50px;
+        }
+
+        .header-info h1 {
+            font-size: 3rem;
+            margin: 0;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .header-info p {
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 右側：スクロールするコンテンツ */
+        main {
+            margin-left: 40%;
+            width: 60%;
+            padding: 100px 80px;
+            box-sizing: border-box;
+        }
+
+        .track-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .track-item {
+            margin-bottom: 60px;
+        }
+
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--text-dark);
+            padding-bottom: 10px;
+        }
+
+        .track-number {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--primary-orange);
+        }
+
+        .track-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .track-meta {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-align: right;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+            filter: sepia(20%) saturate(70%) hue-rotate(330deg); /* ほんのりオレンジ寄りの色味に */
+        }
+
+        /* スマホ対応：画面が狭い時は縦並びにする */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            header {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 60px 20px;
+            }
+            main {
+                width: 100%;
+                margin-left: 0;
+                padding: 40px 20px;
+            }
+            .header-info h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" alt="First step Art" class="header-image">
+        <div class="header-info">
+            <h1>First<br>Step</h1>
+            <p>Full Album Preview</p>
+        </div>
+    </header>
+
+    <main>
+        <ul class="track-list">
+            <li class="track-item">
+                <div class="track-header">
+                    <span class="track-number">01</span>
+                    <span class="track-title">British Brixton</span>
+                    <span class="track-meta">BPM 100 / Key C</span>
+                </div>
+                <audio controls src="audio/2020102923 British_Brixton-100_C.mp3"></audio>
+            </li>
+
+            <li class="track-item">
+                <div class="track-header">
+                    <span class="track-number">02</span>
+                    <span class="track-title">Accelerate Afghanistan</span>
+                    <span class="track-meta">BPM 102 / Key Cm</span>
+                </div>
+                <audio controls src="audio/2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3"></audio>
+            </li>
+
+            <li class="track-item">
+                <div class="track-header">
+                    <span class="track-number">03</span>
+                    <span class="track-title">AABS 80s</span>
+                    <span class="track-meta">BPM 128 / Key Cm</span>
+                </div>
+                <audio controls src="audio/2020103014 AABS_80s-128_Cm.mp3"></audio>
+            </li>
+
+            <li class="track-item">
+                <div class="track-header">
+                    <span class="track-number">04</span>
+                    <span class="track-title">Altered Afterburner AYB</span>
+                    <span class="track-meta">BPM 129 / Key C#m</span>
+                </div>
+                <audio controls src="audio/2020103018 Altered_Afterburner_AYB-129_C#m.mp3"></audio>
+            </li>
+
+            <li class="track-item">
+                <div class="track-header">
+                    <span class="track-number">05</span>
+                    <span class="track-title">Alternating synth layers</span>
+                    <span class="track-meta">BPM 125 / Key Dm</span>
+                </div>
+                <audio controls src="audio/2020103111 Alternating_synth_layers-125_Dm.mp3"></audio>
+            </li>
+        </ul>
+    </main>
+
+</body>
+</html>
