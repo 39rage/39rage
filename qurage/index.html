@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qurage - Free BGM</title>
+    <!-- ファビコン設定（総合トップと同じものにしています） -->
+    <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/6410224d7e21cc6e2a9eb0cf659e7eb4.png" type="image/png">
+    <!-- Google Fonts: 洗練された明朝体 (Shippori Mincho) と Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Shippori Mincho', 'Inter', serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            /* ジャケット画像を背景に設定し、下部を黒に溶け込ませる */
+            background: 
+                linear-gradient(to bottom, rgba(3, 7, 18, 0.3) 0%, rgba(3, 7, 18, 0.9) 80%, #030712 100%),
+                url('https://fromtheasia.com/wp-content/uploads/NCG292.jpg') no-repeat top center;
+            background-size: 100% auto;
+        }
+
+        /* ジャケット画像がスマホでも綺麗に見えるよう調整 */
+        @media (max-width: 768px) {
+            body { background-size: cover; }
+        }
+
+        /* 全体を包むコンテナ */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 0 60px 0;
+            z-index: 2;
+        }
+
+        /* ヒーローエリア（ヘッダー） */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        header h1 {
+            font-size: 3rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        header p {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            color: #9ca3af;
+        }
+
+        /* セクション共通スタイル（枠線を極細にして洗練させる） */
+        section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 25px;
+            border-left: 2px solid rgba(255, 255, 255, 0.3);
+            padding-left: 15px;
+        }
+
+        /* ① Aboutエリア */
+        .about-text {
+            font-size: 0.95rem;
+            line-height: 2;
+            letter-spacing: 0.08em;
+            color: #d1d5db;
+        }
+
+        /* ② プレイリスト・プレイヤーエリア */
+        .player-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* 左側：曲名リスト */
+        .track-list {
+            list-style: none;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        /* スクロールバーのカスタムデザイン */
+        .track-list::-webkit-scrollbar { width: 4px; }
+        .track-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+        .track-item {
+            padding: 15px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            color: #9ca3af;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+        }
+        .track-item:hover, .track-item.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 15px;
+        }
+
+        /* 右側：コントローラー */
+        .audio-controls {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            padding-left: 40px;
+        }
+        .now-playing {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-bottom: 5px;
+            letter-spacing: 0.1em;
+        }
+        .current-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+        .play-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #fff;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            margin-bottom: 25px;
+        }
+        .play-btn:hover {
+            background: #ffffff;
+            color: #030712;
+            transform: scale(1.05);
+        }
+        /* シークバー */
+        .timeline-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            font-family: 'Inter', sans-serif;
+        }
+        .seek-bar {
+            flex: 1;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            height: 2px;
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            background: #ffffff;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+        }
+
+        /* ③ アルバム一覧（ブログ風） */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .album-card {
+            display: flex;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s;
+        }
+        .album-card:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.03);
+            transform: translateY(-3px);
+        }
+        .album-img {
+            width: 100px; height: 100px;
+            object-fit: cover;
+        }
+        .album-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .album-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+        }
+        .album-meta {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            letter-spacing: 0.05em;
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.75rem;
+            color: #4b5563;
+            letter-spacing: 0.1em;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .container { padding-top: 60px; }
+            header h1 { font-size: 2.2rem; }
+            .player-container { grid-template-columns: 1fr; gap: 30px; }
+            .audio-controls { border-left: none; padding-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 30px; }
+            .album-grid { grid-template-columns: 1fr; }
+            section { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header>
+            <h1>Qurage</h1>
+            <p>Free BGM & Track Maker</p>
+        </header>
+
+        <!-- ① Aboutエリア -->
+        <section>
+            <h2>About</h2>
+            <div class="about-text">
+                ここにサイトの説明や、簡単な使い方、メッセージなどを記載します。<br>
+                （例：Qurageが制作したフリーBGMの試聴ポータルです。動画制作や配信など、あなたのクリエイティブにお役立てください。詳しい利用規約や楽曲のダウンロードは、各アルバムページからBOOTHをご確認ください。）
+            </div>
+        </section>
+
+        <!-- ② プレイリスト・プレイヤーエリア -->
+        <section>
+            <h2>Tracks</h2>
+            <div class="player-container">
+                
+                <!-- 左側：楽曲リスト -->
+                <ul class="track-list" id="trackList">
+                    <!-- 試聴させたい曲をここに並べます。data-srcにmp3のパスを指定します -->
+                    <li class="track-item active" data-src="audio/song1.mp3">
+                        <span>01. 楽曲タイトルA</span>
+                        <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
+                    </li>
+                    <li class="track-item" data-src="audio/song2.mp3">
+                        <span>02. 楽曲タイトルB</span>
+                        <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
+                    </li>
+                    <li class="track-item" data-src="audio/song3.mp3">
+                        <span>03. 楽曲タイトルC</span>
+                        <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
+                    </li>
+                </ul>
+
+                <!-- 右側：オーディオコントローラー -->
+                <div class="audio-controls">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="current-title" id="currentTitle">01. 楽曲タイトルA</div>
+                    
+                    <button class="play-btn" id="playBtn">▶</button>
+                    
+                    <div class="timeline-container">
+                        <span id="currentTime">0:00</span>
+                        <input type="range" class="seek-bar" id="seekBar" value="0" max="100">
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ③ アルバム一覧エリア（ブログ風） -->
+        <section>
+            <h2>Albums</h2>
+            <div class="album-grid">
+                
+                <!-- アルバム1 -->
+                <a href="albums/album01.html" class="album-card">
+                    <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Album Jacket" class="album-img">
+                    <div class="album-info">
+                        <div class="album-title">Album Title 01</div>
+                        <div class="album-meta">2026.05 / 8 Tracks</div>
+                    </div>
+                </a>
+
+                <!-- アルバム2 -->
+                <a href="albums/album02.html" class="album-card">
+                    <img src="https://fromtheasia.com/wp-content/uploads/NCG144.jpg" alt="Album Jacket" class="album-img">
+                    <div class="album-info">
+                        <div class="album-title">Album Title 02</div>
+                        <div class="album-meta">2026.01 / 5 Tracks</div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        © Qurage. All Rights Reserved.
+    </footer>
+
+    <!-- オーディオ制御用のJavaScript（裏でしっかり動きます） -->
+    <script>
+        const audio = new Audio();
+        const playBtn = document.getElementById('playBtn');
+        const trackList = document.getElementById('trackList');
+        const currentTitle = document.getElementById('currentTitle');
+        const seekBar = document.getElementById('seekBar');
+        const currentTimeText = document.getElementById('currentTime');
+        const durationText = document.getElementById('duration');
+        const trackItems = document.querySelectorAll('.track-item');
+
+        // 初期曲の設定
+        let currentTrack = trackItems[0];
+        audio.src = currentTrack.getAttribute('data-src');
+
+        // 再生・一時停止の切り替え
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playBtn.textContent = '⏸';
+            } else {
+                audio.pause();
+                playBtn.textContent = '▶';
+            }
+        });
+
+        // トラック切り替えイベント
+        trackItems.forEach(item => {
+            item.addEventListener('click', function() {
+                trackItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                currentTrack = this;
+                currentTitle.textContent = this.querySelector('span').textContent;
+                audio.src = this.getAttribute('data-src');
+                
+                audio.play();
+                playBtn.textContent = '⏸';
+            });
+        });
+
+        // 再生時間の更新
+        audio.addEventListener('timeupdate', () => {
+            const value = (audio.currentTime / audio.duration) * 100;
+            seekBar.value = value || 0;
+            
+            // 時間のフォーマット (分:秒)
+            let curMin = Math.floor(audio.currentTime / 60);
+            let curSec = Math.floor(audio.currentTime % 60);
+            if (curSec < 10) curSec = '0' + curSec;
+            currentTimeText.textContent = `${curMin}:${curSec}`;
+        });
+
+        // 総再生時間の取得
+        audio.addEventListener('loadedmetadata', () => {
+            let durMin = Math.floor(audio.duration / 60);
+            let durSec = Math.floor(audio.duration % 60);
+            if (durSec < 10) durSec = '0' + durSec;
+            durationText.textContent = `${durMin}:${durSec}`;
+        });
+
+        // シークバーを動かしたときの処理
+        seekBar.addEventListener('input', () => {
+            const time = (seekBar.value / 100) * audio.duration;
+            audio.currentTime = time;
+        });
+
+        // 曲が終わったら自動で次の曲へ
+        audio.addEventListener('ended', () => {
+            let next = currentTrack.nextElementSibling;
+            if (!next) next = trackItems[0]; // 最後までいったら最初に戻る
+            next.click();
+        });
+    </script>
+</body>
+</html>
