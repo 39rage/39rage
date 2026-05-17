@@ -9,22 +9,28 @@
     <style>
         :root { --primary-orange: #b46b2d; --soft-white: #ffffff; --bg-light: #f9fafb; --text-main: #1f2937; --text-sub: #6b7280; --header-height: 60px; }
         
-        /* スクロール安定化 */
+        /* スクロール安定化設定 */
         html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--soft-white); color: var(--text-main); }
 
+        /* ヘッダー */
         .site-header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: #ffffff; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: center; z-index: 2100; }
         .header-logo { display: inline-block; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.15em; text-decoration: none; color: var(--primary-orange); padding: 10px 20px; }
-        .burger-btn { position: absolute; left: 20px; background: none; border: none; cursor: pointer; display: none; padding: 10px; z-index: 2200; }
-        .burger-line { display: block; width: 22px; height: 1px; background: var(--primary-orange); margin: 6px 0; transition: 0.3s; }
-        .burger-btn.open .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+
+        /* ハンバーガーメニュー修正（太く・中央寄せ） */
+        .burger-btn { 
+            position: absolute; left: 15px; top: 50%; transform: translateY(-50%); 
+            background: none; border: none; cursor: pointer; display: none; padding: 10px; z-index: 2200; width: 44px; height: 44px;
+        }
+        .burger-line { display: block; width: 24px; height: 2px; background: var(--primary-orange); margin: 6px auto; transition: 0.3s; }
+        .burger-btn.open .burger-line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .burger-btn.open .burger-line:nth-child(2) { opacity: 0; }
-        .burger-btn.open .burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .burger-btn.open .burger-line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
         .main-container { display: grid; grid-template-columns: 25% 75%; height: calc(100vh - var(--header-height)); margin-top: var(--header-height); overflow: hidden; }
 
-        /* 左サイドバー：indexと同期 */
+        /* 左サイドバー */
         .col-left { background: var(--primary-orange); color: #ffffff; height: 100%; display: flex; flex-direction: column; overflow: hidden; padding-top: 40px; z-index: 1000; }
         .hero-img-wrapper { width: 100%; height: 25vh; min-height: 150px; display: flex; justify-content: center; align-items: center; }
         .hero-img-left { width: auto; max-height: 100%; max-width: 80%; object-fit: contain; }
@@ -36,8 +42,8 @@
         .x-circle-btn svg { fill: currentColor; width: 11px; height: 11px; }
         .profile-text-area p { font-size: 0.65rem; opacity: 0.8; margin-bottom: 4px; font-weight: 600; }
         .illust-credit { font-size: 0.55rem; opacity: 0.6; margin-bottom: 15px; }
-        .terms-wrapper { padding-bottom: 25px; text-align: center; }
-        .terms-btn { display: inline-block; text-decoration: none; color: #ffffff; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 4px 15px; font-size: 0.6rem; transition: 0.3s; opacity: 0.9; }
+        .terms-wrapper { padding: 0 20% 25px; text-align: center; }
+        .terms-btn { display: block; text-align: center; text-decoration: none; color: #ffffff; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 4px 0; font-size: 0.6rem; transition: 0.3s; opacity: 0.9; }
         .terms-btn:hover { background: #ffffff; color: var(--primary-orange); opacity: 1; }
         .recent-tracks-section { padding: 0 15% 20px; flex: 1; overflow-y: auto; }
         .recent-tracks-section h3 { font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; margin-bottom: 12px; }
@@ -45,14 +51,13 @@
         .recent-link { display: block; color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; transition: 0.3s; }
         .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
 
-        /* 中面：縦並び・ゆったりレイアウト */
+        /* 中面（アルバム詳細） */
         .content-area { height: 100%; overflow: hidden; background: var(--soft-white); }
         .columns-split { display: grid; grid-template-columns: 65% 35%; height: 100%; }
-        .col-mid { padding: 50px 50px 0; border-right: 1px solid #f3f4f6; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
+        .col-mid { padding: 25px 50px 0; border-right: 1px solid #f3f4f6; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
         .mid-container { max-width: 800px; margin: 0 auto; width: 100%; flex: 1; flex-shrink: 0; }
         
-        /* Back to Home の行間 */
-        .back-home { display: inline-block; text-decoration: none; color: var(--text-sub); font-size: 0.75rem; margin-bottom: 50px; transition: 0.3s; }
+        .back-home { display: inline-block; text-decoration: none; color: var(--text-sub); font-size: 0.75rem; margin-bottom: 25px; transition: 0.3s; }
         .back-home:hover { color: var(--primary-orange); }
 
         .album-detail-box { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 35px; margin-bottom: 60px; }
@@ -61,7 +66,7 @@
         .album-subtitle { color: var(--primary-orange); font-weight: bold; margin-bottom: 20px; font-size: 1rem; letter-spacing: 0.1em; }
         .album-description { font-size: 1rem; line-height: 2.2; color: var(--text-sub); max-width: 600px; margin: 0 auto; }
         
-        /* 右：固定 */
+        /* 右（曲リスト・プレイヤー） */
         .col-right { height: 100%; padding: 50px 25px 25px; background: var(--bg-light); display: flex; flex-direction: column; overflow: hidden; }
         .section-title { font-size: 0.75rem; letter-spacing: 0.15em; margin-bottom: 20px; border-left: 3px solid var(--primary-orange); padding-left: 12px; font-weight: 700; }
         .track-list { list-style: none; margin-bottom: 25px; flex: 1; overflow-y: auto; padding-right: 5px; }
@@ -70,7 +75,7 @@
         .track-name { overflow-wrap: break-word; line-height: 1.4; }
         .track-meta { font-family: 'Inter'; font-size: 0.6rem; color: var(--text-sub); margin-top: 2px; }
 
-        /* プレイヤーUI：2段ボタン */
+        /* プレイヤーUI最新版（2段構成） */
         .player-footer { margin-top: auto; width: 100%; }
         .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
         .now-playing-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 12px; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
@@ -97,10 +102,12 @@
         @media (max-width: 900px) { 
             html, body { overflow: auto; }
             .main-container { display: block; height: auto; margin-top: var(--header-height); overflow: visible; }
+            .burger-btn { display: block; }
             .col-left { position: fixed; left: 0; top: -100%; width: 100%; height: 100vh; z-index: 2000; transition: 0.5s; opacity: 0; visibility: hidden; padding-top: calc(var(--header-height) + 40px); overflow-y: auto; }
             .col-left.open { top: 0; opacity: 1; visibility: visible; }
             .columns-split { display: block; }
-            .col-mid, .col-right { padding: 30px 20px; border-right: none; height: auto; overflow: visible; }
+            .col-mid, .col-right { padding: 20px; border-right: none; height: auto; overflow: visible; }
+            .back-home { margin-bottom: 20px; }
             .track-list { max-height: 400px; }
             .footer-pc { display: none; } .footer-mobile { display: block; }
         }
@@ -162,7 +169,7 @@
     </div>
     <script src="music-data.js"></script>
     <script>
-        // ★ アルバムごとにここを書き換えてください（例：first-step）
+        // ★ ここをアルバムのIDに書き換えてください
         const currentAlbumId = "first-step";
 
         const sidebarNav = document.getElementById('sidebarNav');
@@ -170,20 +177,12 @@
         const album = allAlbums.find(a => a.id === currentAlbumId);
         if(album) {
             document.title = `${album.title} - Qurage Music`;
-            document.getElementById('albumDetail').innerHTML = `
-                <img src="${album.img}" alt="${album.title}" class="album-art-large">
-                <div class="album-info-text">
-                    <h2 class="album-title-main">${album.title}</h2>
-                    <p class="album-subtitle">${album.subtitle}</p>
-                    <p class="album-description">${album.desc}</p>
-                </div>
-            `;
+            document.getElementById('albumDetail').innerHTML = `<img src="${album.img}" alt="${album.title}" class="album-art-large"><div class="album-info-text"><h2 class="album-title-main">${album.title}</h2><p class="album-subtitle">${album.subtitle}</p><p class="album-description">${album.desc}</p></div>`;
             document.getElementById('downloadArea').innerHTML = `<a href="${album.booth}" target="_blank" class="booth-btn">Download at BOOTH</a>`;
         }
         const albumTracks = allTracks.filter(t => t.albumId === currentAlbumId).sort((a, b) => a.file.localeCompare(b.file));
         const trackListContainer = document.getElementById('trackList');
         trackListContainer.innerHTML = albumTracks.map((track, idx) => `<li class="track-item" data-src="audio/${track.file}"><span class="track-number">${String(idx + 1).padStart(2, '0')}.</span><span class="track-name">${track.title}</span><span class="track-meta">Preview</span></li>`).join('');
-        
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
