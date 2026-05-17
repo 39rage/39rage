@@ -4,69 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qurage - Free BGM</title>
-    <!-- ファビコン設定（総合トップと同じものにしています） -->
+    <!-- ファビコン設定 -->
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/6410224d7e21cc6e2a9eb0cf659e7eb4.png" type="image/png">
-    <!-- Google Fonts: 洗練された明朝体 (Shippori Mincho) と Inter -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             font-family: 'Shippori Mincho', 'Inter', serif;
-            background-color: #030712;
+            background-color: #030712; /* 深海の闇のような深い黒 */
             color: #f3f4f6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            /* ジャケット画像を背景に設定し、下部を黒に溶け込ませる */
-            background: 
-                linear-gradient(to bottom, rgba(3, 7, 18, 0.3) 0%, rgba(3, 7, 18, 0.9) 80%, #030712 100%),
-                url('https://fromtheasia.com/wp-content/uploads/NCG292.jpg') no-repeat top center;
-            background-size: 100% auto;
         }
 
-        /* ジャケット画像がスマホでも綺麗に見えるよう調整 */
-        @media (max-width: 768px) {
-            body { background-size: cover; }
+        /* ヒーローヘッダーエリア */
+        .hero-header {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 40px;
         }
 
-        /* 全体を包むコンテナ */
+        /* トップ画像（ジャケット写真を上部に綺麗に配置） */
+        .header-vignette {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 4px;
+            /* 画像の下部を自然に黒い背景に溶け込ませるグラデーション効果 */
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        }
+
+        .title-area {
+            margin-top: -30px; /* 画像と文字を程よく近づける */
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .title-area h1 {
+            font-size: 3rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            margin-bottom: 12px;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(194, 124, 56, 0.2);
+        }
+        .title-area p {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            color: #c27c38; /* 画像から検出したオレンジ */
+        }
+
+        /* 全体を包むメインコンテナ */
         .container {
             width: 90%;
             max-width: 800px;
             margin: 0 auto;
-            padding: 100px 0 60px 0;
+            padding-bottom: 60px;
             z-index: 2;
         }
 
-        /* ヒーローエリア（ヘッダー） */
-        header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-        header h1 {
-            font-size: 3rem;
-            font-weight: 400;
-            letter-spacing: 0.25em;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-        header p {
-            font-size: 0.9rem;
-            letter-spacing: 0.15em;
-            color: #9ca3af;
-        }
-
-        /* セクション共通スタイル（枠線を極細にして洗練させる） */
+        /* セクション共通スタイル（背景と枠線に抽出したオレンジを薄くブレンド） */
         section {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(194, 124, 56, 0.02); /* 薄いオレンジをベースにした有機的な闇 */
+            border: 1px solid rgba(194, 124, 56, 0.15); /* 枠線も極薄いオレンジ */
             border-radius: 4px;
             padding: 40px;
             margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
         }
 
         section h2 {
@@ -74,7 +87,8 @@
             font-weight: 700;
             letter-spacing: 0.15em;
             margin-bottom: 25px;
-            border-left: 2px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-left: 2px solid #c27c38; /* 見出しの横線をオレンジに */
             padding-left: 15px;
         }
 
@@ -83,7 +97,7 @@
             font-size: 0.95rem;
             line-height: 2;
             letter-spacing: 0.08em;
-            color: #d1d5db;
+            color: #e5e7eb;
         }
 
         /* ② プレイリスト・プレイヤーエリア */
@@ -100,13 +114,12 @@
             overflow-y: auto;
             padding-right: 10px;
         }
-        /* スクロールバーのカスタムデザイン */
         .track-list::-webkit-scrollbar { width: 4px; }
-        .track-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .track-list::-webkit-scrollbar-thumb { background: rgba(194, 124, 56, 0.2); border-radius: 2px; }
 
         .track-item {
             padding: 15px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             cursor: pointer;
             font-size: 0.9rem;
             letter-spacing: 0.05em;
@@ -117,8 +130,11 @@
         }
         .track-item:hover, .track-item.active {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(194, 124, 56, 0.08); /* 選択・ホバー時に薄いオレンジが敷かれる */
             padding-left: 15px;
+        }
+        .track-item.active {
+            border-bottom: 1px solid rgba(194, 124, 56, 0.4);
         }
 
         /* 右側：コントローラー */
@@ -127,12 +143,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 1px solid rgba(194, 124, 56, 0.15);
             padding-left: 40px;
         }
         .now-playing {
             font-size: 0.85rem;
-            color: #9ca3af;
+            color: #c27c38;
             margin-bottom: 5px;
             letter-spacing: 0.1em;
         }
@@ -145,7 +161,7 @@
         }
         .play-btn {
             background: none;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(194, 124, 56, 0.6);
             color: #fff;
             width: 60px; height: 60px;
             border-radius: 50%;
@@ -156,7 +172,8 @@
             margin-bottom: 25px;
         }
         .play-btn:hover {
-            background: #ffffff;
+            background: #c27c38; /* ホバーでオレンジに満たされる */
+            border-color: #c27c38;
             color: #030712;
             transform: scale(1.05);
         }
@@ -181,7 +198,7 @@
         }
         .seek-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
-            background: #ffffff;
+            background: #c27c38; /* つまみもオレンジに */
             width: 8px; height: 8px;
             border-radius: 50%;
         }
@@ -196,14 +213,14 @@
         .album-card {
             display: flex;
             background: rgba(255,255,255,0.01);
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.03);
             text-decoration: none;
             color: inherit;
             transition: all 0.4s;
         }
         .album-card:hover {
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.03);
+            border-color: rgba(194, 124, 56, 0.4);
+            background: rgba(194, 124, 56, 0.03);
             transform: translateY(-3px);
         }
         .album-img {
@@ -239,10 +256,9 @@
 
         /* レスポンシブ */
         @media (max-width: 768px) {
-            .container { padding-top: 60px; }
-            header h1 { font-size: 2.2rem; }
+            .title-area h1 { font-size: 2.2rem; }
             .player-container { grid-template-columns: 1fr; gap: 30px; }
-            .audio-controls { border-left: none; padding-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 30px; }
+            .audio-controls { border-left: none; padding-left: 0; border-top: 1px solid rgba(194, 124, 56, 0.15); padding-top: 30px; }
             .album-grid { grid-template-columns: 1fr; }
             section { padding: 25px; }
         }
@@ -250,13 +266,17 @@
 </head>
 <body>
 
-    <div class="container">
-        
-        <header>
+    <!-- ヘッダー：トップ画を一番上に配置 -->
+    <div class="hero-header">
+        <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage Hero Visual" class="header-vignette">
+        <div class="title-area">
             <h1>Qurage</h1>
             <p>Free BGM & Track Maker</p>
-        </header>
+        </div>
+    </div>
 
+    <div class="container">
+        
         <!-- ① Aboutエリア -->
         <section>
             <h2>About</h2>
@@ -273,7 +293,6 @@
                 
                 <!-- 左側：楽曲リスト -->
                 <ul class="track-list" id="trackList">
-                    <!-- 試聴させたい曲をここに並べます。data-srcにmp3のパスを指定します -->
                     <li class="track-item active" data-src="audio/song1.mp3">
                         <span>01. 楽曲タイトルA</span>
                         <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
@@ -337,7 +356,7 @@
         © Qurage. All Rights Reserved.
     </footer>
 
-    <!-- オーディオ制御用のJavaScript（裏でしっかり動きます） -->
+    <!-- オーディオ制御用のJavaScript -->
     <script>
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
@@ -348,11 +367,9 @@
         const durationText = document.getElementById('duration');
         const trackItems = document.querySelectorAll('.track-item');
 
-        // 初期曲の設定
         let currentTrack = trackItems[0];
         audio.src = currentTrack.getAttribute('data-src');
 
-        // 再生・一時停止の切り替え
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -363,7 +380,6 @@
             }
         });
 
-        // トラック切り替えイベント
         trackItems.forEach(item => {
             item.addEventListener('click', function() {
                 trackItems.forEach(i => i.classList.remove('active'));
@@ -378,19 +394,16 @@
             });
         });
 
-        // 再生時間の更新
         audio.addEventListener('timeupdate', () => {
             const value = (audio.currentTime / audio.duration) * 100;
             seekBar.value = value || 0;
             
-            // 時間のフォーマット (分:秒)
             let curMin = Math.floor(audio.currentTime / 60);
             let curSec = Math.floor(audio.currentTime % 60);
             if (curSec < 10) curSec = '0' + curSec;
             currentTimeText.textContent = `${curMin}:${curSec}`;
         });
 
-        // 総再生時間の取得
         audio.addEventListener('loadedmetadata', () => {
             let durMin = Math.floor(audio.duration / 60);
             let durSec = Math.floor(audio.duration % 60);
@@ -398,16 +411,14 @@
             durationText.textContent = `${durMin}:${durSec}`;
         });
 
-        // シークバーを動かしたときの処理
         seekBar.addEventListener('input', () => {
             const time = (seekBar.value / 100) * audio.duration;
             audio.currentTime = time;
         });
 
-        // 曲が終わったら自動で次の曲へ
         audio.addEventListener('ended', () => {
             let next = currentTrack.nextElementSibling;
-            if (!next) next = trackItems[0]; // 最後までいったら最初に戻る
+            if (!next) next = trackItems[0];
             next.click();
         });
     </script>
