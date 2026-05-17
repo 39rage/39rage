@@ -51,18 +51,18 @@
             padding-top: var(--header-height);
         }
 
-        /* --- 左カラム：プロフィール固定・リストのみスクロール --- */
+        /* --- 左カラム：見出しまで固定、リストのみスクロール --- */
         .col-left {
             background: var(--primary-orange);
             color: #ffffff;
             position: sticky; top: var(--header-height); 
             height: calc(100vh - var(--header-height));
             display: flex; flex-direction: column;
-            overflow: hidden; /* 親はスクロールさせない */
+            overflow: hidden;
         }
         
         .profile-fixed-area {
-            flex-shrink: 0; /* このエリアは縮まない */
+            flex-shrink: 0; 
         }
 
         .hero-img-wrapper {
@@ -71,45 +71,43 @@
         }
         .hero-img-left { width: 100%; height: 100%; object-fit: contain; object-position: top; }
 
-        .title-box-left { padding: 20px; text-align: center; }
+        .title-box-left { padding: 20px 20px 10px; text-align: center; }
         .title-box-left h1 { font-size: 1.4rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 4px; }
         .title-box-left p { font-size: 0.7rem; opacity: 0.8; margin-bottom: 12px; font-weight: 600; }
-        .illust-credit { font-size: 0.6rem; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; margin: 0 20px; }
+        .illust-credit { font-size: 0.6rem; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; margin: 0 20px 15px; }
 
-        /* リスト部分のみ独立スクロール */
-        .recent-tracks-scroll-area {
-            flex: 1; 
-            padding: 20px; 
-            overflow-y: auto;
-            background: var(--primary-orange); 
+        /* RECENT TRACKSの見出しも固定 */
+        .recent-tracks-header {
+            padding: 0 20px;
+            flex-shrink: 0;
         }
-        .recent-tracks-scroll-area::-webkit-scrollbar { width: 4px; }
-        .recent-tracks-scroll-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+        .recent-tracks-header h3 { 
+            font-size: 0.75rem; 
+            letter-spacing: 0.1em; 
+            color: rgba(255,255,255,0.7); 
+            border-bottom: 1px solid rgba(255,255,255,0.2); 
+            padding-bottom: 8px;
+            margin-bottom: 5px;
+        }
+
+        /* 実際の曲名リストだけを独立スクロール */
+        .recent-tracks-list-area {
+            flex: 1; 
+            padding: 0 20px 20px; 
+            overflow-y: auto;
+        }
+        .recent-tracks-list-area::-webkit-scrollbar { width: 4px; }
+        .recent-tracks-list-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
         
-        .recent-tracks-scroll-area h3 { font-size: 0.75rem; letter-spacing: 0.1em; margin-bottom: 15px; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; }
-        .recent-link { display: block; color: #ffffff; text-decoration: none; font-size: 0.85rem; padding: 8px 0; transition: 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .recent-link { display: block; color: #ffffff; text-decoration: none; font-size: 0.85rem; padding: 10px 0; transition: 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .recent-link:hover { opacity: 0.7; padding-left: 5px; }
 
         /* --- 右側エリア --- */
-        .content-area {
-            display: flex; flex-direction: column;
-            background: var(--soft-white);
-        }
-        .columns-split {
-            display: grid;
-            grid-template-columns: 50% 50%;
-            flex: 1;
-        }
+        .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
+        .columns-split { display: grid; grid-template-columns: 50% 50%; flex: 1; }
 
-        .col-mid {
-            padding: 60px 40px; border-right: 1px solid #f3f4f6;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-        }
-        .album-art-square {
-            width: 100%; max-width: 360px;
-            aspect-ratio: 1/1; object-fit: cover; border-radius: 4px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 35px;
-        }
+        .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .album-art-square { width: 100%; max-width: 360px; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 35px; }
         .album-info-content h2 { font-size: 1.8rem; margin-bottom: 5px; }
         .album-subtitle { color: var(--primary-orange); font-weight: bold; margin-bottom: 20px; font-size: 0.9rem; }
         .album-desc { font-size: 0.95rem; line-height: 2; color: var(--text-sub); }
@@ -137,7 +135,6 @@
         .download-btn-wrapper { margin-top: 40px; text-align: center; }
         .booth-btn { display: inline-block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 15px 60px; border-radius: 4px; transition: 0.3s; }
 
-        /* フッター：背景白に変更 */
         footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
 
         /* モバイル対応 */
@@ -175,9 +172,12 @@
                 </div>
                 <div class="illust-credit">Illustration : ノーコピーライトガール</div>
             </div>
-            
-            <div class="recent-tracks-scroll-area">
+
+            <div class="recent-tracks-header">
                 <h3>RECENT TRACKS</h3>
+            </div>
+            
+            <div class="recent-tracks-list-area">
                 <a href="first-step.html" class="recent-link">First step</a>
                 <a href="#" class="recent-link">Deep Upbeat</a>
                 <a href="#" class="recent-link">At the beach</a>
@@ -239,7 +239,7 @@
     </div>
 
     <script>
-        // スクリプト部分は変更なし
+        // JS部分は以前と同じ
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
