@@ -3,471 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qurage - Free BGM</title>
-    <!-- 新しいファビコン設定 -->
-    <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
+    <title>Qurage Music - First step</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body {
-            font-family: 'Shippori Mincho', 'Inter', serif;
-            background-color: #ffffff;
-            color: #1f2937;
-            min-height: 100vh;
-        }
-
-        /* サイト全体のレイアウト：PC時は2カラム */
-        .site-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 左右 50% ずつ */
-            min-height: 100vh;
-        }
-
-        /* ==========================================
-           左半分：ヒーローエリア（PC時は画面に固定）
-        ========================================== */
-        .left-panel {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            background: #ffffff;
-        }
-
-        /* アイコン画像（上半分） */
-        .hero-image {
-            width: 100%;
-            height: 70vh;
-            object-fit: cover;
-            object-position: top;
-        }
-
-        /* 見出し用の枠 */
-        .title-box {
-            width: 100%;
-            height: 30vh;
-            background: #b46b2d; /* 枠色：アクセントのオレンジ */
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: inset 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        .title-box h1 {
-            font-size: 2.6rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            margin-bottom: 6px;
-            color: #ffffff;
-        }
-        .title-box p {
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
-            white-space: nowrap;
-            margin-bottom: 12px;
-        }
-
-        /* イラストクレジット */
-        .illust-credit {
-            font-size: 0.7rem;
-            letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.75);
-            font-family: 'Inter', sans-serif;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            padding-top: 8px;
-            display: inline-block;
-        }
-
-
-        /* ==========================================
-           右半分：コンテンツエリア（スクロールする側）
-        ========================================== */
-        .right-panel {
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: #ffffff;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 640px;
-            margin: 0 auto;
-        }
-
-        /* セクションスタイル */
-        section {
-            background: #ffffff;
-            border: 1px solid #f3f4f6;
-            border-radius: 8px;
-            padding: 35px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-        }
-
-        section h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            margin-bottom: 20px;
-            color: #111827;
-            border-left: 3px solid #b46b2d;
-            padding-left: 12px;
-        }
-
-        .about-text {
-            font-size: 0.9rem;
-            line-height: 2;
-            letter-spacing: 0.05em;
-            color: #4b5563;
-        }
-
-        /* プレイヤーエリア */
-        .player-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        .track-list {
-            list-style: none;
-            max-height: 240px;
-            overflow-y: auto;
-        }
-        .track-list::-webkit-scrollbar { width: 4px; }
-        .track-list::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
-
-        .track-item {
-            padding: 12px 8px;
-            border-bottom: 1px solid #f3f4f6;
-            cursor: pointer;
-            font-size: 0.85rem;
-            color: #6b7280;
-            transition: all 0.3s;
-            display: flex;
-            justify-content: space-between;
-        }
-        .track-item:hover, .track-item.active {
-            color: #111827;
-            background: #fffcf9;
-            padding-left: 12px;
-        }
-        .track-item.active {
-            color: #b46b2d;
-            border-bottom: 1px solid #b46b2d;
-        }
-
-        .audio-controls {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: #fffcf9;
-            border: 1px solid rgba(180, 107, 45, 0.1);
-            border-radius: 6px;
-            padding: 25px;
+            padding: 40px 20px;
         }
-        .now-playing {
-            font-size: 0.7rem;
-            color: #b46b2d;
-            margin-bottom: 4px;
-            letter-spacing: 0.1em;
-            font-weight: 600;
-        }
-        .current-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #111827;
+        h1 { color: #555; margin-bottom: 30px; }
+        .album-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            max-width: 500px;
+            width: 100%;
             text-align: center;
         }
-        .play-btn {
-            background: #ffffff;
-            border: 1px solid #b46b2d;
-            color: #b46b2d;
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
-        .play-btn:hover {
-            background: #b46b2d;
-            color: #ffffff;
-            transform: scale(1.05);
-        }
-
-        .timeline-container {
+        .album-art {
             width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.75rem;
-            color: #9ca3af;
-            font-family: 'Inter', sans-serif;
-        }
-        .seek-bar {
-            flex: 1;
-            -webkit-appearance: none;
-            background: #e5e7eb;
-            height: 3px;
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-        }
-        .seek-bar::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            background: #b46b2d;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-        }
-
-        /* アルバム一覧 */
-        .album-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        .album-card {
-            display: flex;
-            background: #ffffff;
-            border: 1px solid #f3f4f6;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.4s;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .album-card:hover {
-            border-color: #b46b2d;
-            box-shadow: 0 8px 20px rgba(180, 107, 45, 0.06);
-            transform: translateY(-2px);
-        }
-        .album-img {
-            width: 90px; height: 90px;
-            object-fit: cover;
-        }
-        .album-info {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            max-width: 300px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .album-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 4px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #2c3e50;
         }
-        .album-meta {
-            font-size: 0.75rem;
-            color: #9ca3af;
+        .track-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
         }
-
-        footer {
-            text-align: center;
-            padding-top: 40px;
-            font-size: 0.75rem;
-            color: #9ca3af;
-            border-top: 1px solid #f3f4f6;
+        .track-item {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
         }
-
-        /* ==========================================
-           レスポンシブ：スマホ・縦向きタブレット（992px未満）
-        ========================================== */
-        @media (max-width: 992px) {
-            .site-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .left-panel {
-                position: relative;
-                height: auto;
-                width: 100%;
-            }
-
-            .hero-image {
-                height: 45vh;
-            }
-
-            .title-box {
-                height: auto;
-                padding: 35px 20px;
-            }
-
-            .title-box h1 { font-size: 2.2rem; }
-
-            .right-panel {
-                padding: 40px 20px;
-            }
-            
-            section { padding: 25px; }
+        .track-item:last-child { border-bottom: none; }
+        .track-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
+        .track-name { font-weight: 500; }
+        .track-meta { font-size: 0.8rem; color: #888; }
+        audio { width: 100%; height: 35px; }
     </style>
 </head>
 <body>
 
-    <div class="site-wrapper">
+    <h1>👾 Qurage Music</h1>
+
+    <div class="album-container">
+        <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" alt="First step Album Art" class="album-art">
         
-        <!-- 左半分：画像＋下に独立した見出し枠 -->
-        <div class="left-panel">
-            <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage Hero Visual" class="hero-image">
-            <div class="title-box">
-                <h1>Qurage</h1>
-                <p>Free BGM & Track Maker</p>
-                <div class="illust-credit">Illustration : ノーコピーライトガール</div>
-            </div>
-        </div>
+        <div class="album-title">Album: First step</div>
+        
+        <ul class="track-list">
+            <li class="track-item">
+                <div class="track-info">
+                    <span class="track-name">01. British Brixton</span>
+                    <span class="track-meta">BPM: 100 / Key: C</span>
+                </div>
+                <audio controls src="audio/2020102923 British_Brixton-100_C.mp3"></audio>
+            </li>
 
-        <!-- 右半分：スクロールコンテンツエリア -->
-        <div class="right-panel">
-            <div class="container">
-                
-                <!-- ① Aboutエリア -->
-                <section>
-                    <h2>About</h2>
-                    <div class="about-text">
-                        ここにサイトの説明や、簡単な使い方、メッセージなどを記載します。<br>
-                        Qurageが制作したフリーBGMの試聴ポータルです。動画制作や配信など、あなたのクリエイティブにお役立てください。
-                    </div>
-                </section>
+            <li class="track-item">
+                <div class="track-info">
+                    <span class="track-name">02. Accelerate Afghanistan</span>
+                    <span class="track-meta">BPM: 102 / Key: Cm</span>
+                </div>
+                <audio controls src="audio/2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3"></audio>
+            </li>
 
-                <!-- ② Tracksエリア -->
-                <section>
-                    <h2>Tracks</h2>
-                    <div class="player-container">
-                        <ul class="track-list" id="trackList">
-                            <li class="track-item active" data-src="audio/song1.mp3">
-                                <span>01. 楽曲タイトルA</span>
-                                <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
-                            </li>
-                            <li class="track-item" data-src="audio/song2.mp3">
-                                <span>02. 楽曲タイトルB</span>
-                                <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
-                            </li>
-                            <li class="track-item" data-src="audio/song3.mp3">
-                                <span>03. 楽曲タイトルC</span>
-                                <span style="font-family:'Inter'; font-size:0.8rem;">Preview</span>
-                            </li>
-                        </ul>
+            <li class="track-item">
+                <div class="track-info">
+                    <span class="track-name">03. AABS 80s</span>
+                    <span class="track-meta">BPM: 128 / Key: Cm</span>
+                </div>
+                <audio controls src="audio/2020103014 AABS_80s-128_Cm.mp3"></audio>
+            </li>
 
-                        <div class="audio-controls">
-                            <div class="now-playing">NOW PLAYING</div>
-                            <div class="current-title" id="currentTitle">01. 楽曲タイトルA</div>
-                            <button class="play-btn" id="playBtn">▶</button>
-                            <div class="timeline-container">
-                                <span id="currentTime">0:00</span>
-                                <input type="range" class="seek-bar" id="seekBar" value="0" max="100">
-                                <span id="duration">0:00</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+            <li class="track-item">
+                <div class="track-info">
+                    <span class="track-name">04. Altered Afterburner AYB</span>
+                    <span class="track-meta">BPM: 129 / Key: C#m</span>
+                </div>
+                <audio controls src="audio/2020103018 Altered_Afterburner_AYB-129_C#m.mp3"></audio>
+            </li>
 
-                <!-- ③ Albumsエリア -->
-                <section>
-                    <h2>Albums</h2>
-                    <div class="album-grid">
-                        <a href="albums/album01.html" class="album-card">
-                            <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" class="album-img">
-                            <div class="album-info">
-                                <div class="album-title">Album Title 01</div>
-                                <div class="album-meta">2026.05 / 8 Tracks</div>
-                            </div>
-                        </a>
-                        <a href="albums/album02.html" class="album-card">
-                            <img src="https://fromtheasia.com/wp-content/uploads/NCG144.jpg" class="album-img">
-                            <div class="album-info">
-                                <div class="album-title">Album Title 02</div>
-                                <div class="album-meta">2026.01 / 5 Tracks</div>
-                            </div>
-                        </a>
-                    </div>
-                </section>
-                
-            </div>
-
-            <!-- フッター -->
-            <footer>
-                © Qurage. All Rights Reserved.
-            </footer>
-        </div>
-
+            <li class="track-item">
+                <div class="track-info">
+                    <span class="track-name">05. Alternating synth layers</span>
+                    <span class="track-meta">BPM: 125 / Key: Dm</span>
+                </div>
+                <audio controls src="audio/2020103111 Alternating_synth_layers-125_Dm.mp3"></audio>
+            </li>
+        </ul>
     </div>
 
-    <!-- オーディオ制御JavaScript -->
-    <script>
-        const audio = new Audio();
-        const playBtn = document.getElementById('playBtn');
-        const trackList = document.getElementById('trackList');
-        const currentTitle = document.getElementById('currentTitle');
-        const seekBar = document.getElementById('seekBar');
-        const currentTimeText = document.getElementById('currentTime');
-        const durationText = document.getElementById('duration');
-        const trackItems = document.querySelectorAll('.track-item');
-
-        let currentTrack = trackItems[0];
-        audio.src = currentTrack.getAttribute('data-src');
-
-        playBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                playBtn.textContent = '⏸';
-            } else {
-                audio.pause();
-                playBtn.textContent = '▶';
-            }
-        });
-
-        trackItems.forEach(item => {
-            item.addEventListener('click', function() {
-                trackItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                currentTrack = this;
-                currentTitle.textContent = this.querySelector('span').textContent;
-                audio.src = this.getAttribute('data-src');
-                audio.play();
-                playBtn.textContent = '⏸';
-            });
-        });
-
-        audio.addEventListener('timeupdate', () => {
-            const value = (audio.currentTime / audio.duration) * 100;
-            seekBar.value = value || 0;
-            let curMin = Math.floor(audio.currentTime / 60);
-            let curSec = Math.floor(audio.currentTime % 60);
-            if (curSec < 10) curSec = '0' + curSec;
-            currentTimeText.textContent = `${curMin}:${curSec}`;
-        });
-
-        audio.addEventListener('loadedmetadata', () => {
-            let durMin = Math.floor(audio.duration / 60);
-            let durSec = Math.floor(audio.duration % 60);
-            if (durSec < 10) durSec = '0' + durSec;
-            durationText.textContent = `${durMin}:${durSec}`;
-        });
-
-        seekBar.addEventListener('input', () => {
-            const time = (seekBar.value / 100) * audio.duration;
-            audio.currentTime = time;
-        });
-
-        audio.addEventListener('ended', () => {
-            let next = currentTrack.nextElementSibling;
-            if (!next) next = trackItems[0];
-            next.click();
-        });
-    </script>
 </body>
 </html>
