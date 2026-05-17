@@ -22,7 +22,7 @@
             min-height: 100vh;
         }
 
-        /* 左半分：共通ヘッダー（固定パネル） */
+        /* 左パネル：固定 */
         .left-panel {
             position: sticky;
             top: 0;
@@ -75,7 +75,7 @@
             padding-top: 8px;
         }
 
-        /* 右半分：スクロールコンテンツ */
+        /* 右パネル：コンテンツ */
         .right-panel {
             padding: 60px 40px;
             display: flex;
@@ -102,7 +102,7 @@
         }
         .back-link:hover { opacity: 0.7; }
 
-        /* アルバム詳細エリア - 正方形トリミング */
+        /* アルバム詳細 - 正方形 */
         .album-detail {
             margin-bottom: 60px;
             text-align: center;
@@ -195,21 +195,21 @@
             color: #9ca3af;
         }
 
-        /* 高機能プレイヤーコントロール */
+        /* プレイヤーコントロール（サイズ調整） */
         .audio-controls {
             background: #fffcf9;
             border: 1px solid rgba(180, 107, 45, 0.1);
-            border-radius: 6px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .current-title {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #111827;
             text-align: center;
         }
@@ -217,16 +217,16 @@
         .control-buttons {
             display: flex;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 25px;
+            margin-bottom: 25px;
         }
 
-        .btn-small {
+        .btn-control {
             background: none;
             border: none;
             cursor: pointer;
-            width: 30px;
-            height: 30px;
+            width: 44px; /* 大きめに調整 */
+            height: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -234,41 +234,63 @@
             position: relative;
         }
 
-        /* アイコンのデザイン（SVG） */
-        .icon { fill: #9ca3af; width: 18px; height: 18px; }
-        .btn-small.active .icon { fill: #b46b2d; }
-        .btn-small:hover .icon { fill: #111827; }
+        .icon { 
+            fill: #9ca3af; 
+            width: 24px; /* アイコン自体も少し大きく */
+            height: 24px; 
+            transition: fill 0.2s;
+        }
+        
+        /* アクティブ時の色 */
+        .btn-control.active .icon { fill: #b46b2d; }
+        .btn-control:hover .icon { fill: #111827; }
 
         .play-btn {
             background: #ffffff;
             border: 1px solid #b46b2d;
             color: #b46b2d;
-            width: 50px; height: 50px;
+            width: 60px; /* メインボタンを大きく */
+            height: 60px;
             border-radius: 50%;
             cursor: pointer;
             display: flex; justify-content: center; align-items: center;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(180, 107, 45, 0.1);
         }
         .play-btn:hover {
             background: #b46b2d;
             color: #ffffff;
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
+
+        /* リピートアイコンの中の1 */
+        .repeat-one-text {
+            position: absolute;
+            font-size: 9px;
+            font-weight: 900;
+            font-family: 'Inter';
+            color: #b46b2d;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%); /* 微調整 */
+            display: none;
+        }
+        .repeat-mode-2 .repeat-one-text { display: block; }
 
         .timeline-container {
             width: 100%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.7rem;
+            gap: 12px;
+            font-size: 0.75rem;
             color: #9ca3af;
             font-family: 'Inter';
         }
 
         .seek-bar {
             flex: 1;
-            height: 3px;
+            height: 4px;
             cursor: pointer;
             accent-color: #b46b2d;
         }
@@ -280,8 +302,8 @@
             color: #ffffff;
             text-decoration: none;
             font-weight: bold;
-            padding: 12px 50px;
-            border-radius: 4px;
+            padding: 14px 60px;
+            border-radius: 6px;
             letter-spacing: 0.1em;
             transition: all 0.3s;
             box-shadow: 0 4px 10px rgba(180, 107, 45, 0.2);
@@ -371,23 +393,23 @@
                             <div class="current-title" id="currentTitle">01. British Brixton</div>
                             
                             <div class="control-buttons">
-                                <button class="btn-small" id="shuffleBtn" title="Shuffle">
+                                <button class="btn-control" id="shuffleBtn" title="Shuffle">
                                     <svg class="icon" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.45 20 9.5V4h-5.5zm.59 10.83l-1.41 1.41 3.13 3.13L14.5 22H20v-5.5l-2.04 2.04-3.37-3.37z"/></svg>
                                 </button>
                                 
-                                <button class="btn-small" id="prevBtn" title="Previous">
+                                <button class="btn-control" id="prevBtn" title="Previous">
                                     <svg class="icon" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                                 </button>
 
                                 <button class="play-btn" id="playBtn">▶</button>
 
-                                <button class="btn-small" id="nextBtn" title="Next">
+                                <button class="btn-control" id="nextBtn" title="Next">
                                     <svg class="icon" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
                                 </button>
 
-                                <button class="btn-small" id="repeatBtn" title="Repeat Off">
-                                    <svg class="icon" id="repeatIcon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
-                                    <span id="repeatIndicator" style="font-size: 8px; position: absolute; font-weight: bold; top: 18px; color: #b46b2d; display: none;">1</span>
+                                <button class="btn-control" id="repeatBtn" title="Repeat Off">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                                    <span class="repeat-one-text">1</span>
                                 </button>
                             </div>
 
@@ -412,7 +434,6 @@
                     </div>
                 </section>
             </div>
-
             <footer>© Qurage. All Rights Reserved.</footer>
         </div>
     </div>
@@ -424,7 +445,6 @@
         const nextBtn = document.getElementById('nextBtn');
         const shuffleBtn = document.getElementById('shuffleBtn');
         const repeatBtn = document.getElementById('repeatBtn');
-        const repeatIndicator = document.getElementById('repeatIndicator');
         
         const currentTitle = document.getElementById('currentTitle');
         const seekBar = document.getElementById('seekBar');
@@ -436,7 +456,6 @@
         let isShuffle = false;
         let repeatMode = 0; // 0: OFF, 1: ALL, 2: ONE
 
-        // --- Broadcast Channel (自サイト内の他タブとの通信) ---
         const channel = new BroadcastChannel('qurage_player');
         channel.onmessage = (event) => {
             if (event.data === 'play_started') {
@@ -467,7 +486,6 @@
             }
         });
 
-        // コントロール
         prevBtn.addEventListener('click', () => {
             let index = currentIndex - 1;
             if (index < 0) index = trackItems.length - 1;
@@ -487,8 +505,7 @@
                 } while (newIndex === currentIndex && trackItems.length > 1);
                 loadTrack(newIndex);
             } else {
-                let index = currentIndex + 1;
-                if (index >= trackItems.length) index = 0;
+                let index = (currentIndex + 1) % trackItems.length;
                 loadTrack(index);
             }
             audio.play();
@@ -503,8 +520,12 @@
 
         repeatBtn.addEventListener('click', () => {
             repeatMode = (repeatMode + 1) % 3;
+            repeatBtn.classList.remove('repeat-mode-0', 'repeat-mode-1', 'repeat-mode-2');
+            repeatBtn.classList.add(`repeat-mode-${repeatMode}`);
+            
+            // 全曲または1曲リピートの時にアクティブ色にする
             repeatBtn.classList.toggle('active', repeatMode > 0);
-            repeatIndicator.style.display = (repeatMode === 2) ? 'block' : 'none';
+            
             const titles = ["Repeat Off", "Repeat All", "Repeat One"];
             repeatBtn.title = titles[repeatMode];
         });
@@ -518,7 +539,6 @@
             });
         });
 
-        // オーディオ同期
         audio.addEventListener('timeupdate', () => {
             seekBar.value = (audio.currentTime / audio.duration) * 100 || 0;
             let curMin = Math.floor(audio.currentTime / 60);
