@@ -57,7 +57,7 @@
             padding-top: var(--header-height);
         }
 
-        /* --- 左カラム（サイドバー） --- */
+        /* --- 左カラム（サイドバー）：audio-testと完全統一 --- */
         .col-left {
             background: var(--primary-orange);
             color: #ffffff;
@@ -83,7 +83,7 @@
         .profile-text-area { padding: 20px 20px 10px; text-align: center; }
         .profile-text-area h1 { font-size: 1.3rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
         .profile-text-area p { font-size: 0.7rem; opacity: 0.8; margin-bottom: 4px; font-weight: 600; }
-        .illust-credit { font-size: 0.65rem; opacity: 0.6; margin-bottom: 20px; }
+        .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 20px; }
 
         .recent-tracks-section { padding: 0 10% 20px 15%; flex: 1; overflow: hidden; }
         .recent-tracks-section h3 { 
@@ -106,33 +106,38 @@
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
         .columns-split { display: grid; grid-template-columns: 60% 40%; flex: 1; }
 
-        /* 中カラム：About & Discography */
+        /* 中カラム：ABOUT & DISCOGRAPHY */
         .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; }
         .mid-container { max-width: 600px; margin: 0 auto; width: 100%; }
 
-        .section-box { margin-bottom: 50px; }
+        .section-box { margin-bottom: 60px; }
         .section-box h2 {
-            font-size: 1.2rem; font-weight: 700; letter-spacing: 0.15em; margin-bottom: 25px;
+            font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; margin-bottom: 30px;
             color: var(--text-main); border-left: 3px solid var(--primary-orange); padding-left: 15px;
         }
         .about-text { font-size: 0.9rem; line-height: 2.2; color: var(--text-sub); }
 
-        /* アルバムカード */
-        .album-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        /* オシャレ化したDiscographyカード */
+        .album-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
         .album-card {
-            display: flex; background: #ffffff; border: 1px solid #f3f4f6;
-            text-decoration: none; color: inherit; transition: all 0.4s;
-            border-radius: 6px; overflow: hidden;
+            display: flex; background: #ffffff; border: 1px solid #eee;
+            text-decoration: none; color: inherit; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 8px; overflow: hidden; position: relative;
         }
         .album-card:hover {
             border-color: var(--primary-orange);
-            box-shadow: 0 8px 25px rgba(180, 107, 45, 0.08);
-            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(180, 107, 45, 0.12);
+            transform: translateY(-4px);
         }
-        .album-img { width: 100px; height: 100px; object-fit: cover; }
-        .album-info { padding: 15px 20px; display: flex; flex-direction: column; justify-content: center; }
-        .album-title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
-        .album-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
+        .album-img-box { width: 120px; height: 120px; overflow: hidden; }
+        .album-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .album-card:hover .album-img { transform: scale(1.1); }
+        
+        .album-info { padding: 20px 25px; display: flex; flex-direction: column; justify-content: center; flex: 1; }
+        .album-title { font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+        .album-meta { font-size: 0.7rem; color: var(--text-sub); font-family: 'Inter'; letter-spacing: 0.05em; }
+        .album-arrow { position: absolute; right: 25px; color: #ddd; transition: 0.3s; }
+        .album-card:hover .album-arrow { color: var(--primary-orange); transform: translateX(5px); }
 
         /* 右カラム：独立スクロール設定 */
         .col-right { 
@@ -141,7 +146,7 @@
             padding: 60px 30px 20px; background: var(--bg-light); 
             display: flex; flex-direction: column; 
         }
-        .section-title { font-size: 0.9rem; letter-spacing: 0.1em; margin-bottom: 20px; border-left: 3px solid var(--primary-orange); padding-left: 15px; }
+        .section-title { font-size: 0.85rem; letter-spacing: 0.15em; margin-bottom: 20px; border-left: 3px solid var(--primary-orange); padding-left: 15px; }
 
         .track-list { 
             list-style: none; margin-bottom: 20px; 
@@ -154,10 +159,10 @@
         .track-item.active { background: #fff; color: var(--primary-orange); font-weight: bold; }
         .track-meta { font-family: 'Inter'; font-size: 0.65rem; color: var(--text-sub); }
 
-        /* プレイヤーUI（下部固定） */
+        /* プレイヤーUI */
         .player-footer { margin-top: auto; background: var(--bg-light); }
         .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .now-playing-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; text-align: center; }
+        .now-playing-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; text-align: center; height: 1.2em; overflow: hidden; }
         .controls-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
         .btn-svg { background: none; border: none; cursor: pointer; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; }
         .icon-svg { fill: #9ca3af; width: 20px; height: 20px; }
@@ -168,32 +173,23 @@
 
         /* 音量調節 */
         .volume-box { width: 100%; display: flex; align-items: center; gap: 8px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #f3f4f6; }
-        #volumeBar { height: 3px; accent-color: #9ca3af; }
+        #volumeBar { height: 3px; accent-color: #9ca3af; flex: 1; cursor: pointer; }
+
+        /* BOOTHボタン */
+        .download-btn-wrapper { margin-top: 20px; text-align: center; }
+        .booth-btn { display: inline-block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 12px 0; width: 100%; border-radius: 4px; transition: 0.3s; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .booth-btn:hover { background: #965925; transform: translateY(-1px); }
 
         footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
 
-        /* --- モバイル設定 --- */
         @media (max-width: 900px) {
             .main-container { display: block; }
             .burger-btn { display: block; }
-            .col-left { 
-                position: fixed; left: 0; top: -100%;
-                width: 100%; height: 100vh; 
-                z-index: 2000; transition: 0.5s ease-in-out; 
-                opacity: 0; visibility: hidden;
-                padding-top: calc(var(--header-height) + 50px);
-                overflow-y: auto;
-            }
+            .col-left { position: fixed; left: 0; top: -100%; width: 100%; height: 100vh; z-index: 2000; transition: 0.5s; opacity: 0; visibility: hidden; padding-top: calc(var(--header-height) + 50px); overflow-y: auto; }
             .col-left.open { top: 0; opacity: 1; visibility: visible; }
-            .hero-img-wrapper { height: 25vh; }
             .columns-split { display: block; }
             .col-mid, .col-right { padding: 40px 20px; border-right: none; height: auto; position: static; }
-            .track-list { max-height: 400px; overflow-y: auto; }
         }
-
-        .burger-btn.open .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .burger-btn.open .burger-line:nth-child(2) { opacity: 0; }
-        .burger-btn.open .burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     </style>
 </head>
 <body>
@@ -237,7 +233,7 @@
                 <article class="col-mid">
                     <div class="mid-container">
                         <section class="section-box">
-                            <h2>About</h2>
+                            <h2>ABOUT</h2>
                             <div class="about-text">
                                 Qurageが制作したフリーBGMの試聴ポータルです。<br>
                                 動画制作や配信など、あなたのクリエイティブにお役立てください。<br>
@@ -246,14 +242,17 @@
                         </section>
 
                         <section class="section-box">
-                            <h2>Discography</h2>
+                            <h2>DISCOGRAPHY</h2>
                             <div class="album-grid">
                                 <a href="first-step.html" class="album-card">
-                                    <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" class="album-img">
+                                    <div class="album-img-box">
+                                        <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" class="album-img">
+                                    </div>
                                     <div class="album-info">
                                         <div class="album-title">First step</div>
                                         <div class="album-meta">1st Mini Album / 5 Tracks</div>
                                     </div>
+                                    <div class="album-arrow">→</div>
                                 </a>
                                 </div>
                         </section>
@@ -261,7 +260,7 @@
                 </article>
 
                 <section class="col-right">
-                    <h2 class="section-title">TRACK LIST</h2>
+                    <h2 class="section-title">ALL TRACKS</h2>
                     <ul class="track-list" id="trackList">
                         <li class="track-item active" data-src="audio/2020102923 British_Brixton-100_C.mp3"><span>01. British Brixton</span><span class="track-meta">Preview</span></li>
                         <li class="track-item" data-src="audio/2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3"><span>02. Accelerate Afghanistan</span><span class="track-meta">Preview</span></li>
@@ -289,8 +288,11 @@
                                 <button class="btn-svg" id="muteBtn" style="width:24px; height:24px;">
                                     <svg id="volumeIcon" class="icon-svg" style="width:16px; height:16px;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                                 </button>
-                                <input type="range" id="volumeBar" value="80" max="100" style="flex:1; cursor:pointer;">
+                                <input type="range" id="volumeBar" value="80" max="100">
                             </div>
+                        </div>
+                        <div class="download-btn-wrapper">
+                            <a href="https://casbgcasbg.booth.pm/" target="_blank" class="booth-btn">Download at BOOTH</a>
                         </div>
                     </div>
                 </section>
@@ -300,6 +302,7 @@
     </div>
 
     <script>
+        // スクリプト部分は audio-test と同じ最新版（音量調節・リピート機能付き）を維持
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
@@ -362,7 +365,6 @@
         seekBar.addEventListener('input', () => audio.currentTime = (seekBar.value / 100) * audio.duration);
         audio.addEventListener('ended', () => { if(repeatMode === 1) audio.play(); else playNext(); });
 
-        // 音量調節
         volumeBar.addEventListener('input', () => {
             const val = volumeBar.value / 100;
             audio.volume = val;
@@ -381,7 +383,6 @@
             else path.setAttribute('d', 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z');
         }
 
-        // ハンバーガーメニュー
         const burgerBtn = document.getElementById('burgerBtn');
         const sidebar = document.getElementById('sidebar');
         burgerBtn.addEventListener('click', () => { 
