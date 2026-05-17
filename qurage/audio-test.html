@@ -7,7 +7,6 @@
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSSは完全に index.html (最新テンプレート) に合わせました */
         :root {
             --primary-orange: #b46b2d;
             --soft-white: #ffffff;
@@ -88,9 +87,9 @@
         .col-mid { padding: 60px 50px; border-right: 1px solid #f3f4f6; }
         .mid-container { max-width: 800px; margin: 0 auto; width: 100%; }
         
-        /* アルバム詳細用の追加スタイル（indexのルールを壊さない範囲で） */
         .album-detail-box { text-align: center; }
-        .album-art-large { width: 100%; max-width: 450px; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        /* ジャケ写サイズを 320px に調整 */
+        .album-art-large { width: 100%; max-width: 320px; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 40px; }
         .album-title-main { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
         .album-subtitle { color: var(--primary-orange); font-weight: bold; margin-bottom: 25px; font-size: 1rem; letter-spacing: 0.1em; }
         .album-description { font-size: 1rem; line-height: 2.2; color: var(--text-sub); max-width: 600px; margin: 0 auto; }
@@ -117,6 +116,23 @@
         .btn-svg { background: none; border: none; cursor: pointer; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.2s; }
         .btn-svg:hover { background: #f3f4f6; }
         .btn-svg.active .icon-svg { fill: var(--primary-orange); }
+        
+        /* 1曲リピート用の「1」を表示するスタイル */
+        #repeatBtn { position: relative; }
+        #repeatBtn.repeat-one::after {
+            content: '1';
+            position: absolute;
+            top: 8px; right: 8px;
+            font-size: 10px; font-weight: bold;
+            color: var(--primary-orange);
+            background: #fff;
+            border: 1px solid var(--primary-orange);
+            border-radius: 50%;
+            width: 14px; height: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+
         .icon-svg { fill: #9ca3af; width: 22px; height: 22px; transition: fill 0.2s; }
         .play-main { width: 55px; height: 55px; border-radius: 50%; background: #fff; border: 1px solid var(--primary-orange); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         .play-main:hover { transform: scale(1.05); background: var(--primary-orange); }
@@ -193,7 +209,6 @@
             <div class="columns-split">
                 <article class="col-mid">
                     <div class="mid-container">
-                        <!-- ここに first-step の情報を index の流儀で配置 -->
                         <div class="album-detail-box">
                             <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" alt="First step Art" class="album-art-large">
                             <h2 class="album-title-main">First step</h2>
@@ -209,7 +224,6 @@
                 <section class="col-right">
                     <h2 class="section-title">TRACK LIST</h2>
                     <ul class="track-list" id="trackList">
-                        <!-- ここは first-step の曲リストを維持 -->
                         <li class="track-item active" data-src="audio/2020102923 British_Brixton-100_C.mp3"><span>01. British Brixton</span><span class="track-meta">Preview</span></li>
                         <li class="track-item" data-src="audio/2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3"><span>02. Accelerate Afghanistan</span><span class="track-meta">Preview</span></li>
                         <li class="track-item" data-src="audio/2020103014 AABS_80s-128_Cm.mp3"><span>03. AABS 80s</span><span class="track-meta">Preview</span></li>
@@ -240,7 +254,6 @@
                             </div>
                         </div>
                         <div class="download-btn-wrapper">
-                            <!-- ここは first-step 専用のリンクを維持 -->
                             <a href="https://casbgcasbg.booth.pm/items/2691899" target="_blank" class="booth-btn">Download at BOOTH</a>
                         </div>
                     </div>
@@ -251,7 +264,6 @@
     </div>
 
     <script>
-        /* JavaScriptも index.html の最新版を適用 */
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
@@ -321,9 +333,21 @@
             isShuffle = !isShuffle;
             this.classList.toggle('active', isShuffle);
         });
+
+        // リピートモードの制御ロジック
         document.getElementById('repeatBtn').addEventListener('click', function() {
-            repeatMode = (repeatMode + 1) % 3;
-            this.classList.toggle('active', repeatMode > 0);
+            repeatMode = (repeatMode + 1) % 3; // 0:なし, 1:1曲, 2:全曲
+            
+            // クラスをリセット
+            this.classList.remove('active', 'repeat-one');
+            
+            if (repeatMode === 1) {
+                // 1曲リピート：アクティブ色 + 「1」を表示
+                this.classList.add('active', 'repeat-one');
+            } else if (repeatMode === 2) {
+                // 全曲リピート：アクティブ色のみ
+                this.classList.add('active');
+            }
         });
 
         trackItems.forEach((item, idx) => {
