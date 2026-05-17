@@ -48,15 +48,15 @@
         }
         .burger-line { display: block; width: 22px; height: 1px; background: var(--primary-orange); margin: 6px 0; transition: 0.3s; }
 
-        /* --- レイアウト構造 --- */
+        /* --- 全体構造 --- */
         .main-container {
             display: grid;
-            grid-template-columns: 25% 75%;
+            grid-template-columns: 25% 75%; /* 左25%：右（中＋右）75% */
             min-height: 100vh;
             padding-top: var(--header-height);
         }
 
-        /* --- 左カラム（サイドバー）：audio-testと完全一致 --- */
+        /* --- 左カラム：audio-test準拠 --- */
         .col-left {
             background: var(--primary-orange);
             color: #ffffff;
@@ -67,104 +67,81 @@
             padding-top: 50px;
         }
         
-        .hero-img-wrapper {
-            width: 100%; height: 28vh;
-            display: flex; justify-content: center; align-items: center;
-        }
+        .hero-img-wrapper { width: 100%; height: 28vh; display: flex; justify-content: center; align-items: center; }
         .hero-img-left { width: auto; max-height: 100%; max-width: 85%; object-fit: contain; }
-
         .profile-text-area { padding: 20px 20px 10px; text-align: center; }
         .profile-text-area h1 { font-size: 1.3rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
         .profile-text-area p { font-size: 0.7rem; opacity: 0.8; margin-bottom: 4px; font-weight: 600; }
         .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 20px; }
-
         .recent-tracks-section { padding: 0 10% 20px 15%; flex: 1; overflow: hidden; }
-        .recent-tracks-section h3 { 
-            font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); 
-            border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 15px;
-        }
-
+        .recent-tracks-section h3 { font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 15px; }
         .recent-grid { display: flex; flex-wrap: wrap; flex-direction: column; height: 240px; gap: 8px; }
-        .recent-link { 
-            width: calc(50% - 4px); display: flex; align-items: center;
-            color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px;
-            border: 1px solid rgba(255,255,255,0.4); border-radius: 2px;
-            transition: all 0.3s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .recent-link { width: calc(50% - 4px); display: flex; align-items: center; color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.4); border-radius: 2px; transition: all 0.3s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
 
-        /* --- メイン領域 --- */
+        /* --- メインコンテンツエリア（中＋右） --- */
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
-        .columns-split { display: grid; grid-template-columns: 60% 40%; flex: 1; }
+        
+        /* カラム比率：中 65% / 右 35% (audio-testと完全一致) */
+        .columns-split { display: grid; grid-template-columns: 65% 35%; flex: 1; }
 
-        /* 中カラム：DISCOGRAPHYグリッド */
-        .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; }
-        .mid-container { max-width: 650px; margin: 0 auto; width: 100%; }
+        /* --- 中カラム：DISCOGRAPHY --- */
+        .col-mid { padding: 60px 50px; border-right: 1px solid #f3f4f6; }
+        .mid-container { max-width: 800px; margin: 0 auto; width: 100%; }
+        .section-box { margin-bottom: 80px; }
+        .section-box h2 { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.25em; margin-bottom: 40px; color: var(--text-main); border-left: 3px solid var(--primary-orange); padding-left: 18px; }
+        .about-text { font-size: 1rem; line-height: 2.4; color: var(--text-sub); }
 
-        .section-box { margin-bottom: 70px; }
-        .section-box h2 {
-            font-size: 1.15rem; font-weight: 700; letter-spacing: 0.25em; margin-bottom: 35px;
-            color: var(--text-main); border-left: 3px solid var(--primary-orange); padding-left: 18px;
-        }
-        .about-text { font-size: 0.95rem; line-height: 2.3; color: var(--text-sub); }
-
-        .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 30px; }
+        /* グリッドレイアウト */
+        .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 35px; }
         .album-card { text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-        .album-img-box { 
-            aspect-ratio: 1 / 1; width: 100%; overflow: hidden; border-radius: 4px; border: 1px solid #eee; margin-bottom: 12px;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s;
-        }
+        .album-img-box { aspect-ratio: 1 / 1; width: 100%; overflow: hidden; border-radius: 4px; border: 1px solid #eee; margin-bottom: 15px; transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s; }
         .album-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .album-card:hover .album-img-box { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--primary-orange); }
-        .album-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
-        .album-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
+        .album-card:hover .album-img-box { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--primary-orange); }
+        .album-title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .album-meta { font-size: 0.8rem; color: var(--text-sub); font-family: 'Inter'; }
 
-        /* --- 右カラム：audio-test.html のスタイルを完全移植 --- */
+        /* --- 右カラム：audio-test.html のデザイン遵守 --- */
         .col-right { 
             height: calc(100vh - var(--header-height));
             position: sticky; top: var(--header-height);
-            padding: 60px 25px 25px; background: var(--bg-light); 
+            padding: 60px 30px 30px; background: var(--bg-light); 
             display: flex; flex-direction: column; 
         }
-        .section-title { font-size: 0.9rem; letter-spacing: 0.15em; margin-bottom: 25px; border-left: 3px solid var(--primary-orange); padding-left: 15px; font-weight: 700; }
-
-        .track-list { 
-            list-style: none; margin-bottom: 20px; 
-            flex: 1; overflow-y: auto; padding-right: 5px;
-        }
+        .section-title { font-size: 0.8rem; letter-spacing: 0.15em; margin-bottom: 25px; border-left: 3px solid var(--primary-orange); padding-left: 15px; font-weight: 700; }
+        .track-list { list-style: none; margin-bottom: 30px; flex: 1; overflow-y: auto; padding-right: 5px; }
         .track-list::-webkit-scrollbar { width: 4px; }
         .track-list::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
-
-        .track-item { padding: 14px 12px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+        .track-item { padding: 15px 12px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; transition: 0.2s; }
         .track-item:hover { background: rgba(255,255,255,0.5); }
         .track-item.active { background: #fff; color: var(--primary-orange); font-weight: bold; }
-        .track-meta { font-family: 'Inter'; font-size: 0.7rem; color: var(--text-sub); }
+        .track-meta { font-family: 'Inter'; font-size: 0.65rem; color: var(--text-sub); }
 
-        /* プレイヤーUI：audio-test.html と1pxの狂いなく同期 */
         .player-footer { margin-top: auto; }
-        .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; align-items: center; }
-        .now-playing-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 18px; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .controls-group { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-        
-        .btn-svg { background: none; border: none; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 25px; display: flex; flex-direction: column; align-items: center; }
+        .now-playing-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 20px; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .controls-group { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .btn-svg { background: none; border: none; cursor: pointer; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.2s; }
+        .btn-svg:hover { background: #f3f4f6; }
         .btn-svg.active .icon-svg { fill: var(--primary-orange); }
         .icon-svg { fill: #9ca3af; width: 22px; height: 22px; }
-        
-        .play-main { width: 52px; height: 52px; border-radius: 50%; background: #fff; border: 1px solid var(--primary-orange); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .play-main .icon-svg { fill: var(--primary-orange); width: 24px; height: 24px; }
-
-        .timeline-box { width: 100%; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
+        .play-main { width: 55px; height: 55px; border-radius: 50%; background: #fff; border: 1px solid var(--primary-orange); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .play-main:hover { transform: scale(1.05); }
+        .play-main .icon-svg { fill: var(--primary-orange); width: 26px; height: 26px; }
+        .timeline-box { width: 100%; display: flex; align-items: center; gap: 12px; font-size: 0.7rem; color: var(--text-sub); font-family: 'Inter'; }
         .seek-bar { flex: 1; height: 4px; accent-color: var(--primary-orange); cursor: pointer; }
-
-        .volume-box { width: 100%; display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 15px; border-top: 1px solid #f3f4f6; }
+        .volume-box { width: 100%; display: flex; align-items: center; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #f3f4f6; }
         #volumeBar { height: 4px; accent-color: #9ca3af; flex: 1; cursor: pointer; }
-
-        .download-btn-wrapper { margin-top: 20px; }
-        .booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 14px; text-align: center; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; letter-spacing: 0.05em; font-family: 'Inter'; }
-        .booth-btn:hover { background: #965925; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(180, 107, 45, 0.2); }
+        .download-btn-wrapper { margin-top: 25px; }
+        .booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 15px; text-align: center; border-radius: 8px; transition: 0.3s; font-size: 0.9rem; letter-spacing: 0.05em; font-family: 'Inter'; }
+        .booth-btn:hover { background: #965925; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(180, 107, 45, 0.2); }
 
         footer { text-align: center; padding: 40px 0; color: var(--text-sub); font-size: 0.8rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
 
+        @media (max-width: 1024px) {
+            .main-container { grid-template-columns: 30% 70%; }
+            .columns-split { grid-template-columns: 60% 40%; }
+        }
         @media (max-width: 900px) {
             .main-container { display: block; }
             .burger-btn { display: block; }
@@ -197,16 +174,16 @@
                 <h3>DISCOGRAPHY</h3>
                 <div class="recent-grid">
                     <a href="first-step.html" class="recent-link">First step</a>
-                    <a href="deep-upbeat.html" class="recent-link">Deep Upbeat</a>
-                    <a href="at-the-beach.html" class="recent-link">At the beach</a>
-                    <a href="mystic-moon.html" class="recent-link">Mystic Moon</a>
-                    <a href="boogie-night.html" class="recent-link">Boogie Night</a>
-                    <a href="true-love.html" class="recent-link">True Love</a>
-                    <a href="between.html" class="recent-link">Between</a>
-                    <a href="innocent.html" class="recent-link">Innocent</a>
-                    <a href="ordinary.html" class="recent-link">Ordinary</a>
-                    <a href="big-tight.html" class="recent-link">Big Tight</a>
-                    <a href="organic.html" class="recent-link">Organic</a>
+                    <a href="#" class="recent-link">Deep Upbeat</a>
+                    <a href="#" class="recent-link">At the beach</a>
+                    <a href="#" class="recent-link">Mystic Moon</a>
+                    <a href="#" class="recent-link">Boogie Night</a>
+                    <a href="#" class="recent-link">True Love</a>
+                    <a href="#" class="recent-link">Between</a>
+                    <a href="#" class="recent-link">Innocent</a>
+                    <a href="#" class="recent-link">Ordinary</a>
+                    <a href="#" class="recent-link">Big Tight</a>
+                    <a href="#" class="recent-link">Organic</a>
                 </div>
             </div>
         </aside>
@@ -273,7 +250,7 @@
                             </div>
                             <div class="volume-box">
                                 <button class="btn-svg" id="muteBtn" style="width:24px; height:24px;">
-                                    <svg id="volumeIcon" class="icon-svg" style="width:18px; height:18px;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                                    <svg id="volumeIcon" class="icon-svg" style="width:16px; height:16px;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                                 </button>
                                 <input type="range" id="volumeBar" value="80" max="100">
                             </div>
@@ -289,6 +266,7 @@
     </div>
 
     <script>
+        // JSロジックもaudio-test.htmlから完全移植
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
