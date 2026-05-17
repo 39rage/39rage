@@ -34,30 +34,30 @@
             height: 100vh;
             overflow: hidden;
             display: flex;
-            flex-direction: column; /* 画像と見出しを縦に並べる */
+            flex-direction: column;
             background: #ffffff;
         }
 
-        /* アイコン画像（上半分をしっかり見せる） */
+        /* アイコン画像（上半分） */
         .hero-image {
             width: 100%;
-            height: 70vh; /* 画面の高さの7割を画像に */
+            height: 70vh;
             object-fit: cover;
-            object-position: top; /* 顔が見切れないよう上部優先 */
+            object-position: top;
         }
 
-        /* 新しい見出し用の枠（画像の下に配置） */
+        /* 見出し用の枠：中央揃えにアップデート */
         .title-box {
             width: 100%;
-            height: 30vh; /* 残りの3割を見出し枠に */
+            height: 30vh;
             background: #b46b2d; /* 枠色：アクセントのオレンジ */
-            padding: 30px 40px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-end; /* 右寄せ */
-            text-align: right;
-            box-shadow: inset 0 10px 20px rgba(0,0,0,0.05); /* ほんのり立体感 */
+            align-items: center; /* 中央揃えに変更 */
+            text-align: center;   /* 文字も中央揃え */
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.05);
         }
 
         .title-box h1 {
@@ -65,14 +65,26 @@
             font-weight: 400;
             letter-spacing: 0.15em;
             margin-bottom: 6px;
-            color: #111827; /* 名前：黒 */
+            color: #ffffff; /* 名前も白に変更 */
         }
         .title-box p {
             font-size: 0.85rem;
             letter-spacing: 0.1em;
-            color: #ffffff; /* 子見出し：白 */
+            color: rgba(255, 255, 255, 0.9); /* 子見出し：白 */
             font-weight: 600;
             white-space: nowrap;
+            margin-bottom: 12px; /* クレジットとの間に少し隙間を空ける */
+        }
+
+        /* イラストクレジット用のカジュアルバナースタイル */
+        .illust-credit {
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.75); /* 少しだけ透明度を下げて馴染ませる */
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 8px;
+            display: inline-block;
         }
 
 
@@ -276,24 +288,22 @@
         ========================================== */
         @media (max-width: 992px) {
             .site-wrapper {
-                grid-template-columns: 1fr; /* 縦1列に変更 */
+                grid-template-columns: 1fr;
             }
 
             .left-panel {
                 position: relative;
-                height: auto; /* 高さを自動調整に */
+                height: auto;
                 width: 100%;
             }
 
             .hero-image {
-                height: 45vh; /* スマホ時の画像の高さ */
+                height: 45vh;
             }
 
             .title-box {
                 height: auto;
-                text-align: center; /* スマホ時は中央揃え */
-                align-items: center;
-                padding: 30px 20px;
+                padding: 35px 20px;
             }
 
             .title-box h1 { font-size: 2.2rem; }
@@ -310,12 +320,14 @@
 
     <div class="site-wrapper">
         
-        <!-- 左半分：画像＋下に独立した見出し枠（PC時固定） -->
+        <!-- 左半分：画像＋下に独立した見出し枠（中央揃え・白文字・クレジット入り） -->
         <div class="left-panel">
             <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage Hero Visual" class="hero-image">
             <div class="title-box">
                 <h1>Qurage</h1>
                 <p>Free BGM & Track Maker</p>
+                <!-- イラストクレジットを枠内に追加 -->
+                <div class="illust-credit">Illustration : ノーコピーライトガール</div>
             </div>
         </div>
 
