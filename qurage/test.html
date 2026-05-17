@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First step - Qurage Music</title>
+    <title>Qurage Music - Free BGM & Track Maker</title>
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -57,15 +57,15 @@
             padding-top: var(--header-height);
         }
 
-        /* --- 左カラム --- */
+        /* --- 左カラム（サイドバー）：スクロール禁止 --- */
         .col-left {
             background: var(--primary-orange);
             color: #ffffff;
             position: sticky; top: var(--header-height); 
             height: calc(100vh - var(--header-height));
             display: flex; flex-direction: column;
-            overflow: hidden; /* PCではスクロール禁止 */
-            padding-top: 50px; /* PC・スマホ共通でヘッダーから50px空ける */
+            overflow: hidden;
+            padding-top: 50px; /* ヘッダーからの距離を確保 */
         }
         
         .hero-img-wrapper {
@@ -102,39 +102,61 @@
         }
         .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
 
-        /* --- メイン領域：6:4配分 --- */
+        /* --- メイン領域（中・右） --- */
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
         .columns-split { display: grid; grid-template-columns: 60% 40%; flex: 1; }
 
-        .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .album-art-square { width: 100%; max-width: 400px; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); margin-bottom: 35px; }
-        .album-info-content h2 { font-size: 1.8rem; margin-bottom: 5px; }
-        .album-subtitle { color: var(--primary-orange); font-weight: bold; margin-bottom: 20px; font-size: 0.9rem; }
-        .album-desc { font-size: 0.95rem; line-height: 2; color: var(--text-sub); max-width: 500px; }
+        /* 中カラム：About & Discography */
+        .col-mid { padding: 60px 40px; border-right: 1px solid #f3f4f6; }
+        .mid-container { max-width: 600px; margin: 0 auto; width: 100%; }
 
+        .section-box { margin-bottom: 50px; }
+        .section-box h2 {
+            font-size: 1.2rem; font-weight: 700; letter-spacing: 0.15em; margin-bottom: 25px;
+            color: var(--text-main); border-left: 3px solid var(--primary-orange); padding-left: 15px;
+        }
+        .about-text { font-size: 0.9rem; line-height: 2.2; color: var(--text-sub); }
+
+        /* アルバムカード */
+        .album-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .album-card {
+            display: flex; background: #ffffff; border: 1px solid #f3f4f6;
+            text-decoration: none; color: inherit; transition: all 0.4s;
+            border-radius: 6px; overflow: hidden;
+        }
+        .album-card:hover {
+            border-color: var(--primary-orange);
+            box-shadow: 0 8px 25px rgba(180, 107, 45, 0.08);
+            transform: translateY(-2px);
+        }
+        .album-img { width: 100px; height: 100px; object-fit: cover; }
+        .album-info { padding: 15px 20px; display: flex; flex-direction: column; justify-content: center; }
+        .album-title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .album-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
+
+        /* 右カラム：全曲試聴プレイヤー */
         .col-right { padding: 60px 30px; background: var(--bg-light); display: flex; flex-direction: column; }
-        .section-title { font-size: 0.9rem; letter-spacing: 0.1em; margin-bottom: 20px; border-left: 3px solid var(--primary-orange); padding-left: 15px; }
+        .track-list { list-style: none; margin-bottom: 30px; max-height: 400px; overflow-y: auto; }
+        .track-list::-webkit-scrollbar { width: 4px; }
+        .track-list::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
 
-        /* プレイヤーUI */
-        .track-list { list-style: none; margin-bottom: 30px; }
         .track-item { padding: 12px 10px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
         .track-item.active { background: #fff; color: var(--primary-orange); font-weight: bold; }
         .track-meta { font-family: 'Inter'; font-size: 0.65rem; color: var(--text-sub); }
-        .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+
+        .player-ui { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 25px; display: flex; flex-direction: column; align-items: center; }
         .now-playing-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; text-align: center; }
-        .controls-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .controls-group { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
         .btn-svg { background: none; border: none; cursor: pointer; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; }
         .icon-svg { fill: #9ca3af; width: 20px; height: 20px; }
         .play-main { width: 50px; height: 50px; border-radius: 50%; background: #fff; border: 1px solid var(--primary-orange); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .play-main .icon-svg { fill: var(--primary-orange); }
         .timeline-box { width: 100%; display: flex; align-items: center; gap: 8px; font-size: 0.65rem; color: var(--text-sub); }
         .seek-bar { flex: 1; height: 4px; accent-color: var(--primary-orange); cursor: pointer; }
-        .download-btn-wrapper { margin-top: 30px; text-align: center; }
-        .booth-btn { display: inline-block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 12px 0; width: 100%; border-radius: 4px; transition: 0.3s; }
 
-        footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
+        footer { text-align: center; padding: 35px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
 
-        /* --- モバイル設定（900px以下で切り替え） --- */
+        /* --- モバイル設定（900px以下） --- */
         @media (max-width: 900px) {
             .main-container { display: block; }
             .burger-btn { display: block; }
@@ -143,13 +165,13 @@
                 width: 100%; height: 100vh; 
                 z-index: 2000; transition: 0.5s ease-in-out; 
                 opacity: 0; visibility: hidden;
-                padding-top: calc(var(--header-height) + 50px); /* ヘッダー分＋指定の50px */
-                overflow-y: auto; /* スマホのみスクロール可能に */
+                padding-top: calc(var(--header-height) + 50px);
+                overflow-y: auto;
             }
             .col-left.open { top: 0; opacity: 1; visibility: visible; }
             .hero-img-wrapper { height: 25vh; }
             .columns-split { display: block; }
-            .col-mid, .col-right { padding: 40px 20px; border-right: none; }
+            .col-mid, .col-right { padding: 45px 20px; border-right: none; }
         }
 
         .burger-btn.open .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -176,42 +198,49 @@
             </div>
 
             <div class="recent-tracks-section">
-                <h3>RECENT TRACKS</h3>
+                <h3>DISCOGRAPHY</h3>
                 <div class="recent-grid">
                     <a href="first-step.html" class="recent-link">First step</a>
-                    <a href="#" class="recent-link">Deep Upbeat</a>
-                    <a href="#" class="recent-link">At the beach</a>
-                    <a href="#" class="recent-link">Mystic Moon</a>
-                    <a href="#" class="recent-link">Boogie Night</a>
-                    <a href="#" class="recent-link">True Love</a>
-                    <a href="#" class="recent-link">Between</a>
-                    <a href="#" class="recent-link">Innocent</a>
-                    <a href="#" class="recent-link">Ordinary</a>
-                    <a href="#" class="recent-link">Big Tight</a>
-                    <a href="#" class="recent-link">Organic</a>
-                </div>
+                    </div>
             </div>
         </aside>
 
         <div class="content-area">
             <div class="columns-split">
                 <article class="col-mid">
-                    <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" alt="First step Art" class="album-art-square">
-                    <div class="album-info-content">
-                        <h2>First step</h2>
-                        <p class="album-subtitle">1st Mini Album</p>
-                        <p class="album-desc">初めて作った5曲がまとまってます。<br>デモ曲のようなミニアルバム。</p>
+                    <div class="mid-container">
+                        <section class="section-box">
+                            <h2>About</h2>
+                            <div class="about-text">
+                                Qurageが制作したフリーBGMの試聴ポータルです。<br>
+                                動画制作や配信など、あなたのクリエイティブにお役立てください。<br>
+                                心地よく、少しだけ日常を彩るような音を目指しています。
+                            </div>
+                        </section>
+
+                        <section class="section-box">
+                            <h2>Discography</h2>
+                            <div class="album-grid">
+                                <a href="first-step.html" class="album-card">
+                                    <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" class="album-img">
+                                    <div class="album-info">
+                                        <div class="album-title">First step</div>
+                                        <div class="album-meta">1st Mini Album / 5 Tracks</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
                     </div>
                 </article>
 
                 <section class="col-right">
-                    <h2 class="section-title">TRACK LIST</h2>
+                    <h2 class="section-box" style="font-size:0.9rem; letter-spacing:0.1em; border-left: 3px solid var(--primary-orange); padding-left: 15px; margin-bottom:20px;">TRACK LIST</h2>
                     <ul class="track-list" id="trackList">
-                        <li class="track-item active" data-src="audio/2020102923 British_Brixton-100_C.mp3"><span>01. British Brixton</span><span class="track-meta">BPM 100 / Key C</span></li>
-                        <li class="track-item" data-src="audio/2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3"><span>02. Accelerate Afghanistan</span><span class="track-meta">BPM 102 / Key Cm</span></li>
-                        <li class="track-item" data-src="audio/2020103014 AABS_80s-128_Cm.mp3"><span>03. AABS 80s</span><span class="track-meta">BPM 128 / Key Cm</span></li>
-                        <li class="track-item" data-src="audio/2020103018 Altered_Afterburner_AYB-129_Csm.mp3"><span>04. Altered Afterburner AYB</span><span class="track-meta">BPM 129 / Key C#m</span></li>
-                        <li class="track-item" data-src="audio/2020103111 Alternating_synth_layers-125_Dm.mp3"><span>05. Alternating synth layers</span><span class="track-meta">BPM 125 / Key Dm</span></li>
+                        <li class="track-item active" data-src="audio/2020102923 British_Brixton-100_C.mp3"><span>01. British Brixton</span><span class="track-meta">Preview</span></li>
+                        <li class="track-item" data-src="audio/2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3"><span>02. Accelerate Afghanistan</span><span class="track-meta">Preview</span></li>
+                        <li class="track-item" data-src="audio/2020103014 AABS_80s-128_Cm.mp3"><span>03. AABS 80s</span><span class="track-meta">Preview</span></li>
+                        <li class="track-item" data-src="audio/2020103018 Altered_Afterburner_AYB-129_Csm.mp3"><span>04. Altered Afterburner AYB</span><span class="track-meta">Preview</span></li>
+                        <li class="track-item" data-src="audio/2020103111 Alternating_synth_layers-125_Dm.mp3"><span>05. Alternating synth layers</span><span class="track-meta">Preview</span></li>
                     </ul>
 
                     <div class="player-ui">
@@ -229,10 +258,6 @@
                             <span id="duration">0:00</span>
                         </div>
                     </div>
-
-                    <div class="download-btn-wrapper">
-                        <a href="https://casbgcasbg.booth.pm/items/2691899" target="_blank" class="booth-btn">Download at BOOTH</a>
-                    </div>
                 </section>
             </div>
             <footer>© Qurage. All Rights Reserved.</footer>
@@ -240,6 +265,7 @@
     </div>
 
     <script>
+        // プレイヤーロジック
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
@@ -296,24 +322,15 @@
             durationText.textContent = `${m}:${s < 10 ? '0'+s : s}`;
         });
         seekBar.addEventListener('input', () => audio.currentTime = (seekBar.value / 100) * audio.duration);
-        audio.addEventListener('ended', () => {
-            if(repeatMode === 1) audio.play(); else playNext();
-        });
+        audio.addEventListener('ended', () => { if(repeatMode === 1) audio.play(); else playNext(); });
 
+        // ハンバーガーメニュー
         const burgerBtn = document.getElementById('burgerBtn');
         const sidebar = document.getElementById('sidebar');
         burgerBtn.addEventListener('click', () => { 
             burgerBtn.classList.toggle('open'); 
             sidebar.classList.toggle('open'); 
             document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : 'auto';
-        });
-
-        sidebar.querySelectorAll('.recent-link').forEach(link => {
-            link.addEventListener('click', () => {
-                sidebar.classList.remove('open');
-                burgerBtn.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            });
         });
     </script>
 </body>
