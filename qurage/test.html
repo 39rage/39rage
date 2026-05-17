@@ -24,29 +24,30 @@
             color: var(--text-main);
         }
 
-        /* --- 固定トップヘッダー --- */
+        /* --- ヘッダー：背景白・文字オレンジ --- */
         .site-header {
             position: fixed;
             top: 0; left: 0; width: 100%; height: var(--header-height);
-            background: var(--primary-orange);
+            background: #ffffff; /* 背景白 */
+            border-bottom: 1px solid #eee;
             display: flex; align-items: center; justify-content: center;
             z-index: 2100;
         }
         .header-logo {
             font-size: 1.2rem; font-weight: 700; letter-spacing: 0.15em;
-            text-decoration: none; color: #ffffff;
+            text-decoration: none; color: var(--primary-orange); /* 文字オレンジ */
         }
 
         .burger-btn {
             position: absolute; left: 20px; background: none; border: none;
             cursor: pointer; display: none; padding: 10px; z-index: 2200;
         }
-        .burger-line { display: block; width: 22px; height: 1px; background: #ffffff; margin: 6px 0; transition: 0.3s; }
+        .burger-line { display: block; width: 22px; height: 1px; background: var(--primary-orange); margin: 6px 0; transition: 0.3s; }
 
         /* --- レイアウト構造 --- */
         .main-container {
             display: grid;
-            grid-template-columns: 25% 75%; /* PCは少し左を広げて2列表示に対応 */
+            grid-template-columns: 25% 75%;
             min-height: 100vh;
             padding-top: var(--header-height);
         }
@@ -58,36 +59,55 @@
             position: sticky; top: var(--header-height); 
             height: calc(100vh - var(--header-height));
             display: flex; flex-direction: column;
-            overflow-y: auto; /* 全体で入らなくなった時のための保険 */
+            overflow-y: auto;
         }
         
         .hero-img-wrapper {
             width: 100%; height: 35vh; 
-            background: var(--primary-orange); display: flex; justify-content: center; align-items: flex-start; overflow: hidden;
+            display: flex; justify-content: center; align-items: flex-start; overflow: hidden;
         }
         .hero-img-left { width: 100%; height: 100%; object-fit: contain; object-position: top; }
 
         .profile-text-area { padding: 15px 20px; text-align: center; }
         .profile-text-area h1 { font-size: 1.4rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
         .profile-text-area p { font-size: 0.7rem; opacity: 0.8; margin-bottom: 4px; font-weight: 600; }
-        .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 30px; } /* 下に大きな余白 */
+        .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 30px; }
 
-        /* RECENT TRACKS 2列グリッド */
-        .recent-tracks-section { padding: 0 20px 30px; }
-        .recent-tracks-section h3 { 
-            font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); 
-            border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 15px;
+        /* RECENT TRACKS セクション */
+        .recent-tracks-section { 
+            padding: 0 10% 30px 15%; /* 左を多めにあけて右に寄せる調整 */
         }
+        .recent-tracks-section h3 { 
+            font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); 
+            border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 20px;
+        }
+
+        /* 2列・縦並び・ボタンデザイン */
         .recent-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 2列表示 */
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column; /* 縦に並べる */
+            height: 220px; /* 縦の長さを指定することで右列へ折り返させる */
             gap: 10px;
         }
         .recent-link { 
-            display: block; color: #ffffff; text-decoration: none; font-size: 0.75rem; 
-            padding: 5px 0; transition: 0.3s; opacity: 0.9;
+            width: calc(50% - 5px); /* 2列の幅 */
+            display: flex; align-items: center;
+            color: #ffffff; text-decoration: none; font-size: 0.7rem; 
+            padding: 8px 10px;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .recent-link:hover { opacity: 0.6; }
+        .recent-link:hover { 
+            background: #ffffff;
+            color: var(--primary-orange);
+            border-color: #ffffff;
+            transform: translateX(3px); /* 軽く右に動くアニメーション */
+        }
 
         /* --- 右側エリア --- */
         .content-area { display: flex; flex-direction: column; background: var(--soft-white); }
@@ -124,19 +144,20 @@
 
         footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; }
 
-        /* --- モバイル：全面メニューパターン --- */
+        /* --- モバイル --- */
         @media (max-width: 1024px) {
             .main-container { display: block; }
             .burger-btn { display: block; }
             .col-left { 
-                position: fixed; left: 0; top: -100%; /* 上から降ろす、または隠す */
+                position: fixed; left: 0; top: -100%;
                 width: 100%; height: 100vh; 
                 z-index: 2000; transition: 0.5s ease-in-out; 
                 opacity: 0; visibility: hidden;
                 padding-top: var(--header-height);
             }
             .col-left.open { top: 0; opacity: 1; visibility: visible; }
-            .hero-img-wrapper { height: 30vh; }
+            .recent-grid { height: auto; flex-direction: row; } /* スマホは横に並べていく */
+            .recent-link { width: calc(50% - 5px); }
             .columns-split { display: block; }
             .col-mid, .col-right { padding: 40px 20px; border-right: none; }
         }
@@ -229,7 +250,6 @@
     </div>
 
     <script>
-        // 音声・プレイヤー周りのロジック
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
         const playIconSVG = document.getElementById('playIconSVG');
@@ -293,17 +313,14 @@
             else updatePlayIcon(false);
         });
 
-        // モバイルバーガーメニュー
         const burgerBtn = document.getElementById('burgerBtn');
         const sidebar = document.getElementById('sidebar');
         burgerBtn.addEventListener('click', () => { 
             burgerBtn.classList.toggle('open'); 
             sidebar.classList.toggle('open'); 
-            // メニューが開いているときは背後のスクロールを止める
             document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : 'auto';
         });
 
-        // メニュー内リンククリックで閉じる
         sidebar.querySelectorAll('.recent-link').forEach(link => {
             link.addEventListener('click', () => {
                 sidebar.classList.remove('open');
