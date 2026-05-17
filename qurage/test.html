@@ -63,38 +63,40 @@
             position: sticky; top: var(--header-height); 
             height: calc(100vh - var(--header-height));
             display: flex; flex-direction: column;
-            overflow-y: auto;
+            overflow-y: hidden; /* 基本はスクロールバーを出さない */
         }
         
         .hero-img-wrapper {
             width: 100%;
-            height: auto; /* 高さを固定せず画像に合わせる */
-            padding-top: 50px; /* PCでの上部余白 */
-            text-align: center;
+            height: 25vh; /* 高さを抑えて固定 */
+            display: flex; justify-content: center; align-items: center;
+            padding-top: 30px; /* 少し下にずらす */
         }
         .hero-img-left { 
-            width: 100%; /* 横幅いっぱいに表示 */
-            height: auto; /* 縦横比を維持（トリミングなし） */
-            display: block;
+            width: auto; 
+            height: 100%; /* 親要素の25vhに合わせる */
+            max-width: 80%; /* 横に広がりすぎないように制限 */
+            object-fit: contain;
         }
 
-        .profile-text-area { padding: 30px 20px 15px; text-align: center; }
-        .profile-text-area h1 { font-size: 1.4rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
+        .profile-text-area { padding: 20px 20px 10px; text-align: center; }
+        .profile-text-area h1 { font-size: 1.3rem; font-weight: 400; letter-spacing: 0.15em; margin-bottom: 2px; }
         .profile-text-area p { font-size: 0.7rem; opacity: 0.8; margin-bottom: 4px; font-weight: 600; }
-        .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 30px; }
+        .illust-credit { font-size: 0.6rem; opacity: 0.6; margin-bottom: 20px; }
 
-        .recent-tracks-section { padding: 0 10% 30px 15%; }
+        /* RECENT TRACKS セクション */
+        .recent-tracks-section { padding: 0 10% 20px 15%; flex: 1; }
         .recent-tracks-section h3 { 
             font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); 
-            border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 15px;
         }
 
         .recent-grid {
-            display: flex; flex-wrap: wrap; flex-direction: column; height: 260px; gap: 10px;
+            display: flex; flex-wrap: wrap; flex-direction: column; height: 240px; gap: 8px;
         }
         .recent-link { 
-            width: calc(50% - 5px); display: flex; align-items: center;
-            color: #ffffff; text-decoration: none; font-size: 0.7rem; padding: 8px 10px;
+            width: calc(50% - 4px); display: flex; align-items: center;
+            color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px;
             border: 1px solid rgba(255,255,255,0.4); border-radius: 2px;
             transition: all 0.3s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
@@ -143,16 +145,14 @@
                 z-index: 2000; transition: 0.5s ease-in-out; 
                 opacity: 0; visibility: hidden;
                 padding-top: var(--header-height);
+                overflow-y: auto; /* スマホメニュー内のみスクロールを許可 */
             }
             .col-left.open { top: 0; opacity: 1; visibility: visible; }
             
             .hero-img-wrapper { 
-                padding-top: 20px; /* スマホでは上部余白を少し詰める */
+                height: 20vh;
+                padding-top: 20px;
             }
-            .hero-img-left {
-                width: 100%; /* スマホメニュー内でも全幅表示 */
-            }
-
             .recent-grid { height: auto; flex-direction: row; }
             .recent-link { width: calc(50% - 5px); }
             .columns-split { display: block; }
