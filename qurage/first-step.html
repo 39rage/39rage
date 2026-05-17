@@ -102,18 +102,26 @@
         }
         .back-link:hover { opacity: 0.7; }
 
-        /* アルバム情報エリア */
+        /* アルバム詳細エリア - 正方形トリミング */
         .album-detail {
             margin-bottom: 60px;
             text-align: center;
         }
 
-        .album-detail img {
+        .album-detail .img-wrapper {
             width: 100%;
             max-width: 400px;
+            aspect-ratio: 1 / 1;
+            margin: 0 auto 25px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .album-detail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .album-info-text h2 {
@@ -155,12 +163,13 @@
             padding-left: 12px;
         }
 
-        /* トラックリスト・プレイヤー */
+        /* トラックリスト */
         .track-list {
             list-style: none;
-            max-height: 400px;
+            max-height: 350px;
             overflow-y: auto;
             margin-bottom: 20px;
+            border-bottom: 1px solid #f3f4f6;
         }
 
         .track-item {
@@ -172,12 +181,12 @@
             align-items: center;
             transition: all 0.3s;
         }
+        .track-item:last-child { border-bottom: none; }
         .track-item:hover, .track-item.active {
             background: #fffcf9;
         }
         .track-item.active {
             color: #b46b2d;
-            border-bottom: 1px solid #b46b2d;
         }
 
         .track-meta {
@@ -186,23 +195,49 @@
             color: #9ca3af;
         }
 
+        /* 高機能プレイヤーコントロール */
         .audio-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             background: #fffcf9;
             border: 1px solid rgba(180, 107, 45, 0.1);
             border-radius: 6px;
             padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .current-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             margin-bottom: 20px;
             color: #111827;
             text-align: center;
         }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-small {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        /* アイコンのデザイン（SVG） */
+        .icon { fill: #9ca3af; width: 18px; height: 18px; }
+        .btn-small.active .icon { fill: #b46b2d; }
+        .btn-small:hover .icon { fill: #111827; }
 
         .play-btn {
             background: #ffffff;
@@ -214,7 +249,6 @@
             display: flex; justify-content: center; align-items: center;
             font-size: 1.1rem;
             transition: all 0.3s;
-            margin-bottom: 20px;
         }
         .play-btn:hover {
             background: #b46b2d;
@@ -227,8 +261,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #9ca3af;
+            font-family: 'Inter';
         }
 
         .seek-bar {
@@ -267,7 +302,6 @@
             margin-top: auto;
         }
 
-        /* レスポンシブ */
         @media (max-width: 992px) {
             .site-wrapper { grid-template-columns: 1fr; }
             .left-panel { position: relative; height: auto; width: 100%; }
@@ -294,7 +328,9 @@
                 <a href="index.html" class="back-link">← BACK TO HOME</a>
 
                 <div class="album-detail">
-                    <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" alt="First step">
+                    <div class="img-wrapper">
+                        <img src="https://fromtheasia.com/wp-content/uploads/NCG63.jpg" alt="First step">
+                    </div>
                     <div class="album-info-text">
                         <h2>First step</h2>
                         <div class="album-subtitle">1st Mini Album</div>
@@ -321,7 +357,7 @@
                                 <span>03. AABS 80s</span>
                                 <span class="track-meta">BPM 128 / Key Cm</span>
                             </li>
-                            <li class="track-item" data-src="audio/2020103018 Altered_Afterburner_AYB-129_C#m.mp3">
+                            <li class="track-item" data-src="audio/2020103018 Altered_Afterburner_AYB-129_Csm.mp3">
                                 <span>04. Altered Afterburner AYB</span>
                                 <span class="track-meta">BPM 129 / Key C#m</span>
                             </li>
@@ -333,7 +369,28 @@
 
                         <div class="audio-controls">
                             <div class="current-title" id="currentTitle">01. British Brixton</div>
-                            <button class="play-btn" id="playBtn">▶</button>
+                            
+                            <div class="control-buttons">
+                                <button class="btn-small" id="shuffleBtn" title="Shuffle">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.45 20 9.5V4h-5.5zm.59 10.83l-1.41 1.41 3.13 3.13L14.5 22H20v-5.5l-2.04 2.04-3.37-3.37z"/></svg>
+                                </button>
+                                
+                                <button class="btn-small" id="prevBtn" title="Previous">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                                </button>
+
+                                <button class="play-btn" id="playBtn">▶</button>
+
+                                <button class="btn-small" id="nextBtn" title="Next">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                                </button>
+
+                                <button class="btn-small" id="repeatBtn" title="Repeat Off">
+                                    <svg class="icon" id="repeatIcon" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                                    <span id="repeatIndicator" style="font-size: 8px; position: absolute; font-weight: bold; top: 18px; color: #b46b2d; display: none;">1</span>
+                                </button>
+                            </div>
+
                             <div class="timeline-container">
                                 <span id="currentTime">0:00</span>
                                 <input type="range" class="seek-bar" id="seekBar" value="0" max="100">
@@ -363,63 +420,126 @@
     <script>
         const audio = new Audio();
         const playBtn = document.getElementById('playBtn');
-        const trackList = document.getElementById('trackList');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const repeatBtn = document.getElementById('repeatBtn');
+        const repeatIndicator = document.getElementById('repeatIndicator');
+        
         const currentTitle = document.getElementById('currentTitle');
         const seekBar = document.getElementById('seekBar');
         const currentTimeText = document.getElementById('currentTime');
         const durationText = document.getElementById('duration');
-        const trackItems = document.querySelectorAll('.track-item');
+        const trackItems = Array.from(document.querySelectorAll('.track-item'));
 
-        let currentTrack = trackItems[0];
-        audio.src = currentTrack.getAttribute('data-src');
+        let currentIndex = 0;
+        let isShuffle = false;
+        let repeatMode = 0; // 0: OFF, 1: ALL, 2: ONE
+
+        // --- Broadcast Channel (自サイト内の他タブとの通信) ---
+        const channel = new BroadcastChannel('qurage_player');
+        channel.onmessage = (event) => {
+            if (event.data === 'play_started') {
+                audio.pause();
+                playBtn.textContent = '▶';
+            }
+        };
+
+        function loadTrack(index) {
+            trackItems.forEach(i => i.classList.remove('active'));
+            const item = trackItems[index];
+            item.classList.add('active');
+            currentIndex = index;
+            currentTitle.textContent = item.querySelector('span').textContent;
+            audio.src = item.getAttribute('data-src');
+        }
+
+        loadTrack(0);
 
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
                 playBtn.textContent = '⏸';
+                channel.postMessage('play_started');
             } else {
                 audio.pause();
                 playBtn.textContent = '▶';
             }
         });
 
-        trackItems.forEach(item => {
-            item.addEventListener('click', function() {
-                trackItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                currentTrack = this;
-                currentTitle.textContent = this.querySelector('span').textContent;
-                audio.src = this.getAttribute('data-src');
+        // コントロール
+        prevBtn.addEventListener('click', () => {
+            let index = currentIndex - 1;
+            if (index < 0) index = trackItems.length - 1;
+            loadTrack(index);
+            audio.play();
+            playBtn.textContent = '⏸';
+            channel.postMessage('play_started');
+        });
+
+        nextBtn.addEventListener('click', () => playNext());
+
+        function playNext() {
+            if (isShuffle) {
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * trackItems.length);
+                } while (newIndex === currentIndex && trackItems.length > 1);
+                loadTrack(newIndex);
+            } else {
+                let index = currentIndex + 1;
+                if (index >= trackItems.length) index = 0;
+                loadTrack(index);
+            }
+            audio.play();
+            playBtn.textContent = '⏸';
+            channel.postMessage('play_started');
+        }
+
+        shuffleBtn.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            shuffleBtn.classList.toggle('active', isShuffle);
+        });
+
+        repeatBtn.addEventListener('click', () => {
+            repeatMode = (repeatMode + 1) % 3;
+            repeatBtn.classList.toggle('active', repeatMode > 0);
+            repeatIndicator.style.display = (repeatMode === 2) ? 'block' : 'none';
+            const titles = ["Repeat Off", "Repeat All", "Repeat One"];
+            repeatBtn.title = titles[repeatMode];
+        });
+
+        trackItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                loadTrack(index);
                 audio.play();
                 playBtn.textContent = '⏸';
+                channel.postMessage('play_started');
             });
         });
 
+        // オーディオ同期
         audio.addEventListener('timeupdate', () => {
-            const value = (audio.currentTime / audio.duration) * 100;
-            seekBar.value = value || 0;
+            seekBar.value = (audio.currentTime / audio.duration) * 100 || 0;
             let curMin = Math.floor(audio.currentTime / 60);
             let curSec = Math.floor(audio.currentTime % 60);
-            if (curSec < 10) curSec = '0' + curSec;
-            currentTimeText.textContent = `${curMin}:${curSec}`;
+            currentTimeText.textContent = `${curMin}:${curSec < 10 ? '0' + curSec : curSec}`;
         });
 
         audio.addEventListener('loadedmetadata', () => {
             let durMin = Math.floor(audio.duration / 60);
             let durSec = Math.floor(audio.duration % 60);
-            if (durSec < 10) durSec = '0' + durSec;
-            durationText.textContent = `${durMin}:${durSec}`;
+            durationText.textContent = `${durMin}:${durSec < 10 ? '0' + durSec : durSec}`;
         });
 
         seekBar.addEventListener('input', () => {
-            const time = (seekBar.value / 100) * audio.duration;
-            audio.currentTime = time;
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
         });
 
         audio.addEventListener('ended', () => {
-            let next = currentTrack.nextElementSibling;
-            if (!next) next = trackItems[0];
-            next.click();
+            if (repeatMode === 2) audio.play();
+            else if (repeatMode === 1 || currentIndex < trackItems.length - 1) playNext();
+            else playBtn.textContent = '▶';
         });
     </script>
 </body>
