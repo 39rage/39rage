@@ -80,6 +80,15 @@ const allAlbums = [
         desc: "日常使いできそうなほのぼの曲",
         booth: "https://casbgcasbg.booth.pm/items/2758775",
         tracksCount: "3 Tracks"
+    },
+    {
+        id: "big-tight", 
+        title: "Big Tight",
+        subtitle: "9th Single",
+        img: "https://fromtheasia.com/wp-content/uploads/NCG33.jpg",
+        desc: "かっこよくておしゃんな曲",
+        booth: "https://casbgcasbg.booth.pm/items/2758818",
+        tracksCount: "3 Tracks"
     }
 ];
 
@@ -130,5 +139,10 @@ const allTracks = [
     // --- Ordinary ---
     { title: "Microchip", file: "2021020912 Microchip_170_Cm.mp3", albumId: "ordinary" },
     { title: "Chinese Traditional", file: "2021020914 Chinese_Traditional-109_D.mp3", albumId: "ordinary" },
-    { title: "Southern 70s", file: "2021021713 Southern_70s-90_C.mp3", albumId: "ordinary" }
+    { title: "Southern 70s", file: "2021021713 Southern_70s-90_C.mp3", albumId: "ordinary" },
+
+    // --- Big Tight ---
+    { title: "Cathode Euro CC", file: "2021020311 Cathode_Euro_CC-128_Dm.mp3", albumId: "big-tight" },
+    { title: "Big 8BS", file: "2021021716 Big_8BS-128_Cm.mp3", albumId: "big-tight" },
+    { title: "Tight Fashion MM", file: "2021021800 Tight_Fashion_MM-120_Cm.mp3", albumId: "big-tight" }
 ];
