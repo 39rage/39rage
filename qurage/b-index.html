@@ -20,6 +20,7 @@
     </header>
 
     <main class="app-main">
+        <!-- ヒーローエリア -->
         <section class="artist-hero">
             <div class="hero-content">
                 <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage" class="hero-img">
@@ -34,37 +35,45 @@
             </div>
         </section>
 
+        <!-- DISCOGRAPHY -->
         <section class="app-section">
             <h2 class="section-title">DISCOGRAPHY</h2>
             <div class="album-grid" id="albumGrid"></div>
         </section>
 
+        <!-- ALL TRACKS -->
         <section class="app-section">
             <h2 class="section-title">ALL TRACKS</h2>
             <div class="song-list" id="songList"></div>
         </section>
 
+        <!-- UNRELEASED -->
         <section class="app-section unreleased-section">
             <h2 class="section-title">UNRELEASED</h2>
-            <p class="section-note">制作途中・未配布の楽曲です。これはフリーBGMではありませんが、よければお聞きください。</p>
+            <p class="section-note">制作途中・未配布の楽曲です。よければお聞きください。</p>
             <div class="song-list" id="unreleasedList"></div>
         </section>
 
-        <footer class="app-footer">© Qurage. All Rights Reserved.</footer>
+        <footer class="app-footer">
+            <div class="footer-line"></div>
+            <p>© Qurage. All Rights Reserved.</p>
+        </footer>
     </main>
 
-    <!-- 【スマホ用】全画面プレイヤー -->
+    <!-- 【スマホ用】YouTube MUSIC風 全画面プレイヤー -->
     <div id="fullPlayer" class="full-player">
         <button class="close-full-player" id="closeFullPlayer">∨</button>
         <div class="full-player-content">
-            <img src="" alt="" id="fullPlayerArt" class="full-p-art">
-            <div class="full-p-text">
-                <div id="fullPlayerTitle" class="full-p-title">曲を選択してください</div>
-                <div id="fullPlayerSub" class="full-p-sub">アーティスト</div>
+            <div class="full-art-wrapper">
+                <img src="" alt="" id="fullPlayerArt" class="full-p-art">
+            </div>
+            <div class="full-p-info">
+                <h2 id="fullPlayerTitle" class="full-p-title">曲名</h2>
+                <p id="fullPlayerSub" class="full-p-sub">アルバム名</p>
             </div>
             
             <div class="full-p-seek">
-                <input type="range" id="fullSeekBar" value="0" max="100">
+                <input type="range" id="fullSeekBar" value="0" max="100" class="game-seek">
                 <div class="full-p-time">
                     <span id="fullCurrentTime">0:00</span>
                     <span id="fullDuration">0:00</span>
@@ -79,56 +88,55 @@
                 <button class="icon-btn" onclick="toggleRepeat()">🔁</button>
             </div>
 
-            <!-- YouTube MUSIC風「再生リスト」タブ -->
-            <div class="full-p-tabs">
-                <button class="tab-btn active" id="openQueueBtn">再生リスト (キュー)</button>
+            <div class="full-p-footer-tabs">
+                <button id="openQueueBtn" class="tab-trigger">再生リスト</button>
             </div>
         </div>
 
-        <!-- 全画面用の再生リスト（さらに上にせり出す） -->
+        <!-- 全画面用キュー（再生リスト） -->
         <div id="fullQueue" class="full-queue-drawer">
             <div class="queue-header">次に再生</div>
             <div id="fullQueueList" class="queue-content"></div>
         </div>
     </div>
 
-    <!-- プレイヤーバー（PC & スマホミニ用） -->
+    <!-- プレイヤーバー（PC ＆ スマホミニ） -->
     <div class="fixed-player" id="miniPlayer">
         <div class="player-inner">
             
             <!-- 操作（PCのみ表示） -->
             <div class="p-controls pc-only">
-                <button class="icon-btn" onclick="toggleShuffle()">🔀</button>
+                <button class="icon-btn" id="shuffleBtn">🔀</button>
                 <button class="icon-btn" onclick="prevTrack()">⏮</button>
                 <button class="play-btn" id="playBtn">▶</button>
                 <button class="icon-btn" onclick="nextTrack()">⏭</button>
-                <button class="icon-btn" onclick="toggleRepeat()">🔁</button>
+                <button class="icon-btn" id="repeatBtn">🔁</button>
             </div>
 
-            <!-- 情報（スマホはここをタップで拡大） -->
-            <div class="p-center" id="expandTrigger">
-                <div class="p-info">
-                    <div class="p-art-wrapper">
-                        <div id="playerDefaultIcon" class="p-default-icon">👾</div>
-                        <img src="" alt="" id="playerArt" class="p-art">
-                    </div>
-                    <div class="p-text">
-                        <div id="playerTitleInfo" class="p-title-line">曲を選択してください</div>
-                        <div class="p-description-area" id="marqueeBox">
-                            <div id="playerDescMarquee" class="marquee-text">Welcome to 👾 MUSIC</div>
-                        </div>
-                    </div>
+            <!-- 情報ゾーン（PCは広め、スマホはここをタップで全画面へ） -->
+            <div class="p-info-zone" id="expandTrigger">
+                <div class="p-art-wrapper">
+                    <div id="playerDefaultIcon" class="p-default-icon">👾</div>
+                    <img src="" alt="" id="playerArt" class="p-art">
                 </div>
-                <div class="p-seek-wrapper pc-only">
-                    <span id="currentTime" class="time-label">0:00</span>
-                    <input type="range" id="seekBar" value="0" max="100">
-                    <span id="duration" class="time-label">0:00</span>
+                <div class="p-text">
+                    <div id="playerTitleInfo" class="p-title-line">曲を選択してください</div>
+                    <div id="playerDesc" class="p-desc-line">Qurage Music Player</div>
                 </div>
             </div>
 
-            <!-- ツール -->
+            <!-- シークバー（PCのみ表示） -->
+            <div class="p-seek-wrapper pc-only">
+                <span id="currentTime" class="time-label">0:00</span>
+                <input type="range" id="seekBar" value="0" max="100">
+                <span id="duration" class="time-label">0:00</span>
+            </div>
+
+            <!-- ツール系 -->
             <div class="p-tools">
-                <button class="icon-btn mobile-expand-btn">^</button>
+                <button class="play-btn mobile-only" id="mobilePlayBtn">▶</button>
+                <button class="icon-btn mobile-only expand-arrow">^</button>
+                
                 <button class="icon-btn pc-only" id="queueBtn">📑</button>
                 <div class="volume-tool pc-only">
                     <button class="icon-btn" id="volumeBtn">🔈</button>
@@ -136,7 +144,7 @@
                         <input type="range" id="volumeBar" value="80" max="100" orient="vertical">
                     </div>
                 </div>
-                <a href="#" target="_blank" id="boothLink" class="icon-btn download-btn pc-only">⬇️</a>
+                <a href="#" target="_blank" id="boothLink" class="icon-btn pc-only">⬇️</a>
             </div>
         </div>
     </div>
