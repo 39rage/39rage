@@ -1,68 +1,80 @@
-let currentTracks = [];
 let audio = new Audio();
 let currentCategory = 'discography';
-let currentIndex = 0;
+let activeAlbumId = null;
+let activeTrackFile = null;
 
-// カテゴリーの切り替え
+// 1. カテゴリー切り替え
 function changeCategory(cat, btn) {
     currentCategory = cat;
-    // ボタンの見た目更新
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    
-    renderMusicList();
+    activeAlbumId = null; // カテゴリが変わったら選択リセット
+    renderGameList();
 }
 
-// 楽曲リストの描画
-function renderMusicList() {
+// 2. リスト描画（アルバム単位）
+function renderGameList() {
     const listWrapper = document.getElementById('musicList');
-    
-    // カテゴリーに属するアルバムのIDを取得
-    const albumIds = allAlbums.filter(a => a.category === currentCategory).map(a => a.id);
-    
-    // そのアルバムに属する曲を抽出し、アルバム順→日付順にソート
-    const tracks = allTracks.filter(t => albumIds.includes(t.albumId)).sort((a, b) => {
-        const indexA = allAlbums.findIndex(alb => alb.id === a.albumId);
-        const indexB = allAlbums.findIndex(alb => alb.id === b.albumId);
-        if (indexA !== indexB) return indexA - indexB;
-        return a.file.localeCompare(b.file);
-    });
-    currentTracks = tracks;
+    const albums = allAlbums.filter(a => a.category === currentCategory);
 
-    listWrapper.innerHTML = tracks.map((track, idx) => {
-        const album = allAlbums.find(a => a.id === track.albumId);
-        const num = (idx + 1 < 10) ? '0' + (idx + 1) : (idx + 1);
+    listWrapper.innerHTML = albums.map((album, aIdx) => {
+        const num = (aIdx < 10) ? '0' + aIdx : aIdx;
+        const tracks = allTracks.filter(t => t.albumId === album.id).sort((a, b) => a.file.localeCompare(b.file));
+        
         return `
-        <div class="music-card" onclick="selectMusic(${idx}, this)">
-            <span class="m-num">${num}</span>
-            <div class="m-title-area">
-                <div class="m-title">${track.title}</div>
-                <div class="m-album-name">${album.title}</div>
+        <div class="album-group" id="group-${album.id}">
+            <div class="album-banner" onclick="toggleAlbum('${album.id}')">
+                <img src="${album.img}" class="ab-img">
+                <div class="ab-info">
+                    <div class="ab-title">${num}.${album.title}</div>
+                    <div class="ab-meta">${album.subtitle} / ${album.tracksCount}</div>
+                </div>
+            </div>
+            <div class="sub-track-list">
+                ${tracks.map((track, tIdx) => `
+                    <div class="track-card" onclick="selectTrack('${track.file}', '${album.id}', this)">
+                        <span>${String(tIdx + 1).padStart(2, '0')}. ${track.title}</span>
+                        <span style="opacity:0.5; font-size:0.7rem;">SELECT</span>
+                    </div>
+                `).join('')}
             </div>
         </div>`;
     }).join('');
 
-    // 最初の曲を自動選択
-    if (tracks.length > 0) {
-        const firstCard = listWrapper.querySelector('.music-card');
-        selectMusic(0, firstCard);
+    // 初期状態：最初のアルバムを開く
+    if (albums.length > 0) {
+        toggleAlbum(albums[0].id);
     }
 }
 
-// 楽曲選択時の処理
-function selectMusic(idx, element) {
-    currentIndex = idx;
+// 3. アルバムの開閉
+function toggleAlbum(albumId) {
+    const groups = document.querySelectorAll('.album-group');
+    const targetGroup = document.getElementById(`group-${albumId}`);
+    
+    // 他を閉じてターゲットを開く（アコーディオン形式）
+    groups.forEach(g => g.classList.remove('active'));
+    targetGroup.classList.add('active');
+    activeAlbumId = albumId;
+
+    // アルバムが選ばれたら、その1曲目を自動でプレビューにセット（再生はしない）
+    const firstTrack = targetGroup.querySelector('.track-card');
+    if (firstTrack) firstTrack.click();
+}
+
+// 4. 曲の選択（プレビュー更新）
+function selectTrack(file, albumId, element) {
     // 見た目更新
-    document.querySelectorAll('.music-card').forEach(c => c.classList.remove('active'));
-    element.classList.add('active');
+    document.querySelectorAll('.track-card').forEach(c => c.classList.remove('selected'));
+    element.classList.add('selected');
 
-    const track = currentTracks[idx];
-    const album = allAlbums.find(a => a.id === track.albumId);
+    const track = allTracks.find(t => t.file === file);
+    const album = allAlbums.find(a => a.id === albumId);
 
-    // パネル情報の更新
+    // 右側パネルの更新
     document.getElementById('targetJacket').src = album.img;
     document.getElementById('targetTitle').textContent = track.title;
-    document.getElementById('targetSub').textContent = album.subtitle;
+    document.getElementById('targetSub').textContent = `${album.title} - ${album.subtitle}`;
     document.getElementById('targetDesc').textContent = album.desc;
     
     const boothBtn = document.getElementById('boothLink');
@@ -73,12 +85,15 @@ function selectMusic(idx, element) {
         boothBtn.parentElement.style.display = "none";
     }
 
-    // オーディオ設定
-    audio.src = "audio/" + track.file;
-    updatePlayIcon(false);
+    // オーディオ準備
+    if (activeTrackFile !== file) {
+        audio.src = "audio/" + file;
+        activeTrackFile = file;
+        updatePlayIcon(false);
+    }
 }
 
-// プレイヤーロジック
+// --- プレイヤー基本機能 ---
 const playBtn = document.getElementById('playBtn');
 const seekBar = document.getElementById('seekBar');
 const currentTimeText = document.getElementById('currentTime');
@@ -102,15 +117,19 @@ playBtn.addEventListener('click', () => {
 
 // 前後の曲
 document.getElementById('prevBtn').addEventListener('click', () => {
-    let nextIdx = (currentIndex - 1 + currentTracks.length) % currentTracks.length;
-    const cards = document.querySelectorAll('.music-card');
-    selectMusic(nextIdx, cards[nextIdx]);
+    const cards = Array.from(document.querySelectorAll('.track-card'));
+    const currentCard = document.querySelector('.track-card.selected');
+    let idx = cards.indexOf(currentCard);
+    let nextIdx = (idx - 1 + cards.length) % cards.length;
+    cards[nextIdx].click();
 });
 
 document.getElementById('nextBtn').addEventListener('click', () => {
-    let nextIdx = (currentIndex + 1) % currentTracks.length;
-    const cards = document.querySelectorAll('.music-card');
-    selectMusic(nextIdx, cards[nextIdx]);
+    const cards = Array.from(document.querySelectorAll('.track-card'));
+    const currentCard = document.querySelector('.track-card.selected');
+    let idx = cards.indexOf(currentCard);
+    let nextIdx = (idx + 1) % cards.length;
+    cards[nextIdx].click();
 });
 
 audio.addEventListener('timeupdate', () => {
@@ -129,6 +148,4 @@ audio.addEventListener('loadedmetadata', () => {
 seekBar.addEventListener('input', () => audio.currentTime = (seekBar.value / 100) * audio.duration);
 
 // 初期起動
-window.onload = () => {
-    renderMusicList();
-};
+window.onload = () => { renderGameList(); };
