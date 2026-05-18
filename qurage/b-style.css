@@ -1,130 +1,100 @@
 :root {
     --cyber-black: #0a0a0f;
     --cyber-gray: #1a1a24;
-    --cyber-orange: #b46b2d; /* パターンAと合わせる場合は#b46b2d, より派手にするなら#ff8c00 */
+    --cyber-orange: #b46b2d;
     --cyber-white: #e0e0e0;
     --glow: 0 0 10px rgba(180, 107, 45, 0.4);
 }
 
 /* 基本設定 */
-html, body {
-    height: 100%;
-    margin: 0;
-    background: var(--cyber-black);
-    color: var(--cyber-white);
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
-}
-
-/* サイバー背景演出 */
-.cyber-bg {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0a0f 100%);
-    z-index: -1;
-}
+html, body { height: 100%; margin: 0; background: var(--cyber-black); color: var(--cyber-white); font-family: 'Inter', sans-serif; overflow: hidden; }
+.cyber-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0a0f 100%); z-index: -1; }
 
 /* ヘッダー */
-.game-header {
-    height: 60px;
-    background: rgba(0, 0, 0, 0.8);
-    border-bottom: 2px solid var(--cyber-orange);
-    box-shadow: var(--glow);
-    display: flex;
-    align-items: center;
-    padding: 0 30px;
-}
+.game-header { height: 60px; background: rgba(0, 0, 0, 0.8); border-bottom: 2px solid var(--cyber-orange); box-shadow: var(--glow); display: flex; align-items: center; padding: 0 30px; }
 .header-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
 .logo-area { font-weight: 900; font-size: 1.3rem; letter-spacing: 0.1em; color: var(--cyber-orange); }
-
 .header-nav { display: flex; gap: 15px; }
 .nav-item { text-decoration: none; color: var(--cyber-white); font-size: 0.75rem; font-weight: bold; transition: 0.3s; border: 1px solid transparent; padding: 5px 10px; }
 .nav-item:hover { color: var(--cyber-orange); border: 1px solid var(--cyber-orange); }
 .pattern-switch { background: var(--cyber-orange); color: #fff; border-radius: 4px; }
 
-/* メインコンテナ：PCレイアウト */
-.game-container {
-    display: grid;
-    grid-template-columns: 180px 1fr 350px;
-    height: calc(100vh - 80px);
-    gap: 20px;
-    padding: 10px 20px;
-}
+/* メインレイアウト */
+.game-container { display: grid; grid-template-columns: 180px 1fr 350px; height: calc(100vh - 80px); gap: 20px; padding: 10px 20px; }
 
-/* 左：カテゴリーボタン */
+/* 左：カテゴリー */
 .category-selector { display: flex; flex-direction: column; gap: 15px; padding-top: 20px; }
-.cat-btn {
-    background: var(--cyber-gray);
-    border: 1px solid rgba(180, 107, 45, 0.3);
-    color: var(--cyber-white);
-    padding: 15px;
-    cursor: pointer;
-    text-align: left;
-    border-radius: 0 20px 20px 0;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-.cat-btn.active {
-    background: var(--cyber-orange);
-    color: #fff;
-    box-shadow: var(--glow);
-    transform: translateX(10px);
-}
+.cat-btn { background: var(--cyber-gray); border: 1px solid rgba(180, 107, 45, 0.3); color: var(--cyber-white); padding: 15px; cursor: pointer; border-radius: 0 20px 20px 0; transition: 0.3s; display: flex; flex-direction: column; }
+.cat-btn.active { background: var(--cyber-orange); color: #fff; box-shadow: var(--glow); transform: translateX(10px); }
 .cat-icon { font-size: 1.2rem; }
 .cat-name { font-size: 0.7rem; font-weight: 900; margin-top: 5px; }
 
-/* 中：楽曲リスト（選曲画面） */
-.music-selection {
-    overflow-y: auto;
-    padding-right: 10px;
-}
+/* 中：アルバム・選曲リスト */
+.music-selection { overflow-y: auto; padding-right: 10px; perspective: 1000px; }
 .music-selection::-webkit-scrollbar { width: 6px; }
 .music-selection::-webkit-scrollbar-thumb { background: var(--cyber-orange); border-radius: 10px; }
 
-.music-list-wrapper { display: flex; flex-direction: column; gap: 12px; }
-.music-card {
-    background: rgba(26, 26, 36, 0.8);
-    border-left: 5px solid #444;
-    padding: 15px 20px;
+.album-group { margin-bottom: 15px; }
+
+/* アルバムカード（ゲームのバナー風） */
+.album-banner {
+    background: linear-gradient(135deg, var(--cyber-gray) 0%, #2a2a3a 100%);
+    border: 1px solid rgba(180, 107, 45, 0.4);
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.album-banner:hover { transform: translateX(5px); border-color: var(--cyber-orange); background: #2a2a3a; }
+.album-banner.open { border-bottom: 3px solid var(--cyber-orange); background: #333; }
+.ab-img { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; border: 1px solid var(--cyber-orange); }
+.ab-info { flex: 1; }
+.ab-title { font-weight: 900; font-size: 1rem; color: var(--cyber-orange); }
+.ab-meta { font-size: 0.7rem; opacity: 0.7; }
+
+/* 展開される曲リスト */
+.sub-track-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0 10px;
+    border-radius: 0 0 10px 10px;
+}
+.album-group.active .sub-track-list { max-height: 1000px; padding: 10px 0; }
+
+.track-card {
+    padding: 10px 30px;
+    margin: 5px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
     transition: 0.2s;
 }
-.music-card:hover { background: rgba(40, 40, 56, 1); border-left-color: var(--cyber-orange); transform: scale(1.02); }
-.music-card.active {
-    background: linear-gradient(90deg, rgba(180, 107, 45, 0.2) 0%, rgba(26,26,36,1) 100%);
-    border-left-color: var(--cyber-orange);
+.track-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateX(10px); }
+.track-card.selected { 
+    background: var(--cyber-orange); 
+    color: #fff; 
+    font-weight: bold;
     box-shadow: var(--glow);
 }
-.m-num { font-size: 1.2rem; font-weight: 900; font-style: italic; color: var(--cyber-orange); min-width: 30px; }
-.m-title { font-weight: 700; font-size: 1rem; flex: 1; }
-.m-album-name { font-size: 0.7rem; opacity: 0.6; }
 
 /* 右：プレビューパネル */
-.preview-panel {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(180, 107, 45, 0.2);
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
+.preview-panel { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(180, 107, 45, 0.2); border-radius: 15px; padding: 20px; display: flex; flex-direction: column; }
 .panel-inner { height: 100%; display: flex; flex-direction: column; align-items: center; }
-.jacket-frame {
-    width: 200px; height: 200px;
-    border: 2px solid var(--cyber-orange);
-    box-shadow: var(--glow);
-    margin-bottom: 20px;
-    overflow: hidden;
-    background: #000;
-}
+.jacket-frame { width: 200px; height: 200px; border: 2px solid var(--cyber-orange); box-shadow: var(--glow); margin-bottom: 20px; overflow: hidden; background: #000; }
 .jacket-img { width: 100%; height: 100%; object-fit: cover; }
 .music-info { text-align: center; width: 100%; margin-bottom: 20px; }
 .sub-title { color: var(--cyber-orange); font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; }
-.main-title { font-family: 'Shippori Mincho', serif; font-size: 1.4rem; margin: 0; }
+.main-title { font-family: 'Shippori Mincho', serif; font-size: 1.2rem; margin: 0; line-height: 1.4; }
 .music-desc { font-size: 0.75rem; opacity: 0.7; margin-top: 10px; line-height: 1.6; }
 
 /* プレイヤー部分 */
@@ -135,30 +105,21 @@ html, body {
 .progress-area { display: flex; align-items: center; gap: 10px; font-size: 0.6rem; color: var(--cyber-orange); }
 #seekBar { flex: 1; accent-color: var(--cyber-orange); }
 
-/* BOOTH START ボタン */
 .start-btn-area { margin-top: 20px; width: 100%; }
-.booth-start-btn {
-    display: flex; flex-direction: column; align-items: center;
-    text-decoration: none; background: #e63946; color: #fff;
-    padding: 15px; border-radius: 5px;
-    font-weight: 900;
-    box-shadow: 0 0 20px rgba(230, 57, 70, 0.4);
-    transition: 0.3s;
-}
+.booth-start-btn { display: flex; flex-direction: column; align-items: center; text-decoration: none; background: #e63946; color: #fff; padding: 12px; border-radius: 5px; font-weight: 900; box-shadow: 0 0 20px rgba(230, 57, 70, 0.4); transition: 0.3s; }
 .booth-start-btn:hover { background: #ff4d5a; transform: translateY(-3px); }
-.btn-text { font-size: 1.4rem; letter-spacing: 0.2em; }
+.btn-text { font-size: 1.2rem; letter-spacing: 0.1em; }
 .btn-sub { font-size: 0.6rem; opacity: 0.8; }
 
-/* フッター */
 .game-footer { height: 20px; text-align: center; font-size: 0.6rem; opacity: 0.4; margin-top: 10px; }
 
-/* スマホ対応レイアウト：上から順に並ぶ */
+/* スマホ対応 */
 @media (max-width: 900px) {
     html, body { overflow: auto; overscroll-behavior: auto; }
     .game-container { display: flex; flex-direction: column; height: auto; padding-bottom: 50px; }
-    .category-selector { flex-direction: row; order: 1; }
-    .cat-btn { border-radius: 10px; flex: 1; align-items: center; }
-    .music-selection { height: 400px; order: 2; margin-top: 10px; }
-    .preview-panel { order: 3; width: auto; height: auto; padding: 20px; }
+    .category-selector { flex-direction: row; order: 1; padding: 10px 0; }
+    .cat-btn { border-radius: 10px; flex: 1; align-items: center; padding: 10px; }
+    .music-selection { height: auto; order: 2; overflow: visible; }
+    .preview-panel { order: 3; width: auto; height: auto; padding: 20px; margin-top: 20px; }
     .jacket-frame { width: 160px; height: 160px; }
 }
