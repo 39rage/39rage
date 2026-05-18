@@ -20,7 +20,6 @@
     </header>
 
     <main class="app-main">
-        <!-- ヒーローエリア -->
         <section class="artist-hero">
             <div class="hero-content">
                 <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage" class="hero-img">
@@ -35,54 +34,79 @@
             </div>
         </section>
 
-        <!-- DISCOGRAPHY -->
         <section class="app-section">
             <h2 class="section-title">DISCOGRAPHY</h2>
             <div class="album-grid" id="albumGrid"></div>
         </section>
 
-        <!-- ALL TRACKS -->
         <section class="app-section">
             <h2 class="section-title">ALL TRACKS</h2>
             <div class="song-list" id="songList"></div>
         </section>
 
-        <!-- UNRELEASED -->
         <section class="app-section unreleased-section">
             <h2 class="section-title">UNRELEASED</h2>
             <p class="section-note">制作途中・未配布の楽曲です。これはフリーBGMではありませんが、よければお聞きください。</p>
             <div class="song-list" id="unreleasedList"></div>
         </section>
 
-        <!-- 改善されたフッター -->
-        <footer class="app-footer">
-            <div class="footer-line"></div>
-            <p>© Qurage. All Rights Reserved.</p>
-            <p class="footer-sub">GarageBand Apple Loops Archive</p>
-        </footer>
+        <footer class="app-footer">© Qurage. All Rights Reserved.</footer>
     </main>
 
-    <!-- 再生リスト（キュー）表示 -->
-    <div id="queueDrawer" class="queue-drawer">
-        <div class="queue-header">次に再生</div>
-        <div id="queueList" class="queue-content"></div>
-    </div>
-
-    <!-- プレイヤーバー -->
-    <div class="fixed-player">
-        <div class="player-inner">
+    <!-- 【スマホ用】全画面プレイヤー -->
+    <div id="fullPlayer" class="full-player">
+        <button class="close-full-player" id="closeFullPlayer">∨</button>
+        <div class="full-player-content">
+            <img src="" alt="" id="fullPlayerArt" class="full-p-art">
+            <div class="full-p-text">
+                <div id="fullPlayerTitle" class="full-p-title">曲を選択してください</div>
+                <div id="fullPlayerSub" class="full-p-sub">アーティスト</div>
+            </div>
             
-            <!-- 操作系（左） -->
-            <div class="p-controls">
-                <button class="icon-btn" id="shuffleBtn" title="シャッフル"><svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.45 20 9.5V4h-5.5zm.59 10.83l-1.41 1.41 3.13 3.13L14.5 22H20v-5.5l-2.04 2.04-3.37-3.37z"/></svg></button>
-                <button class="icon-btn" id="prevBtn" title="前へ"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-                <button class="play-btn" id="playBtn"><svg id="playIconSVG" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-                <button class="icon-btn" id="nextBtn" title="次へ"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
-                <button class="icon-btn" id="repeatBtn" title="リピート"><svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
+            <div class="full-p-seek">
+                <input type="range" id="fullSeekBar" value="0" max="100">
+                <div class="full-p-time">
+                    <span id="fullCurrentTime">0:00</span>
+                    <span id="fullDuration">0:00</span>
+                </div>
             </div>
 
-            <!-- 情報 ＆ シーク（中央） -->
-            <div class="p-center">
+            <div class="full-p-controls">
+                <button class="icon-btn" onclick="toggleShuffle()">🔀</button>
+                <button class="icon-btn" onclick="prevTrack()">⏮</button>
+                <button class="full-play-btn" id="fullPlayBtn">▶</button>
+                <button class="icon-btn" onclick="nextTrack()">⏭</button>
+                <button class="icon-btn" onclick="toggleRepeat()">🔁</button>
+            </div>
+
+            <!-- YouTube MUSIC風「再生リスト」タブ -->
+            <div class="full-p-tabs">
+                <button class="tab-btn active" id="openQueueBtn">再生リスト (キュー)</button>
+            </div>
+        </div>
+
+        <!-- 全画面用の再生リスト（さらに上にせり出す） -->
+        <div id="fullQueue" class="full-queue-drawer">
+            <div class="queue-header">次に再生</div>
+            <div id="fullQueueList" class="queue-content"></div>
+        </div>
+    </div>
+
+    <!-- プレイヤーバー（PC & スマホミニ用） -->
+    <div class="fixed-player" id="miniPlayer">
+        <div class="player-inner">
+            
+            <!-- 操作（PCのみ表示） -->
+            <div class="p-controls pc-only">
+                <button class="icon-btn" onclick="toggleShuffle()">🔀</button>
+                <button class="icon-btn" onclick="prevTrack()">⏮</button>
+                <button class="play-btn" id="playBtn">▶</button>
+                <button class="icon-btn" onclick="nextTrack()">⏭</button>
+                <button class="icon-btn" onclick="toggleRepeat()">🔁</button>
+            </div>
+
+            <!-- 情報（スマホはここをタップで拡大） -->
+            <div class="p-center" id="expandTrigger">
                 <div class="p-info">
                     <div class="p-art-wrapper">
                         <div id="playerDefaultIcon" class="p-default-icon">👾</div>
@@ -90,33 +114,29 @@
                     </div>
                     <div class="p-text">
                         <div id="playerTitleInfo" class="p-title-line">曲を選択してください</div>
-                        <div class="p-description-area">
-                            <!-- ID名を確実なものに修正 -->
-                            <div id="playerDescMarquee" class="marquee-text">Welcome to Qurage Music👾</div>
+                        <div class="p-description-area" id="marqueeBox">
+                            <div id="playerDescMarquee" class="marquee-text">Welcome to 👾 MUSIC</div>
                         </div>
                     </div>
                 </div>
-                <div class="p-seek-wrapper">
+                <div class="p-seek-wrapper pc-only">
                     <span id="currentTime" class="time-label">0:00</span>
                     <input type="range" id="seekBar" value="0" max="100">
                     <span id="duration" class="time-label">0:00</span>
                 </div>
             </div>
 
-            <!-- ツール系（右） -->
+            <!-- ツール -->
             <div class="p-tools">
-                <button class="icon-btn" id="queueBtn" title="再生リスト"><svg viewBox="0 0 24 24"><path d="M4 6h18v2H4zm0 5h18v2H4zm0 5h18v2H4z"/></svg></button>
-                
-                <div class="volume-tool">
-                    <button class="icon-btn" id="volumeBtn"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <button class="icon-btn mobile-expand-btn">^</button>
+                <button class="icon-btn pc-only" id="queueBtn">📑</button>
+                <div class="volume-tool pc-only">
+                    <button class="icon-btn" id="volumeBtn">🔈</button>
                     <div id="volumePopup" class="volume-popup">
                         <input type="range" id="volumeBar" value="80" max="100" orient="vertical">
                     </div>
                 </div>
-
-                <a href="#" target="_blank" id="boothLink" class="icon-btn download-btn" title="Download at BOOTH">
-                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                </a>
+                <a href="#" target="_blank" id="boothLink" class="icon-btn download-btn pc-only">⬇️</a>
             </div>
         </div>
     </div>
