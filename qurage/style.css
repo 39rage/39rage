@@ -40,10 +40,29 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .terms-wrapper { padding-bottom: 25px; text-align: center; }
 .terms-btn { display: inline-block; text-decoration: none; color: #ffffff; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 4px 15px; font-size: 0.6rem; transition: 0.3s; opacity: 0.9; }
 .terms-btn:hover { background: #ffffff; color: var(--primary-orange); opacity: 1; }
-.recent-tracks-section { padding: 0 15% 20px; flex: 1; overflow-y: auto; }
+
+/* 2列・縦流れの設定 */
+.recent-tracks-section { padding: 0 10% 20px; flex: 1; overflow-y: auto; }
 .recent-tracks-section h3 { font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; margin-bottom: 12px; }
-.recent-grid { display: flex; flex-direction: column; gap: 6px; }
-.recent-link { display: block; color: #ffffff; text-decoration: none; font-size: 0.65rem; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; transition: 0.3s; }
+.recent-grid { 
+    column-count: 2; /* 2列にする */
+    column-gap: 8px; /* 列同士の隙間 */
+}
+.recent-link { 
+    display: block; 
+    break-inside: avoid; /* 途中で改行されないようにする */
+    margin-bottom: 8px; /* 縦の隙間 */
+    color: #ffffff; 
+    text-decoration: none; 
+    font-size: 0.6rem; 
+    padding: 6px 4px; 
+    border: 1px solid rgba(255,255,255,0.3); 
+    border-radius: 2px; 
+    transition: 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
 
 /* 中面コンテンツ */
@@ -77,7 +96,7 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .track-item { padding: 12px 8px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: grid; grid-template-columns: 2.2em 1fr auto; align-items: start; font-size: 0.8rem; transition: 0.2s; gap: 4px; }
 .track-item.active { background: #fff; color: var(--primary-orange); font-weight: bold; }
 .track-name { overflow-wrap: break-word; line-height: 1.4; }
-.track-meta { font-family: 'Inter'; font-size: 0.6rem; color: var(--text-sub); margin-top: 2px; }
+.track-meta { font-family: 'Inter'; font-size: 0.65rem; color: var(--text-sub); margin-top: 2px; }
 
 /* プレイヤーUI */
 .player-footer { margin-top: auto; width: 100%; }
