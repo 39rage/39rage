@@ -2,35 +2,36 @@ let audio = new Audio();
 let currentTracks = [];
 let currentIndex = 0;
 
-function initAppPage() {
-    renderAlbums();
-    renderSongs();
+function initApp() {
+    renderGrid();
+    renderAllSongs();
     renderUnreleased();
     setupPlayer();
 }
 
-// アルバムグリッド生成
-function renderAlbums() {
+// アルバムグリッド
+function renderGrid() {
     const grid = document.getElementById('albumGrid');
-    grid.innerHTML = allAlbums
-        .filter(a => a.category === 'discography')
-        .map(album => `
-            <a href="discography.html?id=${album.id}" class="album-item">
-                <img src="${album.img}" class="album-art">
-                <span class="album-title">${album.title}</span>
-                <span class="album-meta">${album.subtitle}</span>
-            </a>
-        `).join('');
+    const discoAlbums = allAlbums.filter(a => a.category === 'discography');
+    
+    grid.innerHTML = discoAlbums.map(album => `
+        <a href="discography.html?id=${album.id}" class="album-item">
+            <img src="${album.img}" alt="${album.title}">
+            <span class="al-title">${album.title}</span>
+            <span class="al-sub">${album.subtitle}</span>
+        </a>
+    `).join('');
 }
 
-// トップソング（全曲）生成
-function renderSongs() {
+// トップソング
+function renderAllSongs() {
     const list = document.getElementById('songList');
+    // discographyの全曲を取得して日付順に並び替え
     const discoTracks = allTracks.filter(t => {
         const alb = allAlbums.find(a => a.id === t.albumId);
         return alb && alb.category === 'discography';
-    });
-    
+    }).sort((a, b) => b.file.localeCompare(a.file)); // 新しい順
+
     currentTracks = discoTracks;
 
     list.innerHTML = discoTracks.map((track, idx) => {
@@ -39,78 +40,69 @@ function renderSongs() {
             <div class="song-item" onclick="playTrack(${idx})">
                 <span class="s-num">${idx + 1}</span>
                 <img src="${album.img}" class="s-art">
-                <span class="s-title">${track.title}</span>
-                <span class="s-album">${album.title}</span>
+                <div class="s-info">
+                    <span class="s-title">${track.title}</span>
+                    <span class="s-album">${album.title}</span>
+                </div>
             </div>
         `;
     }).join('');
 }
 
-// UNRELEASED生成
+// UNRELEASED
 function renderUnreleased() {
     const list = document.getElementById('unreleasedList');
-    const unreleasedTracks = allTracks.filter(t => {
+    const unTracks = allTracks.filter(t => {
         const alb = allAlbums.find(a => a.id === t.albumId);
         return alb && alb.category === 'unreleased';
     });
 
-    list.innerHTML = unreleasedTracks.map((track, idx) => {
+    list.innerHTML = unTracks.map((track) => {
         const album = allAlbums.find(a => a.id === track.albumId);
         return `
-            <div class="song-item" onclick="playTrackByFile('${track.file}')">
+            <div class="song-item" onclick="playSpecificTrack('${track.file}')">
                 <span class="s-num">👾</span>
                 <img src="${album.img}" class="s-art">
-                <span class="s-title">${track.title}</span>
-                <span class="s-album">${album.title}</span>
+                <div class="s-info">
+                    <span class="s-title">${track.title}</span>
+                    <span class="s-album">${album.title}</span>
+                </div>
             </div>
         `;
     }).join('');
 }
 
-// プレイヤー制御
+// プレイヤー
 function setupPlayer() {
     const playBtn = document.getElementById('playBtn');
     const seekBar = document.getElementById('seekBar');
-    const currentTimeText = document.getElementById('currentTime');
-    const durationText = document.getElementById('duration');
 
     playBtn.addEventListener('click', () => {
-        if (audio.paused) {
-            if (!audio.src) playTrack(0);
-            else audio.play();
-        } else {
-            audio.pause();
-        }
-        updatePlayIcon();
+        if (!audio.src && currentTracks.length > 0) playTrack(0);
+        else if (audio.paused) audio.play();
+        else audio.pause();
     });
 
     document.getElementById('nextBtn').addEventListener('click', () => {
-        let nextIdx = (currentIndex + 1) % currentTracks.length;
-        playTrack(nextIdx);
+        playTrack((currentIndex + 1) % currentTracks.length);
     });
 
     document.getElementById('prevBtn').addEventListener('click', () => {
-        let nextIdx = (currentIndex - 1 + currentTracks.length) % currentTracks.length;
-        playTrack(nextIdx);
+        playTrack((currentIndex - 1 + currentTracks.length) % currentTracks.length);
     });
 
     audio.addEventListener('timeupdate', () => {
         if (!isNaN(audio.duration)) {
             seekBar.value = (audio.currentTime / audio.duration) * 100;
-            currentTimeText.textContent = formatTime(audio.currentTime);
         }
-    });
-
-    audio.addEventListener('loadedmetadata', () => {
-        durationText.textContent = formatTime(audio.duration);
     });
 
     seekBar.addEventListener('input', () => {
         audio.currentTime = (seekBar.value / 100) * audio.duration;
     });
 
-    audio.addEventListener('play', () => updatePlayIcon());
-    audio.addEventListener('pause', () => updatePlayIcon());
+    audio.addEventListener('play', () => playBtn.textContent = "⏸");
+    audio.addEventListener('pause', () => playBtn.textContent = "▶");
 }
 
 function playTrack(idx) {
@@ -122,27 +114,16 @@ function playTrack(idx) {
     audio.play();
 
     document.getElementById('playerTitle').textContent = track.title;
-    document.getElementById('playerArtist').textContent = album.title;
-    document.getElementById('miniJacket').src = album.img;
+    document.getElementById('playerAlbum').textContent = album.title;
+    document.getElementById('playerArt').src = album.img;
 }
 
-function playTrackByFile(file) {
+function playSpecificTrack(file) {
     const track = allTracks.find(t => t.file === file);
     const album = allAlbums.find(a => a.id === track.albumId);
     audio.src = 'audio/' + file;
     audio.play();
     document.getElementById('playerTitle').textContent = track.title;
-    document.getElementById('playerArtist').textContent = album.title;
-    document.getElementById('miniJacket').src = album.img;
-}
-
-function updatePlayIcon() {
-    const playBtn = document.getElementById('playBtn');
-    playBtn.textContent = audio.paused ? "▶" : "⏸";
-}
-
-function formatTime(seconds) {
-    let m = Math.floor(seconds / 60);
-    let s = Math.floor(seconds % 60);
-    return `${m}:${s < 10 ? '0'+s : s}`;
+    document.getElementById('playerAlbum').textContent = album.title;
+    document.getElementById('playerArt').src = album.img;
 }
