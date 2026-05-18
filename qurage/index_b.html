@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Qurage Music - SELECT MUSIC</title>
+    <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_b.css">
+</head>
+<body class="game-theme">
+    <!-- 背景演出用の装飾（あとで動かしたりできます） -->
+    <div class="cyber-bg"></div>
+
+    <header class="game-header">
+        <div class="header-inner">
+            <div class="logo-area">
+                <span class="glitch-text" data-text="Qurage Music">Qurage Music</span>
+            </div>
+            <nav class="header-nav">
+                <a href="#" class="nav-item" onclick="alert('ABOUT: GarageBand制作のフリーBGMアーカイブです。')">ABOUT</a>
+                <a href="https://casbgcasbg.booth.pm/" target="_blank" class="nav-item">TERMS</a>
+                <a href="index.html" class="nav-item pattern-switch">PATTERN A</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="game-container">
+        <!-- 左：カテゴリー選択 -->
+        <aside class="category-selector">
+            <button class="cat-btn active" onclick="changeCategory('discography', this)">
+                <span class="cat-icon">💿</span>
+                <span class="cat-name">DISCOGRAPHY</span>
+            </button>
+            <button class="cat-btn" onclick="changeCategory('unreleased', this)">
+                <span class="cat-icon">👾</span>
+                <span class="cat-name">UNRELEASED</span>
+            </button>
+        </aside>
+
+        <!-- 中：楽曲選択リスト -->
+        <section class="music-selection">
+            <div class="music-list-wrapper" id="musicList">
+                <!-- ここに曲カードが自動生成されます -->
+            </div>
+        </section>
+
+        <!-- 右：プレイヤー・プレビューパネル -->
+        <section class="preview-panel" id="previewPanel">
+            <div class="panel-inner">
+                <div class="jacket-frame">
+                    <img src="" alt="" id="targetJacket" class="jacket-img">
+                </div>
+                <div class="music-info">
+                    <p id="targetSub" class="sub-title"></p>
+                    <h2 id="targetTitle" class="main-title"></h2>
+                    <p id="targetDesc" class="music-desc"></p>
+                </div>
+                
+                <div class="game-player">
+                    <div class="player-controls">
+                        <button class="ctrl-btn" id="prevBtn">PREV</button>
+                        <button class="play-main-btn" id="playBtn">PLAY</button>
+                        <button class="ctrl-btn" id="nextBtn">NEXT</button>
+                    </div>
+                    <div class="progress-area">
+                        <span id="currentTime">0:00</span>
+                        <input type="range" id="seekBar" value="0" max="100">
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+
+                <div class="start-btn-area">
+                    <a href="#" target="_blank" id="boothLink" class="booth-start-btn">
+                        <span class="btn-text">BOOTH</span>
+                        <span class="btn-sub">GO TO START</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="game-footer">
+        <p>© Qurage Music | Designed for Cyber Experience</p>
+    </footer>
+
+    <script src="music-data.js"></script>
+    <script src="logic_b.js"></script>
+</body>
+</html>
