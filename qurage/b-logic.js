@@ -1,130 +1,148 @@
-let currentCategory = 'discography';
-let isAutoScrolling = false;
+let audio = new Audio();
+let currentTracks = [];
+let currentIndex = 0;
 
-// 1. カテゴリー切り替え
-function changeCategory(cat, btn) {
-    currentCategory = cat;
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderInfiniteCarousel();
+function initAppPage() {
+    renderAlbums();
+    renderSongs();
+    renderUnreleased();
+    setupPlayer();
 }
 
-// 2. 無限カルーセル生成
-function renderInfiniteCarousel() {
-    const viewport = document.getElementById('albumCarousel');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'infinite-wrapper';
-    wrapper.id = 'infiniteWrapper';
-    
-    const albums = allAlbums.filter(a => a.category === currentCategory);
-    
-    // 無限ループのためにデータを3倍にする（中央のセットを使う）
-    const tripledAlbums = [...albums, ...albums, ...albums];
+// アルバムグリッド生成
+function renderAlbums() {
+    const grid = document.getElementById('albumGrid');
+    grid.innerHTML = allAlbums
+        .filter(a => a.category === 'discography')
+        .map(album => `
+            <a href="discography.html?id=${album.id}" class="album-item">
+                <img src="${album.img}" class="album-art">
+                <span class="album-title">${album.title}</span>
+                <span class="album-meta">${album.subtitle}</span>
+            </a>
+        `).join('');
+}
 
-    wrapper.innerHTML = tripledAlbums.map((album, idx) => `
-        <div class="carousel-item" data-id="${album.id}" data-index="${idx}">
-            <img src="${album.img}" alt="${album.title}">
-        </div>
-    `).join('');
-
-    viewport.innerHTML = '';
-    viewport.appendChild(wrapper);
-
-    // 初期位置を中央のセットの先頭にする
-    const items = wrapper.querySelectorAll('.carousel-item');
-    const scrollCenter = () => {
-        const firstMiddleItem = items[albums.length];
-        viewport.scrollLeft = firstMiddleItem.offsetLeft - viewport.offsetWidth / 2 + firstMiddleItem.offsetWidth / 2;
-        selectAlbumB(albums[0].id, firstMiddleItem);
-    };
-    
-    setTimeout(scrollCenter, 10);
-
-    // スクロール検知：端に行ったら瞬間移動
-    viewport.addEventListener('scroll', () => {
-        if (isAutoScrolling) return;
-
-        const singleWidth = albums.length * (200 + 30); // 1セットの幅
-        if (viewport.scrollLeft < singleWidth * 0.5) {
-            viewport.scrollLeft += singleWidth; // 左端近くなら右へジャンプ
-        } else if (viewport.scrollLeft > singleWidth * 1.5) {
-            viewport.scrollLeft -= singleWidth; // 右端近くなら左へジャンプ
-        }
-        updateActiveCenter();
+// トップソング（全曲）生成
+function renderSongs() {
+    const list = document.getElementById('songList');
+    const discoTracks = allTracks.filter(t => {
+        const alb = allAlbums.find(a => a.id === t.albumId);
+        return alb && alb.category === 'discography';
     });
+    
+    currentTracks = discoTracks;
+
+    list.innerHTML = discoTracks.map((track, idx) => {
+        const album = allAlbums.find(a => a.id === track.albumId);
+        return `
+            <div class="song-item" onclick="playTrack(${idx})">
+                <span class="s-num">${idx + 1}</span>
+                <img src="${album.img}" class="s-art">
+                <span class="s-title">${track.title}</span>
+                <span class="s-album">${album.title}</span>
+            </div>
+        `;
+    }).join('');
 }
 
-// 3. 中心にあるアイテムを特定してアクティブにする
-function updateActiveCenter() {
-    const viewport = document.getElementById('albumCarousel');
-    const items = document.querySelectorAll('.carousel-item');
-    let closestItem = null;
-    let minDistance = Infinity;
-
-    items.forEach(item => {
-        const center = item.offsetLeft - viewport.scrollLeft - viewport.offsetWidth / 2 + item.offsetWidth / 2;
-        const distance = Math.abs(center);
-        if (distance < minDistance) {
-            minDistance = distance;
-            closestItem = item;
-        }
+// UNRELEASED生成
+function renderUnreleased() {
+    const list = document.getElementById('unreleasedList');
+    const unreleasedTracks = allTracks.filter(t => {
+        const alb = allAlbums.find(a => a.id === t.albumId);
+        return alb && alb.category === 'unreleased';
     });
 
-    if (closestItem && !closestItem.classList.contains('active')) {
-        const albumId = closestItem.getAttribute('data-id');
-        selectAlbumB(albumId, closestItem);
-    }
+    list.innerHTML = unreleasedTracks.map((track, idx) => {
+        const album = allAlbums.find(a => a.id === track.albumId);
+        return `
+            <div class="song-item" onclick="playTrackByFile('${track.file}')">
+                <span class="s-num">👾</span>
+                <img src="${album.img}" class="s-art">
+                <span class="s-title">${track.title}</span>
+                <span class="s-album">${album.title}</span>
+            </div>
+        `;
+    }).join('');
 }
 
-// 4. アルバム選択・情報更新
-function selectAlbumB(albumId, element) {
-    document.querySelectorAll('.carousel-item').forEach(i => i.classList.remove('active'));
-    element.classList.add('active');
+// プレイヤー制御
+function setupPlayer() {
+    const playBtn = document.getElementById('playBtn');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeText = document.getElementById('currentTime');
+    const durationText = document.getElementById('duration');
 
-    const album = allAlbums.find(a => a.id === albumId);
-    if (!album) return;
+    playBtn.addEventListener('click', () => {
+        if (audio.paused) {
+            if (!audio.src) playTrack(0);
+            else audio.play();
+        } else {
+            audio.pause();
+        }
+        updatePlayIcon();
+    });
 
-    const detail = document.getElementById('albumDetail');
-    // UNRELEASEDでもBOOTHボタン以外は同様に出す設定
-    const boothBtn = (album.booth && album.booth !== '#') 
-        ? `<a href="${album.booth}" target="_blank" class="booth-btn-b">Download at BOOTH</a>` 
-        : '';
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        let nextIdx = (currentIndex + 1) % currentTracks.length;
+        playTrack(nextIdx);
+    });
 
-    detail.innerHTML = `
-        <h2 class="b-title-main">${album.title}</h2>
-        <p class="b-subtitle">${album.subtitle}</p>
-        <p class="b-desc">${album.desc}</p>
-        ${boothBtn}
-    `;
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        let nextIdx = (currentIndex - 1 + currentTracks.length) % currentTracks.length;
+        playTrack(nextIdx);
+    });
 
-    const albumTracks = allTracks.filter(t => t.albumId === albumId).sort((a, b) => a.file.localeCompare(b.file));
-    initAudioPlayer(albumTracks);
-}
-
-// ページ初期化
-function initGamePage() {
-    renderHeader();
-    renderPlayerPart('album'); 
-    renderInfiniteCarousel();
-    
-    // サイドバーをカテゴリ切り替え用に改造
-    const side = document.getElementById('sidebar-part');
-    side.innerHTML = `
-        <button class="cat-btn active" onclick="changeCategory('discography', this)">💿 DISCOGRAPHY</button>
-        <button class="cat-btn" onclick="changeCategory('unreleased', this)">👾 UNRELEASED</button>
-    `;
-
-    // アイテムクリックで中央に寄せる
-    document.getElementById('albumCarousel').addEventListener('click', (e) => {
-        const item = e.target.closest('.carousel-item');
-        if (item) {
-            isAutoScrolling = true;
-            const viewport = document.getElementById('albumCarousel');
-            viewport.scrollTo({
-                left: item.offsetLeft - viewport.offsetWidth / 2 + item.offsetWidth / 2,
-                behavior: 'smooth'
-            });
-            setTimeout(() => { isAutoScrolling = false; }, 500);
+    audio.addEventListener('timeupdate', () => {
+        if (!isNaN(audio.duration)) {
+            seekBar.value = (audio.currentTime / audio.duration) * 100;
+            currentTimeText.textContent = formatTime(audio.currentTime);
         }
     });
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationText.textContent = formatTime(audio.duration);
+    });
+
+    seekBar.addEventListener('input', () => {
+        audio.currentTime = (seekBar.value / 100) * audio.duration;
+    });
+
+    audio.addEventListener('play', () => updatePlayIcon());
+    audio.addEventListener('pause', () => updatePlayIcon());
+}
+
+function playTrack(idx) {
+    currentIndex = idx;
+    const track = currentTracks[idx];
+    const album = allAlbums.find(a => a.id === track.albumId);
+    
+    audio.src = 'audio/' + track.file;
+    audio.play();
+
+    document.getElementById('playerTitle').textContent = track.title;
+    document.getElementById('playerArtist').textContent = album.title;
+    document.getElementById('miniJacket').src = album.img;
+}
+
+function playTrackByFile(file) {
+    const track = allTracks.find(t => t.file === file);
+    const album = allAlbums.find(a => a.id === track.albumId);
+    audio.src = 'audio/' + file;
+    audio.play();
+    document.getElementById('playerTitle').textContent = track.title;
+    document.getElementById('playerArtist').textContent = album.title;
+    document.getElementById('miniJacket').src = album.img;
+}
+
+function updatePlayIcon() {
+    const playBtn = document.getElementById('playBtn');
+    playBtn.textContent = audio.paused ? "▶" : "⏸";
+}
+
+function formatTime(seconds) {
+    let m = Math.floor(seconds / 60);
+    let s = Math.floor(seconds % 60);
+    return `${m}:${s < 10 ? '0'+s : s}`;
 }
