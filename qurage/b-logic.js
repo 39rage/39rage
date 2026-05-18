@@ -34,6 +34,7 @@ function renderAlbums() {
 function renderAllTracks() {
     const list = document.getElementById('songList');
     const tracks = getSortedDiscoTracks();
+    currentQueue = tracks; 
     list.innerHTML = tracks.map((track, idx) => {
         const album = allAlbums.find(a => a.id === track.albumId);
         return `
@@ -47,7 +48,6 @@ function renderAllTracks() {
 }
 
 function getSortedDiscoTracks() {
-    // アルバム登録順（00, 01...） -> ファイル名昇順
     return allTracks.filter(t => {
         const alb = allAlbums.find(a => a.id === t.albumId);
         return alb && alb.category === 'discography';
@@ -113,10 +113,9 @@ function loadAndPlay(idx) {
     audio.src = 'audio/' + track.file;
     audio.play();
 
-    // プレイヤー表示更新： 曲名 / アルバム名
     document.getElementById('playerTitleInfo').textContent = `${track.title} / ${album.title}`;
     
-    // マーキー演出の更新
+    // 曲紹介の更新（マーキー）
     const marquee = document.getElementById('playerDescMarquee');
     marquee.textContent = album.desc.replace(/<br>/g, " ");
     
