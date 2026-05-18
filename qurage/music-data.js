@@ -89,6 +89,15 @@ const allAlbums = [
         desc: "かっこよくておしゃんな曲",
         booth: "https://casbgcasbg.booth.pm/items/2758818",
         tracksCount: "3 Tracks"
+    },
+    {
+        id: "organic", 
+        title: "Organic",
+        subtitle: "10th Single",
+        img: "https://fromtheasia.com/wp-content/uploads/NCG61.jpg",
+        desc: "３ヶ月ぶりの新曲<br>おしゃべり動画に使えそうなThe・ループ曲",
+        booth: "https://casbgcasbg.booth.pm/items/3007933",
+        tracksCount: "3 Tracks"
     }
 ];
 
@@ -98,6 +107,7 @@ const allTracks = [
     { title: "British Brixton", file: "2020102923 British_Brixton-100_C.mp3", albumId: "first-step" },
     { title: "Accelerate Afghanistan", file: "2020103012 Accelerate_Afghanistan_TH-102_Cm.mp3", albumId: "first-step" },
     { title: "AABS 80s", file: "2020103014 AABS_80s-128_Cm.mp3", albumId: "first-step" },
+    { title: "Altered Afterburner AYB", file: "2020103018 Altered_Afterburner_AYB-129_Csm.mp3", albumId: "first-step" },
     { title: "Altered Afterburner AYB", file: "2020103018 Altered_Afterburner_AYB-129_Csm.mp3", albumId: "first-step" },
     { title: "Alternating synth layers", file: "2020103111 Alternating_synth_layers-125_Dm.mp3", albumId: "first-step" },
     
@@ -144,5 +154,10 @@ const allTracks = [
     // --- Big Tight ---
     { title: "Cathode Euro CC", file: "2021020311 Cathode_Euro_CC-128_Dm.mp3", albumId: "big-tight" },
     { title: "Big 8BS", file: "2021021716 Big_8BS-128_Cm.mp3", albumId: "big-tight" },
-    { title: "Tight Fashion MM", file: "2021021800 Tight_Fashion_MM-120_Cm.mp3", albumId: "big-tight" }
+    { title: "Tight Fashion MM", file: "2021021800 Tight_Fashion_MM-120_Cm.mp3", albumId: "big-tight" },
+
+    // --- Organic ---
+    { title: "Organic TBC", file: "2021022511 Organic_TBC-125_C.mp3", albumId: "organic" },
+    { title: "Full 3FC", file: "2021022512 Full_3FC-125_C.mp3", albumId: "organic" },
+    { title: "Backroads", file: "2021033017 Backroads-90_C.mp3", albumId: "organic" }
 ];
