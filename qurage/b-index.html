@@ -54,7 +54,12 @@
             <div class="song-list" id="unreleasedList"></div>
         </section>
 
-        <footer class="app-footer">© Qurage. All Rights Reserved.</footer>
+        <!-- 改善されたフッター -->
+        <footer class="app-footer">
+            <div class="footer-line"></div>
+            <p>© Qurage. All Rights Reserved.</p>
+            <p class="footer-sub">GarageBand Apple Loops Archive</p>
+        </footer>
     </main>
 
     <!-- 再生リスト（キュー）表示 -->
@@ -63,11 +68,11 @@
         <div id="queueList" class="queue-content"></div>
     </div>
 
-    <!-- 究極のプレイヤーバー -->
+    <!-- プレイヤーバー -->
     <div class="fixed-player">
         <div class="player-inner">
             
-            <!-- 1. 操作系（左） -->
+            <!-- 操作系（左） -->
             <div class="p-controls">
                 <button class="icon-btn" id="shuffleBtn" title="シャッフル"><svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.45 20 9.5V4h-5.5zm.59 10.83l-1.41 1.41 3.13 3.13L14.5 22H20v-5.5l-2.04 2.04-3.37-3.37z"/></svg></button>
                 <button class="icon-btn" id="prevBtn" title="前へ"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
@@ -76,7 +81,7 @@
                 <button class="icon-btn" id="repeatBtn" title="リピート"><svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
             </div>
 
-            <!-- 2. 情報 ＆ シーク（中央） -->
+            <!-- 情報 ＆ シーク（中央） -->
             <div class="p-center">
                 <div class="p-info">
                     <div class="p-art-wrapper">
@@ -86,7 +91,8 @@
                     <div class="p-text">
                         <div id="playerTitleInfo" class="p-title-line">曲を選択してください</div>
                         <div class="p-description-area">
-                            <div id="playerDescMarquee" class="marquee-text">Qurage Music Player</div>
+                            <!-- ID名を確実なものに修正 -->
+                            <div id="playerDescMarquee" class="marquee-text">Welcome to Qurage Music👾</div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +103,7 @@
                 </div>
             </div>
 
-            <!-- 3. ツール系（右） -->
+            <!-- ツール系（右） -->
             <div class="p-tools">
                 <button class="icon-btn" id="queueBtn" title="再生リスト"><svg viewBox="0 0 24 24"><path d="M4 6h18v2H4zm0 5h18v2H4zm0 5h18v2H4z"/></svg></button>
                 
