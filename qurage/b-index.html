@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>👾 MUSIC - Qurage</title>
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,7 +10,6 @@
 </head>
 <body>
 
-    <!-- ヘッダー（小ぶりなロゴ） -->
     <header class="app-header">
         <div class="header-inner">
             <div class="app-logo">👾 MUSIC</div>
@@ -20,10 +19,7 @@
         </div>
     </header>
 
-    <!-- メインコンテンツ（スクロール可能） -->
     <main class="app-main">
-        
-        <!-- アーティストヒーローエリア -->
         <section class="artist-hero">
             <div class="hero-content">
                 <img src="https://fromtheasia.com/wp-content/uploads/NCG292.jpg" alt="Qurage" class="hero-img">
@@ -31,76 +27,82 @@
                     <p class="hero-label">アーティスト</p>
                     <h1 class="hero-name">Qurage</h1>
                     <div class="hero-actions">
-                        <button class="btn-primary" onclick="playTrack(0)">再生</button>
-                        <button class="btn-secondary" onclick="shufflePlay()">シャッフル</button>
+                        <button class="btn-primary" onclick="playAllTracks()">再生</button>
+                        <button class="btn-secondary" onclick="shuffleAllTracks()">シャッフル</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 最新リリース（一番新しいアルバム） -->
+        <!-- DISCOGRAPHY -->
         <section class="app-section">
-            <h2 class="section-title">最新リリース</h2>
-            <div id="latestRelease" class="latest-card">
-                <!-- 自動生成 -->
-            </div>
+            <h2 class="section-title">DISCOGRAPHY</h2>
+            <div class="album-grid" id="albumGrid"></div>
         </section>
 
-        <!-- アルバム一覧（グリッド） -->
+        <!-- ALL TRACKS -->
         <section class="app-section">
-            <h2 class="section-title">アルバム</h2>
-            <div class="album-grid" id="albumGrid">
-                <!-- music-data.js から自動生成 -->
-            </div>
+            <h2 class="section-title">ALL TRACKS</h2>
+            <div class="song-list" id="songList"></div>
         </section>
 
-        <!-- トップソング（全曲リスト） -->
+        <!-- UNRELEASED -->
         <section class="app-section">
-            <h2 class="section-title">トップソング</h2>
-            <div class="song-list" id="songList">
-                <!-- music-data.js から自動生成 -->
-            </div>
-        </section>
-
-        <!-- UNRELEASED（特別なリスト） -->
-        <section class="app-section unreleased-section">
             <h2 class="section-title">UNRELEASED</h2>
-            <p class="section-note">制作途中・未配布の楽曲です。よければお聞きください。</p>
-            <div class="song-list" id="unreleasedList">
-                <!-- music-data.js から自動生成 -->
-            </div>
+            <p class="section-note">制作途中・未配布の楽曲です。これはフリーBGMではありませんが、よければお聞きください。</p>
+            <div class="song-list" id="unreleasedList"></div>
         </section>
 
-        <footer class="app-footer">
-            © Qurage. All Rights Reserved.
-        </footer>
+        <footer class="app-footer">© Qurage. All Rights Reserved.</footer>
     </main>
 
-    <!-- 下部固定プレイヤー -->
-    <div class="mini-player">
+    <!-- 再生リストポップアップ -->
+    <div id="queueDrawer" class="queue-drawer">
+        <div class="queue-header">次に再生</div>
+        <div id="queueList" class="queue-content"></div>
+    </div>
+
+    <!-- Apple Music風プレイヤーバー -->
+    <div class="fixed-player">
         <div class="player-inner">
-            <div class="player-info">
-                <img src="" alt="" id="playerArt" class="player-art">
-                <div class="player-text">
+            <!-- 左：コントロール -->
+            <div class="p-controls">
+                <button class="icon-btn" id="shuffleBtn" title="シャッフル">🔀</button>
+                <button class="icon-btn" id="prevBtn">⏮</button>
+                <button class="play-btn" id="playBtn">▶</button>
+                <button class="icon-btn" id="nextBtn">⏭</button>
+                <button class="icon-btn" id="repeatBtn" title="リピート">🔁</button>
+            </div>
+
+            <!-- 中央：曲情報 -->
+            <div class="p-info">
+                <div class="p-art-wrapper">
+                    <div id="playerDefaultIcon" class="p-default-icon">👾</div>
+                    <img src="" alt="" id="playerArt" class="p-art">
+                </div>
+                <div class="p-text">
                     <div id="playerTitle" class="p-title">曲を選択してください</div>
-                    <div id="playerAlbum" class="p-album">Qurage</div>
+                    <div id="playerSub" class="p-sub">Qurage</div>
                 </div>
             </div>
-            <div class="player-controls">
-                <button class="p-btn" id="prevBtn">⏮</button>
-                <button class="p-btn-play" id="playBtn">▶</button>
-                <button class="p-btn" id="nextBtn">⏭</button>
-            </div>
-            <div class="player-seek-bar">
-                <input type="range" id="seekBar" value="0" max="100">
+
+            <!-- 右：ツール -->
+            <div class="p-tools">
+                <div class="seek-container">
+                    <input type="range" id="seekBar" value="0" max="100">
+                </div>
+                <button class="icon-btn" id="queueBtn" title="再生リスト">📑</button>
+                <div class="volume-container">
+                    <span class="vol-icon">🔈</span>
+                    <input type="range" id="volumeBar" value="80" max="100">
+                </div>
+                <a href="#" target="_blank" id="boothLink" class="icon-btn download-btn" title="Download at BOOTH">⬇️</a>
             </div>
         </div>
     </div>
 
     <script src="music-data.js"></script>
     <script src="b-logic.js"></script>
-    <script>
-        initApp();
-    </script>
+    <script>initApp();</script>
 </body>
 </html>
