@@ -2,16 +2,14 @@ let audio = new Audio();
 let currentQueue = [];
 let currentIndex = 0;
 let isShuffle = false;
-let repeatMode = 0; // 0:None, 1:All, 2:One
-
-const playPath = "M8 5v14l11-7z";
-const pausePath = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
+let repeatMode = 0; 
 
 function initApp() {
     renderAlbums();
     renderAllTracks();
     renderUnreleased();
     setupPlayer();
+    setupMobilePlayer();
 }
 
 function renderAlbums() {
@@ -26,7 +24,7 @@ function renderAlbums() {
             </div>
             <div class="al-title">${album.title}</div>
             <div class="al-sub">${album.subtitle}</div>`;
-        div.querySelector('.album-art-container').onclick = () => playAlbum(album.id);
+        div.onclick = () => playAlbum(album.id);
         grid.appendChild(div);
     });
 }
@@ -41,7 +39,10 @@ function renderAllTracks() {
             <div class="song-item" onclick="playFromMainList(${idx})">
                 <span class="s-num">${idx + 1}</span>
                 <img src="${album.img}" class="s-art">
-                <div class="s-title">${track.title}</div>
+                <div class="s-info">
+                    <div class="s-title">${track.title}</div>
+                    <div class="s-album-name" style="font-size:0.7rem; color:#86868b">${album.title}</div>
+                </div>
                 <div class="s-album">${album.title}</div>
             </div>`;
     }).join('');
@@ -79,7 +80,8 @@ function renderUnreleased() {
 }
 
 function playFromMainList(idx) {
-    currentQueue = getSortedDiscoTracks();
+    const originalTracks = getSortedDiscoTracks();
+    currentQueue = [...originalTracks];
     if (isShuffle) shuffleQueue();
     loadAndPlay(idx);
 }
@@ -89,20 +91,8 @@ function playAlbum(albumId) {
     loadAndPlay(0);
 }
 
-function playAllTracks() {
-    isShuffle = false;
-    document.getElementById('shuffleBtn').classList.remove('active');
-    playFromMainList(0);
-}
-
-function shuffleAllTracks() {
-    isShuffle = true;
-    document.getElementById('shuffleBtn').classList.add('active');
-    const tracks = getSortedDiscoTracks();
-    currentQueue = [...tracks];
-    shuffleQueue();
-    loadAndPlay(0);
-}
+function playAllTracks() { loadAndPlay(0); }
+function shuffleAllTracks() { isShuffle = true; playFromMainList(Math.floor(Math.random() * currentQueue.length)); }
 
 function loadAndPlay(idx) {
     currentIndex = idx;
@@ -113,85 +103,116 @@ function loadAndPlay(idx) {
     audio.src = 'audio/' + track.file;
     audio.play();
 
-    document.getElementById('playerTitleInfo').textContent = `${track.title} / ${album.title}`;
-    
-    // 曲紹介の更新（マーキー）
+    // UI更新 (Mini & Full)
+    const titleText = `${track.title} / ${album.title}`;
+    document.getElementById('playerTitleInfo').textContent = titleText;
+    document.getElementById('fullPlayerTitle').textContent = track.title;
+    document.getElementById('fullPlayerSub').textContent = album.title;
+
+    // マーキー判定 (20文字以上)
+    const desc = album.desc.replace(/<br>/g, " ");
     const marquee = document.getElementById('playerDescMarquee');
-    marquee.textContent = album.desc.replace(/<br>/g, " ");
-    
-    const art = document.getElementById('playerArt');
-    art.src = album.img;
-    art.classList.add('show');
-    
+    marquee.textContent = desc;
+    if (desc.length > 20) marquee.classList.add('active');
+    else marquee.classList.remove('active');
+
+    // ジャケ写更新（👾を隠して画像を表示）
+    const miniArt = document.getElementById('playerArt');
+    const defaultIcon = document.getElementById('playerDefaultIcon');
+    miniArt.src = album.img;
+    miniArt.classList.add('show');
+    defaultIcon.style.display = 'none';
+    document.getElementById('fullPlayerArt').src = album.img;
+
     const booth = document.getElementById('boothLink');
-    if (album.booth && album.booth !== '#') {
-        booth.href = album.booth;
-        booth.style.display = 'flex';
-    } else { booth.style.display = 'none'; }
+    if (album.booth && album.booth !== '#') { booth.href = album.booth; booth.style.display = 'flex'; } 
+    else { booth.style.display = 'none'; }
 
     renderQueue();
 }
 
 function setupPlayer() {
     const playBtn = document.getElementById('playBtn');
-    const repeatBtn = document.getElementById('repeatBtn');
-    const shuffleBtn = document.getElementById('shuffleBtn');
+    const fullPlayBtn = document.getElementById('fullPlayBtn');
     const volumeBtn = document.getElementById('volumeBtn');
 
-    playBtn.onclick = () => {
+    const togglePlay = () => {
         if (!audio.src) playAllTracks();
         else if (audio.paused) audio.play();
         else audio.pause();
     };
 
-    document.getElementById('nextBtn').onclick = nextTrack;
-    document.getElementById('prevBtn').onclick = () => {
-        currentIndex = (currentIndex - 1 + currentQueue.length) % currentQueue.length;
-        loadAndPlay(currentIndex);
-    };
-
-    shuffleBtn.onclick = () => { 
-        isShuffle = !isShuffle; 
-        shuffleBtn.classList.toggle('active', isShuffle); 
-    };
-
-    repeatBtn.onclick = () => {
-        repeatMode = (repeatMode + 1) % 3;
-        repeatBtn.classList.toggle('active', repeatMode > 0);
-        repeatBtn.classList.toggle('repeat-one', repeatMode === 2);
-    };
-
-    volumeBtn.onclick = () => document.getElementById('volumePopup').classList.toggle('show');
-    document.getElementById('queueBtn').onclick = () => document.getElementById('queueDrawer').classList.toggle('show');
+    playBtn.onclick = togglePlay;
+    fullPlayBtn.onclick = togglePlay;
 
     audio.ontimeupdate = () => {
         if (!isNaN(audio.duration)) {
-            document.getElementById('seekBar').value = (audio.currentTime / audio.duration) * 100;
-            document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+            const progress = (audio.currentTime / audio.duration) * 100;
+            document.getElementById('seekBar').value = progress;
+            document.getElementById('fullSeekBar').value = progress;
+            const time = formatTime(audio.currentTime);
+            document.getElementById('currentTime').textContent = time;
+            document.getElementById('fullCurrentTime').textContent = time;
         }
     };
-    audio.onloadedmetadata = () => document.getElementById('duration').textContent = formatTime(audio.duration);
+    audio.onloadedmetadata = () => {
+        const duration = formatTime(audio.duration);
+        document.getElementById('duration').textContent = duration;
+        document.getElementById('fullDuration').textContent = duration;
+    };
     audio.onended = () => { if (repeatMode === 2) audio.play(); else nextTrack(); };
-    audio.onplay = () => playBtn.querySelector('path').setAttribute('d', pausePath);
-    audio.onpause = () => playBtn.querySelector('path').setAttribute('d', playPath);
+    audio.onplay = () => { playBtn.textContent = "⏸"; fullPlayBtn.textContent = "⏸"; };
+    audio.onpause = () => { playBtn.textContent = "▶"; fullPlayBtn.textContent = "▶"; };
 
     document.getElementById('seekBar').oninput = (e) => audio.currentTime = (e.target.value / 100) * audio.duration;
+    document.getElementById('fullSeekBar').oninput = (e) => audio.currentTime = (e.target.value / 100) * audio.duration;
     document.getElementById('volumeBar').oninput = (e) => audio.volume = e.target.value / 100;
+    volumeBtn.onclick = () => document.getElementById('volumePopup').classList.toggle('show');
+}
+
+function setupMobilePlayer() {
+    const mini = document.getElementById('expandTrigger');
+    const full = document.getElementById('fullPlayer');
+    const close = document.getElementById('closeFullPlayer');
+    const openQueue = document.getElementById('openQueueBtn');
+    const fullQueue = document.getElementById('fullQueue');
+
+    mini.onclick = () => full.classList.add('show');
+    close.onclick = () => {
+        full.classList.remove('show');
+        fullQueue.classList.remove('show');
+    };
+    openQueue.onclick = () => fullQueue.classList.toggle('show');
 }
 
 function nextTrack() {
-    if (currentIndex >= currentQueue.length - 1 && repeatMode === 0) return;
     currentIndex = (currentIndex + 1) % currentQueue.length;
     loadAndPlay(currentIndex);
 }
 
+function prevTrack() {
+    currentIndex = (currentIndex - 1 + currentQueue.length) % currentQueue.length;
+    loadAndPlay(currentIndex);
+}
+
+function toggleShuffle() {
+    isShuffle = !isShuffle;
+    if (isShuffle) shuffleQueue();
+    else currentQueue = getSortedDiscoTracks();
+    renderQueue();
+}
+
+function toggleRepeat() {
+    repeatMode = (repeatMode + 1) % 3;
+}
+
 function renderQueue() {
-    const qList = document.getElementById('queueList');
-    qList.innerHTML = currentQueue.map((track, idx) => {
+    const listHtml = currentQueue.map((track, idx) => {
         const album = allAlbums.find(a => a.id === track.albumId);
         return `<div class="q-item ${idx === currentIndex ? 'active' : ''}" onclick="loadAndPlay(${idx})">
                 <img src="${album.img}" class="q-art"><div>${track.title}</div></div>`;
     }).join('');
+    document.getElementById('fullQueueList').innerHTML = listHtml;
 }
 
 function formatTime(s) {
