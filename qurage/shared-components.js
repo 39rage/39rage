@@ -22,11 +22,13 @@ function renderSidebar() {
         <div class="terms-wrapper"><a href="https://casbgcasbg.booth.pm/" target="_blank" class="terms-btn">利用規約</a></div>
         <div class="recent-tracks-section"><h3>DISCOGRAPHY</h3><div class="recent-grid" id="sidebarNav"></div></div>`;
     
-    // サイドバーのナビを自動生成（00. 01. 番号付き）
+    // サイドバー生成（古いブラウザでも確実に動く番号付け）
     const sidebarNav = document.getElementById('sidebarNav');
-    sidebarNav.innerHTML = allAlbums.map((album, idx) => `
-        <a href="${album.id}.html" class="recent-link">${String(idx).padStart(2, '0')}.${album.title}</a>
-    `).join('');
+    sidebarNav.innerHTML = allAlbums.map((album, idx) => {
+        // padStartを使わず、確実な番号表示
+        const num = (idx < 10) ? '0' + idx : idx;
+        return `<a href="${album.id}.html" class="recent-link">${num}.${album.title}</a>`;
+    }).join('');
 }
 
 function renderPlayerPart(pageType) {
@@ -55,12 +57,15 @@ function renderPlayerPart(pageType) {
 
 function initAudioPlayer(tracks) {
     const trackListContainer = document.getElementById('trackList');
-    trackListContainer.innerHTML = tracks.map((track, idx) => `
+    trackListContainer.innerHTML = tracks.map((track, idx) => {
+        const num = (idx + 1 < 10) ? '0' + (idx + 1) : (idx + 1);
+        return `
         <li class="track-item" data-src="audio/${track.file}">
-            <span class="track-number">${String(idx + 1).padStart(2, '0')}.</span>
+            <span class="track-number">${num}.</span>
             <span class="track-name">${track.title}</span>
             <span class="track-meta">Preview</span>
-        </li>`).join('');
+        </li>`;
+    }).join('');
 
     const audio = new Audio();
     const playBtn = document.getElementById('playBtn'), playIconSVG = document.getElementById('playIconSVG'), nowPlaying = document.getElementById('nowPlaying'), seekBar = document.getElementById('seekBar'), currentTimeText = document.getElementById('currentTime'), durationText = document.getElementById('duration'), volumeBar = document.getElementById('volumeBar'), muteBtn = document.getElementById('muteBtn'), volumeIcon = document.getElementById('volumeIcon');
@@ -100,15 +105,14 @@ function initAudioPlayer(tracks) {
         const item = e.target.closest('.track-item');
         if (item) { const idx = trackItems.indexOf(item); loadTrack(idx); audio.play(); updatePlayIcon(true); }
     });
-    audio.addEventListener('timeupdate', () => { if (!isNaN(audio.duration)) { seekBar.value = (audio.currentTime / audio.duration) * 100; let m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60); currentTimeText.textContent = `${m}:${s < 10 ? '0'+s : s}`; } });
-    audio.addEventListener('loadedmetadata', () => { let m = Math.floor(audio.duration / 60), s = Math.floor(audio.duration % 60); durationText.textContent = `${m}:${s < 10 ? '0'+s : s}`; });
+    audio.addEventListener('timeupdate', () => { if (!isNaN(audio.duration)) { seekBar.value = (audio.currentTime / audio.duration) * 100; let m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60); currentTimeText.textContent = `${m}:${(s < 10) ? '0'+s : s}`; } });
+    audio.addEventListener('loadedmetadata', () => { let m = Math.floor(audio.duration / 60), s = Math.floor(audio.duration % 60); durationText.textContent = `${m}:${(s < 10) ? '0'+s : s}`; });
     seekBar.addEventListener('input', () => audio.currentTime = (seekBar.value / 100) * audio.duration);
     audio.addEventListener('ended', () => { if (repeatMode === 1) audio.play(); else playNext(); });
     volumeBar.addEventListener('input', () => { const val = volumeBar.value / 100; audio.volume = val; if (val > 0) lastVolume = val; updateVolumeIcon(val); });
     muteBtn.addEventListener('click', () => { if (audio.volume > 0) { lastVolume = audio.volume; audio.volume = 0; volumeBar.value = 0; } else { audio.volume = lastVolume; volumeBar.value = lastVolume * 100; } updateVolumeIcon(audio.volume); });
     function updateVolumeIcon(vol) { const path = volumeIcon.querySelector('path'); if (vol === 0) path.setAttribute('d', 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'); else if (vol < 0.5) path.setAttribute('d', 'M7 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z'); else path.setAttribute('d', 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'); }
 
-    // ハンバーガーメニュー
     const burgerBtn = document.getElementById('burgerBtn');
     const sidebar = document.getElementById('sidebar-part');
     burgerBtn.addEventListener('click', () => { 
