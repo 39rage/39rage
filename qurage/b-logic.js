@@ -2,7 +2,7 @@ let audio = new Audio();
 let currentQueue = [];
 let currentIndex = 0;
 let isShuffle = false;
-let repeatMode = 0; // 0:なし, 1:全リピ, 2:1曲リピ
+let repeatMode = 0; // 0:None, 1:All, 2:One
 
 const playPath = "M8 5v14l11-7z";
 const pausePath = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
@@ -34,7 +34,6 @@ function renderAlbums() {
 function renderAllTracks() {
     const list = document.getElementById('songList');
     const tracks = getSortedDiscoTracks();
-    currentQueue = tracks; // 初期ロード
     list.innerHTML = tracks.map((track, idx) => {
         const album = allAlbums.find(a => a.id === track.albumId);
         return `
@@ -48,8 +47,11 @@ function renderAllTracks() {
 }
 
 function getSortedDiscoTracks() {
-    const discoAlbumIds = allAlbums.filter(a => a.category === 'discography').map(a => a.id);
-    return allTracks.filter(t => discoAlbumIds.includes(t.albumId)).sort((a, b) => {
+    // アルバム登録順（00, 01...） -> ファイル名昇順
+    return allTracks.filter(t => {
+        const alb = allAlbums.find(a => a.id === t.albumId);
+        return alb && alb.category === 'discography';
+    }).sort((a, b) => {
         const indexA = allAlbums.findIndex(alb => alb.id === a.albumId);
         const indexB = allAlbums.findIndex(alb => alb.id === b.albumId);
         if (indexA !== indexB) return indexA - indexB;
@@ -105,12 +107,19 @@ function shuffleAllTracks() {
 function loadAndPlay(idx) {
     currentIndex = idx;
     const track = currentQueue[currentIndex];
+    if(!track) return;
     const album = allAlbums.find(a => a.id === track.albumId);
+
     audio.src = 'audio/' + track.file;
     audio.play();
 
-    document.getElementById('playerTitle').textContent = track.title;
-    document.getElementById('playerSub').textContent = album.title;
+    // プレイヤー表示更新： 曲名 / アルバム名
+    document.getElementById('playerTitleInfo').textContent = `${track.title} / ${album.title}`;
+    
+    // マーキー演出の更新
+    const marquee = document.getElementById('playerDescMarquee');
+    marquee.textContent = album.desc.replace(/<br>/g, " ");
+    
     const art = document.getElementById('playerArt');
     art.src = album.img;
     art.classList.add('show');
@@ -142,15 +151,15 @@ function setupPlayer() {
         loadAndPlay(currentIndex);
     };
 
-    shuffleBtn.onclick = () => { isShuffle = !isShuffle; shuffleBtn.classList.toggle('active', isShuffle); };
+    shuffleBtn.onclick = () => { 
+        isShuffle = !isShuffle; 
+        shuffleBtn.classList.toggle('active', isShuffle); 
+    };
 
     repeatBtn.onclick = () => {
         repeatMode = (repeatMode + 1) % 3;
         repeatBtn.classList.toggle('active', repeatMode > 0);
-        repeatBtn.innerHTML = repeatMode === 2 ? 
-            '<svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>' : 
-            '<svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>';
-        if(repeatMode === 2) repeatBtn.classList.add('repeat-one'); else repeatBtn.classList.remove('repeat-one');
+        repeatBtn.classList.toggle('repeat-one', repeatMode === 2);
     };
 
     volumeBtn.onclick = () => document.getElementById('volumePopup').classList.toggle('show');
