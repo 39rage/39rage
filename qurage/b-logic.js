@@ -4,6 +4,9 @@ let currentIndex = 0;
 let isShuffle = false;
 let repeatMode = 0; // 0:なし, 1:全リピ, 2:1曲リピ
 
+const playPath = "M8 5v14l11-7z";
+const pausePath = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
+
 function initApp() {
     renderAlbums();
     renderAllTracks();
@@ -11,30 +14,27 @@ function initApp() {
     setupPlayer();
 }
 
-// アルバムグリッド生成
 function renderAlbums() {
     const grid = document.getElementById('albumGrid');
-    const discoAlbums = allAlbums.filter(a => a.category === 'discography');
-    
-    grid.innerHTML = discoAlbums.map(album => `
-        <div class="album-item-wrapper">
-            <div class="album-art-container" onclick="playAlbum('${album.id}')">
+    allAlbums.filter(a => a.category === 'discography').forEach(album => {
+        const div = document.createElement('div');
+        div.className = 'album-item-wrapper';
+        div.innerHTML = `
+            <div class="album-art-container">
                 <img src="${album.img}" class="album-art" alt="${album.title}">
                 <div class="album-play-overlay">▶</div>
             </div>
-            <a href="discography.html?id=${album.id}" class="album-info-link" style="text-decoration:none; color:inherit;">
-                <span class="al-title">${album.title}</span>
-                <span class="al-sub">${album.subtitle}</span>
-            </a>
-        </div>
-    `).join('');
+            <div class="al-title">${album.title}</div>
+            <div class="al-sub">${album.subtitle}</div>`;
+        div.querySelector('.album-art-container').onclick = () => playAlbum(album.id);
+        grid.appendChild(div);
+    });
 }
 
-// 全曲リスト生成（アルバム古い順）
 function renderAllTracks() {
     const list = document.getElementById('songList');
     const tracks = getSortedDiscoTracks();
-    
+    currentQueue = tracks; // 初期ロード
     list.innerHTML = tracks.map((track, idx) => {
         const album = allAlbums.find(a => a.id === track.albumId);
         return `
@@ -57,26 +57,25 @@ function getSortedDiscoTracks() {
     });
 }
 
-// UNRELEASED生成
 function renderUnreleased() {
     const list = document.getElementById('unreleasedList');
-    const unTracks = allTracks.filter(t => {
+    allTracks.filter(t => {
         const alb = allAlbums.find(a => a.id === t.albumId);
         return alb && alb.category === 'unreleased';
-    });
-    list.innerHTML = unTracks.map(track => {
+    }).forEach(track => {
         const album = allAlbums.find(a => a.id === track.albumId);
-        return `
-            <div class="song-item" onclick="playSingleTrack('${track.file}')">
-                <span class="s-num">👾</span>
-                <img src="${album.img}" class="s-art">
-                <div class="s-title">${track.title}</div>
-                <div class="s-album">${album.title}</div>
-            </div>`;
-    }).join('');
+        const div = document.createElement('div');
+        div.className = 'song-item';
+        div.innerHTML = `
+            <span class="s-num">👾</span>
+            <img src="${album.img}" class="s-art">
+            <div class="s-title">${track.title}</div>
+            <div class="s-album">${album.title}</div>`;
+        div.onclick = () => { currentQueue = [track]; loadAndPlay(0); };
+        list.appendChild(div);
+    });
 }
 
-// 再生ロジック
 function playFromMainList(idx) {
     currentQueue = getSortedDiscoTracks();
     if (isShuffle) shuffleQueue();
@@ -97,18 +96,19 @@ function playAllTracks() {
 function shuffleAllTracks() {
     isShuffle = true;
     document.getElementById('shuffleBtn').classList.add('active');
-    playFromMainList(Math.floor(Math.random() * getSortedDiscoTracks().length));
+    const tracks = getSortedDiscoTracks();
+    currentQueue = [...tracks];
+    shuffleQueue();
+    loadAndPlay(0);
 }
 
 function loadAndPlay(idx) {
     currentIndex = idx;
     const track = currentQueue[currentIndex];
     const album = allAlbums.find(a => a.id === track.albumId);
-
     audio.src = 'audio/' + track.file;
     audio.play();
 
-    // UI更新
     document.getElementById('playerTitle').textContent = track.title;
     document.getElementById('playerSub').textContent = album.title;
     const art = document.getElementById('playerArt');
@@ -118,72 +118,57 @@ function loadAndPlay(idx) {
     const booth = document.getElementById('boothLink');
     if (album.booth && album.booth !== '#') {
         booth.href = album.booth;
-        booth.style.display = 'block';
-    } else {
-        booth.style.display = 'none';
-    }
+        booth.style.display = 'flex';
+    } else { booth.style.display = 'none'; }
 
     renderQueue();
 }
 
-// プレイヤー基本操作
 function setupPlayer() {
     const playBtn = document.getElementById('playBtn');
     const repeatBtn = document.getElementById('repeatBtn');
     const shuffleBtn = document.getElementById('shuffleBtn');
-    const queueBtn = document.getElementById('queueBtn');
+    const volumeBtn = document.getElementById('volumeBtn');
 
-    playBtn.addEventListener('click', () => {
+    playBtn.onclick = () => {
         if (!audio.src) playAllTracks();
         else if (audio.paused) audio.play();
         else audio.pause();
-    });
+    };
 
-    document.getElementById('nextBtn').addEventListener('click', nextTrack);
-    document.getElementById('prevBtn').addEventListener('click', () => {
+    document.getElementById('nextBtn').onclick = nextTrack;
+    document.getElementById('prevBtn').onclick = () => {
         currentIndex = (currentIndex - 1 + currentQueue.length) % currentQueue.length;
         loadAndPlay(currentIndex);
-    });
+    };
 
-    shuffleBtn.addEventListener('click', () => {
-        isShuffle = !isShuffle;
-        shuffleBtn.classList.toggle('active', isShuffle);
-    });
+    shuffleBtn.onclick = () => { isShuffle = !isShuffle; shuffleBtn.classList.toggle('active', isShuffle); };
 
-    repeatBtn.addEventListener('click', () => {
+    repeatBtn.onclick = () => {
         repeatMode = (repeatMode + 1) % 3;
         repeatBtn.classList.toggle('active', repeatMode > 0);
-        repeatBtn.classList.toggle('repeat-one', repeatMode === 2);
-        repeatBtn.textContent = repeatMode === 2 ? '🔂' : '🔁';
-    });
+        repeatBtn.innerHTML = repeatMode === 2 ? 
+            '<svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>' : 
+            '<svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>';
+        if(repeatMode === 2) repeatBtn.classList.add('repeat-one'); else repeatBtn.classList.remove('repeat-one');
+    };
 
-    queueBtn.addEventListener('click', () => {
-        document.getElementById('queueDrawer').classList.toggle('show');
-    });
+    volumeBtn.onclick = () => document.getElementById('volumePopup').classList.toggle('show');
+    document.getElementById('queueBtn').onclick = () => document.getElementById('queueDrawer').classList.toggle('show');
 
-    audio.addEventListener('timeupdate', () => {
+    audio.ontimeupdate = () => {
         if (!isNaN(audio.duration)) {
             document.getElementById('seekBar').value = (audio.currentTime / audio.duration) * 100;
             document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
         }
-    });
+    };
+    audio.onloadedmetadata = () => document.getElementById('duration').textContent = formatTime(audio.duration);
+    audio.onended = () => { if (repeatMode === 2) audio.play(); else nextTrack(); };
+    audio.onplay = () => playBtn.querySelector('path').setAttribute('d', pausePath);
+    audio.onpause = () => playBtn.querySelector('path').setAttribute('d', playPath);
 
-    audio.addEventListener('loadedmetadata', () => {
-        document.getElementById('duration').textContent = formatTime(audio.duration);
-    });
-
-    audio.addEventListener('ended', () => {
-        if (repeatMode === 2) audio.play();
-        else nextTrack();
-    });
-
-    document.getElementById('seekBar').addEventListener('input', (e) => {
-        audio.currentTime = (e.target.value / 100) * audio.duration;
-    });
-
-    document.getElementById('volumeBar').addEventListener('input', (e) => {
-        audio.volume = e.target.value / 100;
-    });
+    document.getElementById('seekBar').oninput = (e) => audio.currentTime = (e.target.value / 100) * audio.duration;
+    document.getElementById('volumeBar').oninput = (e) => audio.volume = e.target.value / 100;
 }
 
 function nextTrack() {
@@ -196,14 +181,8 @@ function renderQueue() {
     const qList = document.getElementById('queueList');
     qList.innerHTML = currentQueue.map((track, idx) => {
         const album = allAlbums.find(a => a.id === track.albumId);
-        return `
-            <div class="q-item ${idx === currentIndex ? 'active' : ''}" onclick="loadAndPlay(${idx})">
-                <img src="${album.img}" class="q-art">
-                <div class="q-info">
-                    <div>${track.title}</div>
-                    <div style="font-size:0.6rem; opacity:0.6;">${album.title}</div>
-                </div>
-            </div>`;
+        return `<div class="q-item ${idx === currentIndex ? 'active' : ''}" onclick="loadAndPlay(${idx})">
+                <img src="${album.img}" class="q-art"><div>${track.title}</div></div>`;
     }).join('');
 }
 
