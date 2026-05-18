@@ -8,8 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* UNRELEASED 専用スタイル */
-        .unreleased-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        /* index専用：ABOUTボタン & UNRELEASEDリスト */
+        .about-btn-wrapper { margin-top: 20px; }
+        .about-booth-btn { display: inline-block; text-decoration: none; background: var(--primary-orange); color: #fff; font-weight: 700; padding: 8px 30px; border-radius: 4px; transition: 0.3s; font-size: 0.85rem; font-family: 'Shippori Mincho', serif; }
+        .about-booth-btn:hover { background: #965925; transform: translateY(-2px); }
+
+        .unreleased-note { font-size: 0.8rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; opacity: 0.8; }
+        .unreleased-list { display: flex; flex-direction: column; gap: 10px; }
         .unreleased-link-item { 
             display: flex; justify-content: space-between; align-items: center;
             text-decoration: none; padding: 15px 20px; background: #fff;
@@ -18,9 +23,6 @@
         .unreleased-link-item:hover { transform: translateX(5px); border-color: var(--primary-orange); }
         .un-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
         .un-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
-        
-        /* 注意書きのスタイル */
-        .unreleased-note { font-size: 0.8rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -31,27 +33,31 @@
             <div class="columns-split">
                 <article class="col-mid">
                     <div class="mid-container">
+                        <!-- ABOUT -->
                         <section class="section-box">
                             <h2>ABOUT</h2>
                             <div class="about-text">
-                                Qurageが制作したフリーBGMの試聴ポータルです。<br>
-                                動画制作や配信など、あなたのクリエイティブにお役立てください。<br>
-                                心地よく、少しだけ日常を彩るような音を目指しています。
+                                GarageBandのApple Loopsで制作したフリーBGMの試聴ポータルサイトです。<br>
+                                音源のダウンロードはBOOTHより可能です。<br>
+                                常識の範囲内で自由に使って頂けますと幸いです。
+                            </div>
+                            <div class="about-btn-wrapper">
+                                <a href="https://casbgcasbg.booth.pm/" target="_blank" class="about-booth-btn">BOOTH</a>
                             </div>
                         </section>
                         
+                        <!-- DISCOGRAPHY -->
                         <section class="section-box">
                             <h2>DISCOGRAPHY</h2>
                             <div class="album-grid" id="albumGrid"></div>
                         </section>
 
+                        <!-- UNRELEASED -->
                         <section class="section-box">
                             <h2>UNRELEASED</h2>
-                            <!-- 注意書きの追加 -->
-                            <p class="unreleased-note">これはフリーBGMではありません。制作途中・未配布の楽曲です。よければお聞きください。</p>
+                            <p class="unreleased-note">制作途中・未配布の楽曲です。これはフリーBGMではありませんが、よければお聞きください。</p>
                             <div class="unreleased-list" id="unreleasedList"></div>
                         </section>
-
                     </div>
                     <footer class="footer-pc">© Qurage. All Rights Reserved.</footer>
                 </article>
