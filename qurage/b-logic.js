@@ -2,28 +2,23 @@ let audio = new Audio();
 let currentQueue = [];
 let currentIndex = 0;
 let isShuffle = false;
-let repeatMode = 0; 
+let repeatMode = 0; // 0:None, 1:All, 2:One
 
 function initApp() {
     renderAlbums();
     renderAllTracks();
     renderUnreleased();
     setupPlayer();
-    setupMobilePlayer();
+    setupExpansion();
 }
 
+// データ描画系
 function renderAlbums() {
     const grid = document.getElementById('albumGrid');
     allAlbums.filter(a => a.category === 'discography').forEach(album => {
         const div = document.createElement('div');
         div.className = 'album-item-wrapper';
-        div.innerHTML = `
-            <div class="album-art-container">
-                <img src="${album.img}" class="album-art" alt="${album.title}">
-                <div class="album-play-overlay">▶</div>
-            </div>
-            <div class="al-title">${album.title}</div>
-            <div class="al-sub">${album.subtitle}</div>`;
+        div.innerHTML = `<div class="album-art-container"><img src="${album.img}" class="album-art"><div class="album-play-overlay">▶</div></div><div class="al-title">${album.title}</div><div class="al-sub">${album.subtitle}</div>`;
         div.onclick = () => playAlbum(album.id);
         grid.appendChild(div);
     });
@@ -35,16 +30,7 @@ function renderAllTracks() {
     currentQueue = tracks; 
     list.innerHTML = tracks.map((track, idx) => {
         const album = allAlbums.find(a => a.id === track.albumId);
-        return `
-            <div class="song-item" onclick="playFromMainList(${idx})">
-                <span class="s-num">${idx + 1}</span>
-                <img src="${album.img}" class="s-art">
-                <div class="s-info">
-                    <div class="s-title">${track.title}</div>
-                    <div class="s-album-name" style="font-size:0.7rem; color:#86868b">${album.title}</div>
-                </div>
-                <div class="s-album">${album.title}</div>
-            </div>`;
+        return `<div class="song-item" onclick="playFromMainList(${idx})"><span class="s-num">${idx + 1}</span><img src="${album.img}" class="s-art"><div class="s-info"><div class="s-title">${track.title}</div><div style="font-size:0.7rem; color:#86868b">${album.title}</div></div></div>`;
     }).join('');
 }
 
@@ -69,19 +55,15 @@ function renderUnreleased() {
         const album = allAlbums.find(a => a.id === track.albumId);
         const div = document.createElement('div');
         div.className = 'song-item';
-        div.innerHTML = `
-            <span class="s-num">👾</span>
-            <img src="${album.img}" class="s-art">
-            <div class="s-title">${track.title}</div>
-            <div class="s-album">${album.title}</div>`;
+        div.innerHTML = `<span class="s-num">👾</span><img src="${album.img}" class="s-art"><div class="s-info"><div class="s-title">${track.title}</div><div style="font-size:0.7rem; color:#86868b">${album.title}</div></div>`;
         div.onclick = () => { currentQueue = [track]; loadAndPlay(0); };
         list.appendChild(div);
     });
 }
 
+// 再生ロジック
 function playFromMainList(idx) {
-    const originalTracks = getSortedDiscoTracks();
-    currentQueue = [...originalTracks];
+    currentQueue = getSortedDiscoTracks();
     if (isShuffle) shuffleQueue();
     loadAndPlay(idx);
 }
@@ -104,24 +86,16 @@ function loadAndPlay(idx) {
     audio.play();
 
     // UI更新 (Mini & Full)
-    const titleText = `${track.title} / ${album.title}`;
-    document.getElementById('playerTitleInfo').textContent = titleText;
+    document.getElementById('playerTitleInfo').textContent = `${track.title} / ${album.title}`;
+    document.getElementById('playerDesc').textContent = album.desc.replace(/<br>/g, " ");
+    
     document.getElementById('fullPlayerTitle').textContent = track.title;
     document.getElementById('fullPlayerSub').textContent = album.title;
 
-    // マーキー判定 (20文字以上)
-    const desc = album.desc.replace(/<br>/g, " ");
-    const marquee = document.getElementById('playerDescMarquee');
-    marquee.textContent = desc;
-    if (desc.length > 20) marquee.classList.add('active');
-    else marquee.classList.remove('active');
-
-    // ジャケ写更新（👾を隠して画像を表示）
-    const miniArt = document.getElementById('playerArt');
-    const defaultIcon = document.getElementById('playerDefaultIcon');
-    miniArt.src = album.img;
-    miniArt.classList.add('show');
-    defaultIcon.style.display = 'none';
+    // 画像更新
+    document.getElementById('playerArt').src = album.img;
+    document.getElementById('playerArt').classList.add('show');
+    document.getElementById('playerDefaultIcon').style.display = 'none';
     document.getElementById('fullPlayerArt').src = album.img;
 
     const booth = document.getElementById('boothLink');
@@ -131,80 +105,59 @@ function loadAndPlay(idx) {
     renderQueue();
 }
 
+// プレイヤー基本設定
 function setupPlayer() {
-    const playBtn = document.getElementById('playBtn');
-    const fullPlayBtn = document.getElementById('fullPlayBtn');
-    const volumeBtn = document.getElementById('volumeBtn');
-
-    const togglePlay = () => {
-        if (!audio.src) playAllTracks();
-        else if (audio.paused) audio.play();
-        else audio.pause();
-    };
-
-    playBtn.onclick = togglePlay;
-    fullPlayBtn.onclick = togglePlay;
+    const playBtns = [document.getElementById('playBtn'), document.getElementById('mobilePlayBtn'), document.getElementById('fullPlayBtn')];
+    
+    playBtns.forEach(btn => {
+        btn.onclick = (e) => {
+            e.stopPropagation(); // スマホで全画面が開くのを防ぐ
+            if (!audio.src) playAllTracks();
+            else if (audio.paused) audio.play();
+            else audio.pause();
+        };
+    });
 
     audio.ontimeupdate = () => {
         if (!isNaN(audio.duration)) {
-            const progress = (audio.currentTime / audio.duration) * 100;
-            document.getElementById('seekBar').value = progress;
-            document.getElementById('fullSeekBar').value = progress;
-            const time = formatTime(audio.currentTime);
-            document.getElementById('currentTime').textContent = time;
-            document.getElementById('fullCurrentTime').textContent = time;
+            const prog = (audio.currentTime / audio.duration) * 100;
+            document.getElementById('seekBar').value = prog;
+            document.getElementById('fullSeekBar').value = prog;
+            document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+            document.getElementById('fullCurrentTime').textContent = formatTime(audio.currentTime);
         }
     };
     audio.onloadedmetadata = () => {
-        const duration = formatTime(audio.duration);
-        document.getElementById('duration').textContent = duration;
-        document.getElementById('fullDuration').textContent = duration;
+        const dur = formatTime(audio.duration);
+        document.getElementById('duration').textContent = dur;
+        document.getElementById('fullDuration').textContent = dur;
     };
+    audio.onplay = () => playBtns.forEach(b => b.textContent = "⏸");
+    audio.onpause = () => playBtns.forEach(b => b.textContent = "▶");
     audio.onended = () => { if (repeatMode === 2) audio.play(); else nextTrack(); };
-    audio.onplay = () => { playBtn.textContent = "⏸"; fullPlayBtn.textContent = "⏸"; };
-    audio.onpause = () => { playBtn.textContent = "▶"; fullPlayBtn.textContent = "▶"; };
 
     document.getElementById('seekBar').oninput = (e) => audio.currentTime = (e.target.value / 100) * audio.duration;
     document.getElementById('fullSeekBar').oninput = (e) => audio.currentTime = (e.target.value / 100) * audio.duration;
-    document.getElementById('volumeBar').oninput = (e) => audio.volume = e.target.value / 100;
-    volumeBtn.onclick = () => document.getElementById('volumePopup').classList.toggle('show');
 }
 
-function setupMobilePlayer() {
-    const mini = document.getElementById('expandTrigger');
+// スマホ拡大 ＆ キュー
+function setupExpansion() {
     const full = document.getElementById('fullPlayer');
-    const close = document.getElementById('closeFullPlayer');
-    const openQueue = document.getElementById('openQueueBtn');
-    const fullQueue = document.getElementById('fullQueue');
-
-    mini.onclick = () => full.classList.add('show');
-    close.onclick = () => {
-        full.classList.remove('show');
-        fullQueue.classList.remove('show');
+    document.getElementById('expandTrigger').onclick = () => {
+        if(window.innerWidth <= 900) full.classList.add('show');
     };
-    openQueue.onclick = () => fullQueue.classList.toggle('show');
+    document.querySelector('.mobile-expand-btn').onclick = () => full.classList.add('show');
+    document.getElementById('closeFullPlayer').onclick = () => {
+        full.classList.remove('show');
+        document.getElementById('fullQueue').classList.remove('show');
+    };
+    document.getElementById('openQueueBtn').onclick = () => {
+        document.getElementById('fullQueue').classList.toggle('show');
+    };
 }
 
-function nextTrack() {
-    currentIndex = (currentIndex + 1) % currentQueue.length;
-    loadAndPlay(currentIndex);
-}
-
-function prevTrack() {
-    currentIndex = (currentIndex - 1 + currentQueue.length) % currentQueue.length;
-    loadAndPlay(currentIndex);
-}
-
-function toggleShuffle() {
-    isShuffle = !isShuffle;
-    if (isShuffle) shuffleQueue();
-    else currentQueue = getSortedDiscoTracks();
-    renderQueue();
-}
-
-function toggleRepeat() {
-    repeatMode = (repeatMode + 1) % 3;
-}
+function nextTrack() { currentIndex = (currentIndex + 1) % currentQueue.length; loadAndPlay(currentIndex); }
+function prevTrack() { currentIndex = (currentIndex - 1 + currentQueue.length) % currentQueue.length; loadAndPlay(currentIndex); }
 
 function renderQueue() {
     const listHtml = currentQueue.map((track, idx) => {
@@ -219,11 +172,4 @@ function formatTime(s) {
     const m = Math.floor(s / 60);
     const rs = Math.floor(s % 60);
     return `${m}:${rs < 10 ? '0' + rs : rs}`;
-}
-
-function shuffleQueue() {
-    for (let i = currentQueue.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [currentQueue[i], currentQueue[j]] = [currentQueue[j], currentQueue[i]];
-    }
 }
