@@ -16,7 +16,7 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .site-header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: #ffffff; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: center; z-index: 2100; }
 .header-logo { display: inline-block; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.15em; text-decoration: none; color: var(--primary-orange); padding: 10px 20px; }
 
-/* ハンバーガーメニュー */
+/* ハンバーガーボタン修正 */
 .burger-btn { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; display: none; padding: 10px; z-index: 2200; width: 44px; height: 44px; }
 .burger-line { display: block; width: 24px; height: 2px; background: var(--primary-orange); margin: 6px auto; transition: 0.3s; }
 .burger-btn.open .burger-line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -41,11 +41,33 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .terms-btn { display: inline-block; text-decoration: none; color: #ffffff; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 4px 15px; font-size: 0.6rem; transition: 0.3s; opacity: 0.9; }
 .terms-btn:hover { background: #ffffff; color: var(--primary-orange); opacity: 1; }
 
-/* 2列・縦流れ（6行で折り返し） */
+/* 2列固定・縦流れのサイドバー */
 .recent-tracks-section { padding: 0 10% 20px; flex: 1; overflow-y: auto; width: 100%; }
 .recent-tracks-section h3 { font-size: 0.6rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; margin-bottom: 12px; text-align: center; }
-.recent-grid { display: flex; flex-direction: column; flex-wrap: wrap; height: 180px; align-content: center; gap: 0 10px; width: 100%; }
-.recent-link { display: block; width: 110px; margin-bottom: 6px; color: #ffffff; text-decoration: none; font-size: 0.55rem; padding: 5px 4px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; transition: 0.3s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+
+.recent-grid { 
+    display: block;      /* flexからblockに変更 */
+    column-count: 2;     /* 強制的に2列にする魔法 */
+    column-gap: 10px;    /* 列の間の隙間 */
+    width: 100%;
+}
+.recent-link { 
+    display: block; 
+    width: 100%; 
+    margin-bottom: 8px; 
+    color: #ffffff; 
+    text-decoration: none; 
+    font-size: 0.55rem; 
+    padding: 6px 4px; 
+    border: 1px solid rgba(255,255,255,0.3); 
+    border-radius: 2px; 
+    transition: 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    break-inside: avoid; /* 途中で列が泣き別れないようにする */
+}
 .recent-link:hover { background: #ffffff; color: var(--primary-orange); border-color: #ffffff; transform: translateX(3px); }
 
 /* 中面コンテンツ */
@@ -119,8 +141,12 @@ footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size:
     .track-list { max-height: 400px; }
     .footer-pc { display: none; } .footer-mobile { display: block; }
     
-    .recent-grid { height: 170px; }
-    
-    /* スマホではディスコグラフィを2列に戻す */
+    /* スマホも2列固定 */
+    .recent-grid { 
+        display: block;
+        column-count: 2;
+        column-gap: 8px;
+        height: auto; /* スマホは縦に伸びてもOK */
+    }
     .album-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
 }
