@@ -12,7 +12,7 @@ const allAlbums = [
     { id: "big-tight", title: "Big Tight", subtitle: "8th Single", img: "https://fromtheasia.com/wp-content/uploads/NCG33.jpg", desc: "かっこよくておしゃんな曲", booth: "https://casbgcasbg.booth.pm/items/2758818", tracksCount: "3 Tracks", category: "discography" },
     { id: "organic", title: "Organic", subtitle: "9th Single", img: "https://fromtheasia.com/wp-content/uploads/NCG61.jpg", desc: "３ヶ月ぶりの新曲<br>おしゃべり動画に使えそうなThe・ループ曲", booth: "https://casbgcasbg.booth.pm/items/3007933", tracksCount: "3 Tracks", category: "discography" },
     // --- UNRELEASED ---
-    { id: "colossus", title: "Colossus", subtitle: "Draft Archive", img: "https://fromtheasia.com/wp-content/uploads/NCG69.jpg", desc: "一歩踏みだす勇気をくれたColossusとの物語<br>いつか歌詞とかSS書きたいな", booth: "#", tracksCount: "2 Tracks", category: "unreleased" },
+    { id: "colossus", title: "Colossus", subtitle: "Draft Archive", img: "https://fromtheasia.com/wp-content/uploads/NCG69.jpg", desc: "一歩踏みだす勇気をくれたColossusとの物語<br>という設定でいつか歌詞とかSS書きたいな", booth: "#", tracksCount: "2 Tracks", category: "unreleased" },
     { id: "rip", title: "R.I.P.", subtitle: "Draft Archive", img: "https://fromtheasia.com/wp-content/uploads/NCG306.jpg", desc: "GarageBandデータ破損したのに、なぜか生き残ってた強い子たち<br>ここで供養させてください", booth: "#", tracksCount: "2 Tracks", category: "unreleased" },
     { id: "remix", title: "REMIX!!!", subtitle: "Extra Edition", img: "https://fromtheasia.com/wp-content/uploads/ecd2f31856852488f4100b208af0618b.jpg", desc: "過去にリリースした曲のうち、著作権引っかかってた曲をリメイクする計画を進行中です！", booth: "#", tracksCount: "1 Track", category: "unreleased" }
 ];
@@ -30,9 +30,10 @@ const allTracks = [
     { title: "Ocean Blue", file: "2020110913 Ocean_Blue-90_B.mp3", albumId: "at-the-beach" },
     { title: "Tropical Air", file: "2020111710 Tropical_Air-100_C.mp3", albumId: "at-the-beach" },
     { title: "Mystic Moon QGN", file: "2020111319 Mystic_Moon_QGN-110_B.mp3", albumId: "mystic-moon" },
-    { title: "Celestial Ageless CDM Dizi", file: "2021011319 Celestial_Ageless_CDM_Dizi-130_B.mp3", albumId: "mystic-moon" },
+    // ★ 修正箇所：日付を2020112622に修正しました
+    { title: "Celestial Ageless CDM Dizi", file: "2020112622 Celestial_Ageless_CDM_Dizi-130_B.mp3", albumId: "mystic-moon" },
     { title: "Mystic Moon Nines Technicolor", file: "2021011320 Mystic_Moon_Nines_Technicolor-150_B.mp3", albumId: "mystic-moon" },
-    { title: "Boogie Right Wah Power", file: "2020120819 Boogie_Right_Wah_Power-115_E.mp3", albumId: "boogie-night" },
+    { title: "Boogie Night", file: "2020120819 Boogie_Right_Wah_Power-115_E.mp3", albumId: "boogie-night" },
     { title: "Disco Jesse", file: "2021011318 Disco_Jesse-120_D.mp3", albumId: "boogie-night" },
     { title: "Riff Right Ready Zak", file: "2021011419 Riff_Right_Ready_Zak-125_C.mp3", albumId: "boogie-night" },
     { title: "Twilight True Love", file: "2021011421 Twilight_True_Love-98_Em.mp3", albumId: "true-love" },
