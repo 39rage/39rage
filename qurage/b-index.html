@@ -3,30 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Qurage Music - SELECT MUSIC</title>
+    <title>Qurage Music - SELECT MUSIC (B)</title>
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
-    <!-- 魔法の杖（B専用スタイル）を読み込み -->
     <link rel="stylesheet" href="b-style.css">
 </head>
-<body class="game-theme">
-    <div class="cyber-bg"></div>
-
-    <header class="game-header">
-        <div class="header-inner">
-            <div class="logo-area">
-                <span class="glitch-text" data-text="Qurage Music">Qurage Music</span>
-            </div>
-            <nav class="header-nav">
-                <a href="#" class="nav-item" onclick="alert('ABOUT: GarageBand制作のフリーBGMアーカイブです。')">ABOUT</a>
-                <a href="https://casbgcasbg.booth.pm/" target="_blank" class="nav-item">TERMS</a>
-                <a href="index.html" class="nav-item pattern-switch">PATTERN A</a>
-            </nav>
-        </div>
-    </header>
+<body class="bright-theme">
+    <div id="header-part"></div>
 
     <main class="game-container">
-        <!-- 左：カテゴリー選択 -->
+        <!-- 左：カテゴリー -->
         <aside class="category-selector">
             <button class="cat-btn active" onclick="changeCategory('discography', this)">
                 <span class="cat-icon">💿</span>
@@ -38,54 +24,33 @@
             </button>
         </aside>
 
-        <!-- 中：楽曲選択リスト -->
+        <!-- 中：ジャケ写ぐるぐる ＆ アルバム情報 -->
         <section class="music-selection">
-            <div class="music-list-wrapper" id="musicList">
-                <!-- ここに曲カードが自動生成されます -->
+            <div class="carousel-container" id="albumCarousel">
+                <!-- ジャケ写がここに並びます -->
+            </div>
+            
+            <div class="album-info-display" id="albumDetail">
+                <!-- アルバム名・説明・BOOTHボタンがここに出ます -->
             </div>
         </section>
 
-        <!-- 右：プレイヤー・プレビューパネル -->
-        <section class="preview-panel" id="previewPanel">
-            <div class="panel-inner">
-                <div class="jacket-frame">
-                    <img src="" alt="" id="targetJacket" class="jacket-img">
-                </div>
-                <div class="music-info">
-                    <p id="targetSub" class="sub-title"></p>
-                    <h2 id="targetTitle" class="main-title"></h2>
-                    <p id="targetDesc" class="music-desc"></p>
-                </div>
-                
-                <div class="game-player">
-                    <div class="player-controls">
-                        <button class="ctrl-btn" id="prevBtn">PREV</button>
-                        <button class="play-main-btn" id="playBtn">PLAY</button>
-                        <button class="ctrl-btn" id="nextBtn">NEXT</button>
-                    </div>
-                    <div class="progress-area">
-                        <span id="currentTime">0:00</span>
-                        <input type="range" id="seekBar" value="0" max="100">
-                        <span id="duration">0:00</span>
-                    </div>
-                </div>
-
-                <div class="start-btn-area">
-                    <a href="#" target="_blank" id="boothLink" class="booth-start-btn">
-                        <span class="btn-text">BOOTH</span>
-                        <span class="btn-sub">GO TO START</span>
-                    </a>
-                </div>
-            </div>
+        <!-- 右：パターンAのプレイヤー ＆ 曲リスト -->
+        <section class="col-right" id="player-part">
+            <!-- shared-components.js の renderPlayerPart で生成されます -->
         </section>
     </main>
 
     <footer class="game-footer">
-        <p>© Qurage Music | Designed for Cyber Experience</p>
+        © Qurage. All Rights Reserved.
     </footer>
 
-    <!-- 共通データとB専用プログラムを読み込み -->
     <script src="music-data.js"></script>
+    <script src="shared-components.js"></script>
     <script src="b-logic.js"></script>
+    <script>
+        // パターンB用の初期化
+        initGamePage();
+    </script>
 </body>
 </html>
