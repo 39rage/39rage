@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Qurage Music - SELECT MUSIC (B)</title>
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <!-- Aの基本設定を一部拝借 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="b-style.css">
 </head>
 <body class="bright-theme">
@@ -14,26 +13,21 @@
 
     <main class="game-container">
         <!-- 左：カテゴリー -->
-        <aside class="category-selector" id="sidebar-part">
-            <!-- shared-components.js の内容をB用に一部隠して表示します -->
-        </aside>
+        <aside class="category-selector" id="sidebar-part"></aside>
 
-        <!-- 中：縦スクロール選曲エリア -->
+        <!-- 中：無限横スクロール ＆ アルバム詳細 -->
         <section class="music-selection">
-            <div class="scroll-area" id="albumScrollArea">
-                <div class="infinite-scroll-wrapper" id="albumList">
-                    <!-- ジャケ写リストが自動生成されます -->
-                </div>
+            <div class="carousel-viewport" id="albumCarousel">
+                <!-- 無限の輪が生成されます -->
             </div>
             
-            <div class="album-info-panel" id="albumDetail">
-                <!-- ここにタイトル・説明・BOOTHボタンが並びます -->
+            <div class="album-info-display" id="albumDetail">
+                <!-- 曲名・説明・BOOTHボタン -->
             </div>
         </section>
 
-        <!-- 右：プレイヤー ＆ 曲リスト（Aの形を完全維持） -->
-        <section class="col-right" id="player-part">
-        </section>
+        <!-- 右：共通プレイヤー -->
+        <section class="col-right" id="player-part"></section>
     </main>
 
     <footer class="game-footer">
