@@ -1,67 +1,102 @@
 :root {
-    --primary-purple: #8a2be2;
-    --sub-purple: #f3e8ff;
-    --soft-white: #ffffff;
-    --text-main: #2d1b4d;
-    --text-sub: #6b5b95;
-    --header-height: 60px;
+    --apple-pink: #fa243c;
+    --apple-purple: #8a2be2; /* Qurageパープル */
+    --bg-white: #ffffff;
+    --bg-soft: #f5f5f7;
+    --text-black: #1d1d1f;
+    --text-gray: #86868b;
+    --player-bg: rgba(255, 255, 255, 0.85);
 }
 
-/* 全体をブロック体（ゴシック系）に固定 */
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif; }
-html, body { height: 100%; overflow: hidden; overscroll-behavior: none; background: var(--soft-white); color: var(--text-main); }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+body { background-color: var(--bg-white); color: var(--text-black); padding-bottom: 100px; }
 
-/* ヘッダー：紫ライン */
-.site-header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: #ffffff; border-bottom: 3px solid var(--primary-purple); display: flex; align-items: center; justify-content: center; z-index: 2100; box-shadow: 0 4px 15px rgba(138, 43, 226, 0.1); }
-.header-logo { font-size: 1.3rem; font-weight: 900; letter-spacing: 0.1em; text-decoration: none; color: var(--primary-purple); text-transform: uppercase; }
+/* ナビゲーション */
+.app-nav {
+    position: sticky; top: 0; height: 50px; background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    z-index: 1000; border-bottom: 1px solid #eee;
+}
+.nav-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 20px; }
+.app-logo { font-weight: 900; font-size: 1.2rem; letter-spacing: -0.05em; color: var(--text-black); }
+.nav-links a { text-decoration: none; font-size: 0.8rem; font-weight: 700; color: var(--apple-purple); }
 
-.game-container { display: grid; grid-template-columns: 180px 1fr 380px; height: calc(100vh - var(--header-height)); margin-top: var(--header-height); gap: 0; }
+/* ヒーローヘッダー */
+.artist-header { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+.artist-banner { 
+    position: relative; height: 350px; border-radius: 12px; overflow: hidden;
+    background: #000;
+}
+.banner-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+.artist-info-overlay { 
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: #fff;
+}
+.category-label { font-size: 0.9rem; font-weight: 600; opacity: 0.8; }
+.artist-name { font-size: 4rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 15px; }
+.artist-actions { display: flex; gap: 15px; }
+.play-btn-main { background: var(--apple-purple); border: none; color: #fff; padding: 10px 30px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.shuffle-btn-main { background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 10px 30px; border-radius: 8px; font-weight: 700; cursor: pointer; backdrop-filter: blur(10px); }
 
-/* 左：カテゴリー（AのサイドバーをB用に改造） */
-.category-selector { background: var(--sub-purple); padding: 30px 15px !important; display: flex !important; flex-direction: column; gap: 15px; border-right: 1px solid #e0d5f0; }
-.cat-btn { background: #fff; border: 2px solid var(--primary-purple); border-radius: 8px; padding: 15px 5px; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; font-weight: 900; color: var(--primary-purple); }
-.cat-btn.active { background: var(--primary-purple); color: #fff; transform: scale(1.05); box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3); }
-.cat-name { font-size: 0.7rem; margin-top: 8px; }
+/* コンテンツエリア */
+.app-main { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+.app-section { margin-bottom: 50px; }
+.section-header { display: flex; align-items: baseline; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.section-header h2 { font-size: 1.5rem; font-weight: 800; }
+.section-note { font-size: 0.8rem; color: var(--text-gray); }
 
-/* 中面：無限横スクロール */
-.music-selection { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; overflow: hidden; position: relative; }
+/* アルバムグリッド */
+.album-grid { 
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 25px;
+}
+.album-item { cursor: pointer; text-decoration: none; color: inherit; transition: 0.3s; }
+.album-item:hover { opacity: 0.8; transform: translateY(-5px); }
+.album-art { width: 100%; aspect-ratio: 1/1; border-radius: 8px; object-fit: cover; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 10px; }
+.album-title { font-weight: 700; font-size: 0.9rem; display: block; }
+.album-meta { color: var(--text-gray); font-size: 0.8rem; }
 
-/* くるくる回るコンテナ */
-.carousel-viewport { width: 100%; overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 40px 0; }
-.carousel-viewport::-webkit-scrollbar { display: none; }
+/* ソングリスト */
+.song-list { display: flex; flex-direction: column; }
+.song-item { 
+    display: grid; grid-template-columns: 40px 50px 1fr 100px; align-items: center;
+    padding: 10px; border-radius: 8px; transition: 0.2s; cursor: pointer;
+}
+.song-item:hover { background-color: var(--bg-soft); }
+.song-item.active { background-color: var(--sub-purple); color: var(--apple-purple); }
+.s-num { color: var(--text-gray); font-size: 0.8rem; text-align: center; }
+.s-art { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
+.s-title { font-weight: 600; font-size: 0.95rem; padding-left: 10px; }
+.s-album { font-size: 0.8rem; color: var(--text-gray); text-align: right; }
 
-.infinite-wrapper { display: inline-flex; gap: 30px; padding: 0 40%; }
+/* 固定プレイヤー */
+.fixed-player {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 95%; max-width: 800px; height: 70px;
+    background: var(--player-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    z-index: 2000; padding: 0 20px;
+}
+.player-inner { display: grid; grid-template-columns: 200px 1fr 200px; align-items: center; height: 100%; gap: 20px; }
+.now-playing-info { display: flex; align-items: center; gap: 12px; }
+.mini-jacket { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #eee; }
+.player-track-name { font-weight: 800; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-artist-name { font-size: 0.75rem; color: var(--text-gray); }
 
-.carousel-item { flex: 0 0 200px; width: 200px; height: 200px; scroll-snap-align: center; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.carousel-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 4px solid transparent; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-.carousel-item.active { transform: scale(1.2); z-index: 10; }
-.carousel-item.active img { border-color: var(--primary-purple); box-shadow: 0 15px 30px rgba(138, 43, 226, 0.4); }
+.player-controls { display: flex; justify-content: center; align-items: center; gap: 15px; }
+.ctrl-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
+.play-main-btn { font-size: 1.8rem; border: none; background: none; cursor: pointer; width: 40px; }
 
-/* アルバム情報 */
-.album-info-display { text-align: center; margin-top: 40px; padding: 0 20px; min-height: 200px; }
-.b-title-main { font-size: 2rem; font-weight: 900; color: var(--primary-purple); margin-bottom: 5px; }
-.b-subtitle { font-size: 1rem; font-weight: 700; color: var(--text-sub); margin-bottom: 15px; text-transform: uppercase; }
-.b-desc { font-size: 0.95rem; line-height: 1.8; color: var(--text-main); margin-bottom: 25px; max-width: 600px; }
+.player-progress-container { display: flex; align-items: center; gap: 8px; font-size: 0.65rem; color: var(--text-gray); font-family: 'Inter'; }
+.app-seek { flex: 1; accent-color: var(--apple-purple); cursor: pointer; }
 
-.booth-btn-b { display: inline-block; background: var(--primary-purple); color: #fff; text-decoration: none; font-weight: 900; padding: 12px 40px; border-radius: 50px; font-size: 0.9rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4); }
-.booth-btn-b:hover { transform: translateY(-3px); filter: brightness(1.1); }
+.app-footer { text-align: center; padding: 60px 0; color: var(--text-gray); font-size: 0.8rem; }
 
-/* 右：プレイヤーエリア（Aを移植＆紫化） */
-.col-right { background: var(--sub-purple) !important; border-left: 1px solid #e0d5f0; height: 100%; display: flex !important; flex-direction: column !important; }
-.btn-svg.active, .track-item.active, .seek-bar, .play-main { color: var(--primary-purple) !important; }
-.play-main { border-color: var(--primary-purple) !important; }
-.play-main:hover { background: var(--primary-purple) !important; color: #fff !important; }
-.seek-bar { accent-color: var(--primary-purple) !important; }
-
-/* フッター */
-.game-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 25px; background: rgba(255,255,255,0.9); border-top: 1px solid #eee; text-align: center; font-size: 0.65rem; line-height: 25px; opacity: 0.5; z-index: 2200; font-weight: 700; }
-
-@media (max-width: 900px) {
-    html, body { overflow: auto; }
-    .game-container { display: flex; flex-direction: column; height: auto; }
-    .category-selector { flex-direction: row; height: auto; padding: 10px !important; border-right: none; }
-    .cat-btn { flex: 1; padding: 10px; }
-    .music-selection { height: auto; padding: 40px 0; }
-    .carousel-item { flex: 0 0 150px; width: 150px; height: 150px; }
-    .col-right { height: auto; padding: 30px 20px 80px !important; }
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .artist-name { font-size: 2.5rem; }
+    .player-inner { grid-template-columns: 1fr auto; }
+    .player-progress-container { display: none; } /* スマホではシンプルに */
+    .s-album { display: none; }
 }
