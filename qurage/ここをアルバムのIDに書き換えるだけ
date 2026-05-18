@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Album Detail - Qurage Music</title>
+    <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/90d8e4fe08331e787970ae1288933823.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header-part"></div>
+    <div class="main-container">
+        <aside class="col-left" id="sidebar-part"></aside>
+        <div class="content-area">
+            <div class="columns-split">
+                <article class="col-mid">
+                    <div class="mid-container">
+                        <a href="index.html" class="back-home">← Back to Home</a>
+                        <div id="albumDetail" class="album-detail-box"></div>
+                    </div>
+                    <footer class="footer-pc">© Qurage. All Rights Reserved.</footer>
+                </article>
+                <section class="col-right" id="player-part"></section>
+            </div>
+            <footer class="footer-mobile">© Qurage. All Rights Reserved.</footer>
+        </div>
+    </div>
+    <script src="music-data.js"></script>
+    <script src="shared-components.js"></script>
+    <script>
+        // ★ ここをアルバムのIDに書き換えるだけ！
+        const currentAlbumId = "CHANGE_ME";
+        initAlbumPage(currentAlbumId);
+    </script>
+</body>
+</html>
