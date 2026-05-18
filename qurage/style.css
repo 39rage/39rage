@@ -41,17 +41,21 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .terms-btn { display: inline-block; text-decoration: none; color: #ffffff; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 4px 15px; font-size: 0.6rem; transition: 0.3s; opacity: 0.9; }
 .terms-btn:hover { background: #ffffff; color: var(--primary-orange); opacity: 1; }
 
-/* 2列・縦流れの設定 */
-.recent-tracks-section { padding: 0 10% 20px; flex: 1; overflow-y: auto; }
+/* 2列・縦流れ（6行折り返し）の決定版 */
+.recent-tracks-section { padding: 0 5% 20px 10%; flex: 1; overflow-y: auto; }
 .recent-tracks-section h3 { font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; margin-bottom: 12px; }
 .recent-grid { 
-    column-count: 2; /* 2列にする */
-    column-gap: 8px; /* 列同士の隙間 */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; /* 横に折り返す */
+    height: 220px;   /* 6行分が収まる高さに固定（調整可能） */
+    align-content: flex-start;
+    gap: 0 8px;      /* 縦の隙間0, 横の隙間8px */
 }
 .recent-link { 
     display: block; 
-    break-inside: avoid; /* 途中で改行されないようにする */
-    margin-bottom: 8px; /* 縦の隙間 */
+    width: calc(50% - 4px); /* 2列に収まる幅 */
+    margin-bottom: 6px; 
     color: #ffffff; 
     text-decoration: none; 
     font-size: 0.6rem; 
@@ -80,7 +84,7 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .album-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
 .album-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
 
-/* アルバム詳細専用デザイン */
+/* アルバム詳細 */
 .back-home { display: inline-block; text-decoration: none; color: var(--text-sub); font-size: 0.75rem; margin-bottom: 25px; transition: 0.3s; }
 .back-home:hover { color: var(--primary-orange); }
 .album-detail-box { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 35px; margin-bottom: 60px; }
@@ -96,7 +100,7 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .track-item { padding: 12px 8px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: grid; grid-template-columns: 2.2em 1fr auto; align-items: start; font-size: 0.8rem; transition: 0.2s; gap: 4px; }
 .track-item.active { background: #fff; color: var(--primary-orange); font-weight: bold; }
 .track-name { overflow-wrap: break-word; line-height: 1.4; }
-.track-meta { font-family: 'Inter'; font-size: 0.65rem; color: var(--text-sub); margin-top: 2px; }
+.track-meta { font-family: 'Inter'; font-size: 0.6rem; color: var(--text-sub); margin-top: 2px; }
 
 /* プレイヤーUI */
 .player-footer { margin-top: auto; width: 100%; }
@@ -118,12 +122,10 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .download-btn-wrapper { margin-top: 15px; }
 .booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 10px; text-align: center; border-radius: 6px; transition: 0.3s; font-size: 0.8rem; letter-spacing: 0.05em; font-family: 'Shippori Mincho', serif; }
 
-/* フッター */
 footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; flex-shrink: 0; }
 .footer-pc { display: block; width: 100%; margin-top: auto; }
 .footer-mobile { display: none; }
 
-/* レスポンシブ */
 @media (max-width: 900px) { 
     html, body { overflow: auto; }
     .main-container { display: block; height: auto; margin-top: var(--header-height); overflow: visible; }
@@ -135,4 +137,7 @@ footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size:
     .back-home { margin-bottom: 20px; }
     .track-list { max-height: 400px; }
     .footer-pc { display: none; } .footer-mobile { display: block; }
+    /* スマホ版ではサイドバーの高さ固定を解除して全表示 */
+    .recent-grid { height: auto; flex-wrap: nowrap; }
+    .recent-link { width: 100%; }
 }
