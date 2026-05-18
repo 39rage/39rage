@@ -63,17 +63,33 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 .album-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
 .album-meta { font-size: 0.75rem; color: var(--text-sub); font-family: 'Inter'; }
 
-/* アルバム詳細：中面のボタン設定 */
+/* アルバム詳細 */
 .back-home { display: inline-block; text-decoration: none; color: var(--text-sub); font-size: 0.75rem; margin-bottom: 25px; transition: 0.3s; }
 .back-home:hover { color: var(--primary-orange); }
 .album-detail-box { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 35px; margin-bottom: 60px; }
 .album-art-large { width: 240px; height: 240px; object-fit: cover; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+.album-info-text { width: 100%; }
 .album-title-main { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
 .album-subtitle { color: var(--primary-orange); font-weight: bold; margin-bottom: 20px; font-size: 1rem; letter-spacing: 0.1em; }
 .album-description { font-size: 1rem; line-height: 2.2; color: var(--text-sub); max-width: 600px; margin: 0 auto; }
 
-/* 中面のBOOTHボタン用の余白 */
-.album-download-wrapper { margin-top: 35px; width: 100%; }
+/* 中面のBOOTHボタン：文字幅に合わせ、中央寄せにする修正 */
+.album-download-wrapper { margin-top: 35px; width: 100%; text-align: center; }
+.booth-btn { 
+    display: inline-block; /* blockから変更：文字幅に合わせる */
+    background: var(--primary-orange); 
+    color: #fff; 
+    text-decoration: none; 
+    font-weight: 700; 
+    padding: 10px 30px; /* 左右に余白を確保 */
+    text-align: center; 
+    border-radius: 6px; 
+    transition: 0.3s; 
+    font-size: 0.8rem; 
+    letter-spacing: 0.05em; 
+    font-family: 'Shippori Mincho', serif; 
+}
+.booth-btn:hover { background: #965925; transform: translateY(-2px); }
 
 /* 右側：曲リスト */
 .col-right { height: 100%; padding: 50px 25px 25px; background: var(--bg-light); display: flex; flex-direction: column; overflow: hidden; }
@@ -101,9 +117,6 @@ body { font-family: 'Shippori Mincho', 'Inter', serif; background-color: var(--s
 #repeatBtn.repeat-one::after { content: '1'; position: absolute; top: 4px; right: 4px; font-size: 8px; font-weight: bold; color: var(--primary-orange); background: #fff; border: 1px solid var(--primary-orange); border-radius: 50%; width: 12px; height: 12px; display: flex; align-items: center; justify-content: center; }
 .timeline-box { width: 100%; display: flex; align-items: center; gap: 8px; font-size: 0.6rem; color: var(--text-sub); font-family: 'Inter'; }
 .seek-bar { flex: 1; height: 4px; accent-color: var(--primary-orange); cursor: pointer; }
-
-/* 共通ボタン（BOOTH用） */
-.booth-btn { display: block; background: var(--primary-orange); color: #fff; text-decoration: none; font-weight: 700; padding: 12px; text-align: center; border-radius: 6px; transition: 0.3s; font-size: 0.8rem; letter-spacing: 0.05em; font-family: 'Shippori Mincho', serif; }
 
 footer { text-align: center; padding: 30px 0; color: var(--text-sub); font-size: 0.75rem; border-top: 1px solid #f3f4f6; background: #ffffff; flex-shrink: 0; }
 .footer-pc { display: block; width: 100%; margin-top: auto; }
