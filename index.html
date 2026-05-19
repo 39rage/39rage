@@ -3,61 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Page</title>
+    <title>Portal Page | Qurage - 39rage - Sacra</title>
     <link rel="icon" href="https://fromtheasia.com/wp-content/uploads/6410224d7e21cc6e2a9eb0cf659e7eb4.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&family=Noto+Sans+JP:wght@300;700&display=swap" rel="stylesheet">
     <style>
-        /* スタイルはそのまま維持 */
+        :root {
+            /* Qurage: White & Orange */
+            --qurage-main: #ff8c00;
+            --qurage-sub: #ffffff;
+            /* 39rage: Light Blue & Pink */
+            --sakurage-main: #00d4ff;
+            --sakurage-sub: #ff69b4;
+            /* Sacra: Lavender */
+            --sacra-main: #e6e6fa;
+            --sacra-sub: #9370db;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; background-color: #050b14; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        .title-area { text-align: center; padding: 40px 20px; background: linear-gradient(to bottom, #050b14, transparent); position: absolute; top: 0; left: 0; width: 100%; z-index: 10; }
-        .title-area h1 { color: #ffffff; font-size: 1.8rem; letter-spacing: 0.2em; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .title-area p { color: #64748b; font-size: 0.85rem; margin-top: 5px; letter-spacing: 0.1em; }
-        .select-container { flex: 1; display: flex; width: 100%; height: 100%; }
-        .panel { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-decoration: none; position: relative; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); overflow: hidden; padding: 20px; background-size: cover !important; background-position: center !important; }
-        .panel:hover { flex: 1.6; }
-        .panel::before { content: ''; position: absolute; inset: 0; background: rgba(5, 11, 20, 0.65); transition: background 0.4s ease; z-index: 1; }
-        .panel:hover::before { background: rgba(5, 11, 20, 0.25); }
-        .panel-content { position: relative; z-index: 2; text-align: center; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-        .panel:hover .panel-content { transform: scale(1.1); }
-        .name { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 12px; color: #ffffff; text-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5); }
-        .desc { font-size: 0.95rem; color: #f1f5f9; letter-spacing: 0.05em; text-shadow: 0 2px 8px rgba(0,0,0,0.8); font-weight: bold; }
-        .panel.qurage { background: url('https://fromtheasia.com/wp-content/uploads/NCG292.jpg') no-repeat; }
-        .panel.sakurage { background: url('https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png') no-repeat; border-left: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
-        .panel.sakura { background: url('https://fromtheasia.com/wp-content/uploads/NCG144.jpg') no-repeat; }
-        @media (max-width: 768px) { body { overflow: auto; height: auto; } .title-area { position: relative; padding: 40px 20px 20px 20px; } .select-container { flex-direction: column; height: 750px; } .panel { border: none !important; } .panel:hover { flex: 1; } .name { font-size: 1.8rem; } }
+        
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #000;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* タイトルエリア */
+        .title-area {
+            text-align: center;
+            padding: 60px 20px;
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .title-area h1 {
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 8px;
+        }
+        .title-area p {
+            font-size: 0.65rem;
+            color: #666;
+            letter-spacing: 0.3em;
+        }
+
+        .select-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 各パネル基本設定 */
+        .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+        }
+
+        /* 背景画像レイヤー */
+        .panel-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover !important;
+            background-position: center !important;
+            transition: transform 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+        }
+
+        /* ガラスオーバーレイ（通常時：暗い＆ボケ） */
+        .panel-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.7s ease;
+            z-index: 2;
+        }
+
+        /* ホバー時の挙動 */
+        .panel:hover { flex: 2; }
+        .panel:hover .panel-bg { transform: scale(1.1); }
+        .panel:hover .panel-overlay { 
+            background: rgba(0, 0, 0, 0.2); 
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+        }
+
+        /* --- 各名義のカラー演出 --- */
+
+        /* 1. Qurage (White/Orange) */
+        .panel.qurage:hover { box-shadow: inset 0 0 120px rgba(255, 140, 0, 0.4); }
+        .panel.qurage .name { color: var(--qurage-sub); }
+        .panel.qurage .desc { border-color: var(--qurage-main); color: var(--qurage-main); }
+        .panel.qurage .view-chip { background: var(--qurage-main); color: #000; }
+
+        /* 2. 39rage (LightBlue/Pink) */
+        .panel.sakurage:hover { box-shadow: inset 0 0 120px rgba(0, 212, 255, 0.4); }
+        .panel.sakurage .name { color: var(--sakurage-main); }
+        .panel.sakurage .desc { border-color: var(--sakurage-sub); color: var(--sakurage-sub); }
+        .panel.sakurage .view-chip { background: var(--sakurage-sub); color: #fff; }
+
+        /* 3. Sacra (Lavender) */
+        .panel.sakura:hover { box-shadow: inset 0 0 120px rgba(230, 230, 250, 0.3); }
+        .panel.sakura .name { color: var(--sacra-main); }
+        .panel.sakura .desc { border-color: var(--sacra-sub); color: var(--sacra-sub); }
+        .panel.sakura .view-chip { background: var(--sacra-sub); color: #fff; }
+
+        /* コンテンツエリア */
+        .panel-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            width: 100%;
+        }
+
+        .name {
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .desc {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            padding: 4px 12px;
+            border: 1px solid;
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
+
+        /* VIEW SITE チップ */
+        .view-chip {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 900;
+            padding: 4px 15px;
+            border-radius: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .panel:hover .view-chip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 背景画像指定 */
+        .panel.qurage .panel-bg { background: url('https://fromtheasia.com/wp-content/uploads/NCG292.jpg'); }
+        .panel.sakurage .panel-bg { background: url('https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png'); }
+        .panel.sakura .panel-bg { background: url('https://fromtheasia.com/wp-content/uploads/NCG144.jpg'); }
+
+        /* スマホ対応 */
+        @media (max-width: 768px) {
+            .select-container { flex-direction: column; }
+            .panel { border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .panel:hover { flex: 1; }
+            .panel-overlay { backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+            .title-area { position: relative; padding: 40px 20px; }
+            .name { font-size: 2.2rem; }
+            .view-chip { opacity: 0.8; transform: none; margin-top: 10px; }
+        }
     </style>
 </head>
 <body>
 
     <div class="title-area">
-        <h1>Please choose a page</h1>
-        <p>ページを選択してください</p>
+        <h1>PROJECT ARCHIVE</h1>
+        <p>SELECT A PERSONA</p>
     </div>
 
     <div class="select-container">
         
-        <!-- ① Qurage：新しい試聴ポータルへリンクを修正 -->
-        <a href="qurage/index.html" class="panel qurage">
+        <!-- Qurage -->
+        <a href="qurage/index.html" class="panel qurage" target="_blank" rel="noopener noreferrer">
+            <div class="panel-bg"></div>
+            <div class="panel-overlay"></div>
             <div class="panel-content">
                 <div class="name">Qurage</div>
-                <div class="desc">Free BGM ↗</div>
+                <div class="desc">BGM ARCHIVE</div><br>
+                <div class="view-chip">ENTER 👾</div>
             </div>
         </a>
 
-        <!-- ② 39rage -->
-        <a href="39rage/index.html" class="panel sakurage">
+        <!-- 39rage -->
+        <a href="39rage/index.html" class="panel sakurage" target="_blank" rel="noopener noreferrer">
+            <div class="panel-bg"></div>
+            <div class="panel-overlay"></div>
             <div class="panel-content">
                 <div class="name">39rage</div>
-                <div class="desc">MIX＆Video Edit ↗</div>
+                <div class="desc">MIX & VIDEO EDIT</div><br>
+                <div class="view-chip">ENTER 🪼</div>
             </div>
         </a>
 
-        <!-- ③ Sacra -->
-        <a href="https://3939-sacra.carrd.co/" class="panel sakura" target="_blank">
+        <!-- Sacra -->
+        <a href="https://3939-sacra.carrd.co/" class="panel sakura" target="_blank" rel="noopener noreferrer">
+            <div class="panel-bg"></div>
+            <div class="panel-overlay"></div>
             <div class="panel-content">
                 <div class="name">Sacra</div>
-                <div class="desc">Vocalist ↗</div>
+                <div class="desc">VOCALIST</div><br>
+                <div class="view-chip">ENTER 🌸</div>
             </div>
         </a>
 
