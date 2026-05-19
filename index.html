@@ -15,38 +15,41 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* 全画面固定設定 */
+        /* 画面からはみ出さないための絶対条件 */
         html, body {
             height: 100%;
+            width: 100%;
             margin: 0;
-            overflow: hidden; /* スクロールを禁止 */
+            overflow: hidden; 
             background-color: #000;
             color: #fff;
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* タイトルエリア */
+        /* タイトルエリア：PCは浮かせ、スマホは上部に固定 */
         .title-area {
             text-align: center;
             padding: 40px 20px;
-            position: absolute;
-            top: 0; left: 0; width: 100%;
+            width: 100%;
             z-index: 10;
             pointer-events: none;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
         .title-area h1 {
             font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 0.8em;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            text-shadow: 0 0 20px rgba(0,0,0,1);
         }
 
-        /* セレクトコンテナ：画面いっぱいに広げる */
+        /* コンテナを100%の高さで3分割 */
         .select-container {
             display: flex;
             width: 100%;
-            height: 100vh;
+            flex: 1; /* 残りの高さをすべて使う */
             position: relative;
             z-index: 1;
         }
@@ -59,8 +62,8 @@
             align-items: center;
             text-decoration: none;
             position: relative;
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
             overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .panel-bg {
@@ -68,25 +71,25 @@
             inset: 0;
             background-size: cover !important;
             background-position: center !important;
-            transition: transform 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 1.5s ease;
             z-index: 1;
         }
 
         .panel-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.65); /* 暗めにして文字を浮き立たせる */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             transition: all 0.7s ease;
             z-index: 2;
         }
 
-        .panel:hover { flex: 2; }
-        .panel:hover .panel-bg { transform: scale(1.1); }
-        .panel:hover .panel-overlay { 
-            background: rgba(0, 0, 0, 0.2); 
-            backdrop-filter: blur(0px);
+        /* ホバー：PCのみ */
+        @media (min-width: 769px) {
+            .panel:hover { flex: 2; }
+            .panel:hover .panel-bg { transform: scale(1.1); }
+            .panel:hover .panel-overlay { background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(0px); }
         }
 
         .panel-content {
@@ -94,15 +97,17 @@
             z-index: 3;
             text-align: center;
             width: 100%;
+            padding: 20px;
         }
 
         .name {
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
             font-weight: 900;
             letter-spacing: 0.05em;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #ffffff;
-            text-shadow: 0 0 30px rgba(0,0,0,0.8);
+            /* 文字周りの影を強くして視認性UP */
+            text-shadow: 0 0 20px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,1);
         }
 
         .desc {
@@ -113,15 +118,12 @@
             padding: 6px 18px;
             border-radius: 50px;
             color: #fff;
-            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
         }
 
-        /* カラー演出 */
-        .panel.qurage:hover { box-shadow: inset 0 0 120px rgba(255, 140, 0, 0.3); }
+        /* 各名義のカラー */
         .panel.qurage .desc { background-color: var(--qurage-main); }
-        .panel.sakurage:hover { box-shadow: inset 0 0 120px rgba(0, 212, 255, 0.3); }
         .panel.sakurage .desc { background-color: var(--sakurage-main); }
-        .panel.sakura:hover { box-shadow: inset 0 0 120px rgba(147, 112, 219, 0.3); }
         .panel.sakura .desc { background-color: var(--sacra-main); }
 
         /* 背景画像 */
@@ -129,15 +131,23 @@
         .panel.sakurage .panel-bg { background: url('https://64.media.tumblr.com/3798e5568544434743b7bc635c4b539a/tumblr_pd6q45nJAl1xci1k0o1_1280.png'); }
         .panel.sakura .panel-bg { background: url('https://fromtheasia.com/wp-content/uploads/NCG144.jpg'); }
 
-        /* スマホ対応（縦に3分割） */
+        /* スマホ専用修正：縦に3等分して1画面に収める */
         @media (max-width: 768px) {
-            .select-container { flex-direction: column; height: 100vh; }
-            .panel { border-bottom: 1px solid rgba(255,255,255,0.1); flex: 1; width: 100%; }
-            .panel:hover { flex: 1; } /* スマホでは広げない */
-            .title-area { padding: 30px 10px; }
-            .title-area h1 { font-size: 0.8rem; letter-spacing: 0.4em; }
-            .name { font-size: 1.8rem; margin-bottom: 8px; }
-            .desc { font-size: 0.6rem; padding: 4px 12px; }
+            .select-container { flex-direction: column; }
+            .panel { 
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                /* Sacra（一番下）が隠れないように調整 */
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            .title-area { 
+                position: relative; 
+                padding: 30px 10px 10px; 
+                background: #000;
+            }
+            .title-area h1 { font-size: 0.8rem; letter-spacing: 0.3em; }
+            .name { font-size: 1.8rem; margin-bottom: 5px; }
+            .desc { font-size: 0.6rem; padding: 4px 15px; }
+            .panel-overlay { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
         }
     </style>
 </head>
